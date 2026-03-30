@@ -1,130 +1,130 @@
 ---
 name: chat2podcast
-description: Transform WeChat group chat logs into professional podcast scripts and generate beautiful interactive HTML websites. Supports screenshot folder paths, pasted text logs, or uploaded screenshot images as input. Automatically extracts text, clusters topics, selects podcast format, enriches content, lets users choose a visual style, and outputs a single-file animated HTML podcast site. Trigger when users mention "turn chat into podcast", "chat2podcast", "generate podcast from group chat", "WeChat chat podcast", or "make a podcast from group messages". Also trigger when a user simply says "make me a podcast" and provides chat screenshots or text.
+description: 将微信群聊天记录转化为专业播客脚本，并生成美观的交互式 HTML 网站展示。支持截图文件夹路径、直接粘贴文字聊天记录、或上传截图图片作为输入。自动提取文字、按话题聚类、选择播客 format、扩充内容，用户可选择网站视觉风格，输出带动画交互的单文件 HTML 播客网站。当用户提到"把聊天记录做成播客"、"聊天转播客"、"chat2podcast"、"从群聊生成播客脚本"、"微信聊天记录播客"、"把群聊内容整理成播客"时立即使用此 skill。即使用户只说"帮我做个播客"并提供了聊天截图或文字，也应触发此 skill。
 ---
 
 # chat2podcast
 
-A complete workflow for distilling WeChat group chat logs into professional podcast scripts.
+将微信群聊天记录提炼为专业播客的完整工作流。
 
-**Core Philosophy**: Chat logs are raw ore, not finished product. Your job is: ① faithfully reconstruct what was actually discussed (facts first); ② use web search to add broader context and depth; ③ reorganize everything with professional podcast narrative structure so it's worth being heard.
-
----
-
-## Step 0: Read Memory (Required on Every Launch)
-
-**Before doing anything else, call `memory_read` to check for an existing show configuration.**
-
-```
-Call: memory_read()
-Search for: chat2podcast / show DNA / podcast_show
-```
-
-### Case A: Existing Show Config Found
-
-Show the user their saved configuration and ask how to proceed:
-
-```
-📻 I found your previous show configuration:
-
-Show Name: [name]
-Fixed Host(s): [name(s)]
-Core Positioning: [positioning]
-Tone: [tone]
-Fixed Intro: [intro template]
-Fixed Outro: [outro template]
-
-What would you like to do this time?
-A. Keep this setup (recommended — maintains show consistency)
-B. Update some settings (tell me what to change)
-C. Start fresh (new show or one-off episode)
-```
-
-- User picks **A (Keep)**: Skip section 3.5 in Step 3, use existing config, just display it in the final summary
-- User picks **B (Update)**: Ask which fields to change, update them, then re-save to memory
-- User picks **C (Fresh start)**: Walk through all sub-steps of Step 3 normally
-
-### Case B: No Show Config Found
-
-Proceed with the full workflow. Step 3 will ask about show positioning.
+**核心理念**：聊天记录是矿石，不是成品。你的任务是：① 忠实还原群里真正讨论了什么（事实优先）；② 联网搜索让话题有更大的背景和深度；③ 用专业播客叙事结构重新组织，让它值得被听见。
 
 ---
 
-## ⚠️ Iron Rule: Always Interact Before Writing
+## 第零步：读取 Memory（每次启动必做）
 
-**No matter what, after reading and analyzing the chat log, you MUST have a deep interactive conversation with the user and get explicit confirmation before writing any podcast script. This step cannot be skipped.**
+**在做任何事之前，先调用 `memory_read` 检查是否存在已有的节目配置。**
 
-Forbidden behaviors:
-- Starting to write the script immediately after analyzing the chat log
-- Outputting any script content before the user has confirmed style / length / structure
-- Replacing genuine questions with "I chose X style for you"
+```
+调用：memory_read()
+查找关键词：chat2podcast / 节目DNA / podcast_show
+```
 
-Required behaviors:
-- Show the user your analysis results (topic list, key quotes, external context)
-- Ask about podcast style preference and target length
-- Ask for each speaker's real name; if unclear, assign random English names
-- Ask whether this is an ongoing show or a one-off; for ongoing shows, confirm show name, fixed host(s), and overall positioning
-- Recommend a script structure with reasoning, and wait for the user to confirm or revise
-- Only begin writing after all information is confirmed
+### 情况 A：找到已有节目配置
+
+向用户展示已保存的节目信息，询问如何处理：
+
+```
+📻 我找到了你之前的节目配置：
+
+节目名称：[名称]
+固定主持人：[姓名]
+核心定位：[定位]
+语气基调：[基调]
+固定开场白：[开场白模板]
+固定片尾：[片尾模板]
+
+这次要：
+A. 沿用这套设置（推荐，保持节目一致性）
+B. 更新部分设置（告诉我哪里要改）
+C. 重新设置（这次是全新节目或单次尝试）
+```
+
+- 用户选 **A（沿用）**：跳过第三步中的 3.5 节目定位询问，直接使用已有配置，在汇总确认时展示即可
+- 用户选 **B（更新）**：询问具体要改哪些字段，更新后重新写入 memory
+- 用户选 **C（重新设置）**：按正常流程走完第三步所有子步骤
+
+### 情况 B：没有找到节目配置
+
+正常进入完整流程，第三步会询问节目定位。
 
 ---
 
-## Step 1: Collect the Chat Log
+## ⚠️ 铁律：先交互，再动笔
 
-Users may provide chat logs in the following ways. **If the user hasn't specified a method, proactively guide them to the best option.**
+**无论何时何地，读取并分析完聊天记录后，必须先与用户进行深度交互，征得明确同意后，才能开始撰写播客脚本。这是不可跳过的强制步骤。**
+
+禁止的行为：
+- 分析完聊天记录后直接开始写脚本
+- 在用户没有确认风格/时长/结构的情况下输出任何脚本内容
+- 用"我帮你选了X风格"代替真正的询问
+
+必须做到：
+- 向用户展示分析结果（话题列表、关键发言、外部背景）
+- 询问播客风格偏好、目标时长
+- 询问每位发言人的真实姓名，不明确则用英文随机名字代替
+- 询问这是长期节目还是单次尝试，长期节目需确认节目名、固定主持人、整体定位
+- 推荐播客结构方案并说明理由，等待用户确认或修改
+- 所有信息确认完毕后，才进入脚本撰写阶段
 
 ---
 
-### Method A: Auto-Scroll Screenshot (Recommended — Easiest)
+## 第一步：获取聊天记录
 
-This is the most recommended approach. The user just opens the WeChat chat window; the script automatically takes screenshots and scrolls. No manual work needed.
+用户可能以以下方式提供聊天记录。**如果用户没有说明方式，主动引导他们选择最适合的方法。**
 
-**Script to guide the user:**
+---
+
+### 方法 A：自动滚动截图（推荐，最省力）
+
+这是最推荐的方式。用户只需打开微信聊天窗口，脚本自动截图并滚动，全程无需手动操作。
+
+**引导用户的话术：**
 
 ```
-The easiest way is auto-screenshot:
-1. Grant permission: System Settings → Privacy & Security → Screen Recording → enable CatPaw Desk
-2. Open WeChat, go to the group chat you want to capture, scroll to the latest message
-3. Tell me how long a chat history you want to capture (see the duration table below)
-4. I'll run the screenshot script — you just need to keep WeChat in the foreground after the countdown
+最省力的方式是自动截图：
+1. 先确认权限：系统设置 → 隐私与安全性 → 录屏与系统录音 → 开启 CatPaw Desk
+2. 打开微信，进入你想录制的群聊，滚动到最新消息
+3. 告诉我你想截多长时间的聊天记录（参考下方时长表）
+4. 我来运行截图脚本，你只需在倒计时结束后保持微信在前台即可
 ```
 
-**Duration reference table (each screenshot captures ~8–14 messages):**
+**时长参考表（每次截图约覆盖 8-14 条消息）：**
 
-| Duration | ~Screenshots | ~Messages Covered | Best For |
-|----------|-------------|-------------------|----------|
-| 30 sec   | ~15         | 120–210           | Last 1–2 days |
-| 60 sec   | ~30         | 240–420           | Last 3–5 days |
-| 120 sec  | ~60         | 480–840           | Last 1–2 weeks |
-| 300 sec  | ~150        | 1,200–2,100       | Last month |
+| 截图时长 | 预计截图数 | 覆盖消息量 | 适合场景 |
+|---------|----------|-----------|---------|
+| 30 秒   | ~15 张   | 120-210 条 | 近 1-2 天 |
+| 60 秒   | ~30 张   | 240-420 条 | 近 3-5 天 |
+| 120 秒  | ~60 张   | 480-840 条 | 近 1-2 周 |
+| 300 秒  | ~150 张  | 1200-2100 条 | 近 1 个月 |
 
-**Run the screenshot script:**
+**运行截图脚本：**
 
 ```bash
-# Basic usage (120 seconds, recommended)
+# 基础用法（120秒，推荐）
 python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py --duration 120
 
-# Custom duration and save location
+# 自定义时长和保存位置
 python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py \
   --duration 60 \
   --output ~/Desktop/my_screenshots
 
-# Manual scroll mode (no auto Page Up — you scroll yourself)
+# 手动滚动模式（不自动按 Page Up，自己滚）
 python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py \
   --duration 120 --no-scroll
 ```
 
-The script outputs the screenshot folder path — just share that path with me.
+脚本运行后会输出截图文件夹路径，用户把路径告诉你即可。
 
-**Permission issues:** If screenshots fail, guide the user to: System Settings → Privacy & Security → Screen Recording → find CatPaw Desk → enable it.
+**权限问题处理：** 如果截图失败，引导用户：系统设置 → 隐私与安全性 → 录屏与系统录音 → 找到 CatPaw Desk → 开启。
 
 ---
 
-### Method B: Manual Screenshot Folder
+### 方法 B：手动截图文件夹
 
-The user already has screenshots and provides a folder path (e.g. `~/Desktop/wechat_screenshots/`).
+用户已有截图，提供文件夹路径（如 `~/Desktop/wechat_screenshots/`）。
 
-Use the vision model to read each image in order, extracting chat content. Sort by filename to ensure correct chronological order.
+用视觉模型逐张读取图片，提取聊天内容。按文件名排序处理，确保时间顺序正确。
 
 ```python
 import os, glob
@@ -132,615 +132,615 @@ images = sorted(
     glob.glob(os.path.join(folder_path, "*.png")) +
     glob.glob(os.path.join(folder_path, "*.jpg"))
 )
-# For each image: extract speaker nickname, message content, timestamp (if visible)
+# 对每张图片：提取发言人昵称、发言内容、时间戳（如有）
 ```
 
 ---
 
-### Method C: Paste Text Chat Log
+### 方法 C：直接粘贴文字聊天记录
 
-The user pastes an exported text log directly. Skip the screenshot step and go straight to Step 2.
-
----
-
-### Method D: Upload Screenshot Images in Chat
-
-The user sends images directly. Run vision recognition on each image to extract content.
+用户直接粘贴导出的文字记录，跳过截图步骤，直接进入第二步。
 
 ---
 
-### After Extraction
+### 方法 D：在对话中上传截图图片
 
-Organize all content into a unified format:
+用户直接发图，对每张图片进行视觉识别提取内容。
+
+---
+
+### 提取完成后
+
+将所有内容整理为统一格式：
 ```
-[time] Speaker: content
-[time] Speaker: content
+[时间] 发言人：内容
+[时间] 发言人：内容
 ...
 ```
 
-Tell the user: "Extracted XX valid messages spanning [date range]. Starting content analysis."
+告知用户：「已提取 XX 条有效消息，时间跨度 [日期范围]，开始分析内容。」
 
 ---
 
-## Step 2: Deep Mining of the Chat Log
+## 第二步：深度挖掘聊天记录
 
-This is the most critical step in the entire workflow. **Facts first. Search broadly. Understand deeply.**
+这是整个流程最关键的一步。**事实优先，广度搜索，深度理解。**
 
-### 2.1 Clean
+### 2.1 清洗
 
-Remove: system messages ("xxx joined the group"), retracted messages, pure emoji reactions, voice message placeholders ("[Voice]"), and content-free filler like "haha" / "ok" / "got it".
+去除：系统消息（"xxx 加入了群聊"）、撤回消息、纯表情包、语音占位符（"[语音]"）、无实质内容的"哈哈"/"好的"/"收到"。
 
-Keep: messages with opinions, personal stories, debates, or substantive information.
+保留：有观点的发言、有故事的分享、有争议的讨论、有信息量的内容。
 
-### 2.2 Fact Reconstruction (Most Important)
+### 2.2 事实还原（最重要）
 
-**Read through the chat log line by line and faithfully record what actually happened.** No guessing, no embellishing, no skipping details.
+**逐条阅读聊天记录，忠实记录群里真正发生了什么。** 不要猜测，不要美化，不要跳过细节。
 
-For each topic, extract:
-- **Core facts**: What exactly was said? Who said it? Any specific numbers, cases, or personal experiences?
-- **Real opinions**: What is each person's position? Are there disagreements?
-- **Emotional temperature**: Was the discussion light or heated? Were there moments of resonance or controversy?
-- **Unfinished threads**: Were any topics cut off, left without a conclusion, or left hanging?
+对每个话题，提炼出：
+- **核心事实**：群里具体说了什么？谁说的？有没有具体数字、案例、经历？
+- **真实观点**：每个人的立场是什么？有没有分歧？
+- **情感温度**：讨论是轻松的还是激烈的？有没有共鸣或争议的时刻？
+- **未说完的话**：有没有话题被打断、没有结论、或者留下了悬念？
 
-**Wrong extraction:**
-> The group discussed the struggles of the live music market.
+**示例——错误的提炼方式：**
+> 群里讨论了演出市场的困境。
 
-**Right extraction:**
-> Alex shared that only 20 people showed up to his show last week, saying "feeling invisible hurts more than losing money." Jamie added that converting online traffic is hard. Morgan argued it's a structural problem that effort alone can't fix. The three disagreed on whether community can solve this — Jamie felt community provides psychological safety, while Morgan said "community isn't the answer, it just means we're not alone."
+**正确的提炼方式：**
+> 阿杰分享了上周演出只来了20人的经历，说"被忽视的感觉比亏钱更难受"。晓晴补充说线上流量变现难，老王认为这是结构性问题，不是努力能解决的。三人对"社群能不能解决这个问题"有分歧——晓晴认为社群提供了心理安全感，老王则说"社群不是答案，只是让我们不孤单"。
 
-### 2.3 Topic Clustering
+### 2.3 话题聚类
 
-Group messages by **topic** (not by time). Identify clusters by:
-- Keyword density (multiple people repeatedly mentioning the same word/concept)
-- Conversational continuity (A asks, B answers, forming a thread)
-- Topic-shift signals ("speaking of which", "changing the subject", "by the way")
+将发言按**话题**分组（不是按时间硬切）。识别方式：
+- 关键词聚集（多人反复提到同一词/概念）
+- 对话连贯性（A 问 B 答，形成讨论串）
+- 话题转换信号（"说到这个"、"换个话题"、"顺便问一下"）
 
-Give each cluster a precise title, e.g.:
-- "Live Shows: The Real Cost and Psychological Toll of a 20-Person Crowd" (not "Live Music Struggles")
-- "Community Value: Psychological Safety vs. Structural Problems" (not "Community Discussion")
+每个话题簇给一个精准标题，例如：
+- 「演出市场：20人场的真实成本与心理代价」（不是「演出市场困境」）
+- 「社群价值：心理安全感 vs 结构性问题的分歧」（不是「社群讨论」）
 
-### 2.4 Broad Search (Web Enrichment)
+### 2.4 广度搜索（联网扩充）
 
-**For every valuable topic, proactively search for relevant background information.** Don't wait for the user to ask — this is default behavior.
+**对每个有价值的话题，主动搜索相关背景信息。** 不要等用户要求，这是默认行为。
 
-Search strategy:
-- Use `web_search` to find industry data, social phenomena, and others' experiences related to the topic
-- Search Reddit, Twitter/X, Substack, and relevant forums for broader resonance
-- Search for related news, research reports, and expert opinions
+搜索策略：
+- 用 `web_search` 搜索话题相关的行业数据、社会现象、他人经历
+- 搜索小红书、微博、知乎上对该话题的讨论（了解这个话题在更大范围内的共鸣）
+- 搜索相关新闻、研究报告、专家观点
 
-**Search examples:**
+**搜索示例：**
 ```
-web_search("independent music live shows 2024 market data attendance")
-web_search("indie musician losing money on shows personal experience reddit")
-web_search("music community mutual support independent artists")
+web_search("独立音乐演出市场 2024 现状 数据")
+web_search("小众音乐 演出 亏损 独立音乐人 经历 小红书")
+web_search("音乐社群 运营 独立音乐人 互助")
 ```
 
-Use search results to:
-- Back up opinions from the chat with data ("This phenomenon affects XX% of independent musicians")
-- Surface important context that wasn't mentioned in the chat
-- Find the larger social context so the topic isn't just "what this group talked about"
+搜索结果用于：
+- 为群里的观点提供数据支撑（"群里说的这个现象，实际上有XX%的独立音乐人都在经历"）
+- 发现群里没有提到但相关的重要背景
+- 找到更大的社会语境，让话题不只是"这个群的事"
 
-### 2.5 Filter for Podcast Value
+### 2.5 筛选播客价值
 
-Not every topic is worth podcasting. Prioritize:
-- Topics with real stories and specific details (not vague generalities)
-- Topics with clashing viewpoints or disagreements (not unanimous agreement)
-- Topics with emotional resonance (listeners will say "I feel that too")
-- Topics with meaning beyond the group chat itself
+不是所有话题都适合做播客。优先选择：
+- 有真实故事和具体细节的（不是泛泛而谈）
+- 有观点碰撞或分歧的（不是一致同意）
+- 有情感共鸣的（听众会说"我也有这种感觉"）
+- 有超越群聊本身的普遍意义的
 
-Exclude: purely logistical announcements, content-free small talk, private information.
+排除：纯事务性通知、无实质内容的闲聊、私人信息。
 
-### 2.6 Show Analysis Results to User
+### 2.6 向用户展示分析结果
 
-Before moving on, show the user your analysis:
+在进入下一步之前，向用户展示你的分析：
 
 ```
-📊 Chat Log Analysis Complete
+📊 聊天记录分析完成
 
-Extracted XX valid messages. Identified N core topics:
+共提取 XX 条有效消息，识别出以下 N 个核心话题：
 
-1. "[Precise Topic Title]"
-   Core content: [2–3 sentences faithfully describing what was actually discussed]
-   Key quote: [1–2 most representative original lines]
-   External context: [relevant data/phenomenon found via search]
-   Podcast potential: ⭐⭐⭐⭐⭐
+1. 「[精准话题标题]」
+   核心内容：[2-3句话，忠实描述群里真正讨论了什么]
+   关键发言：[最有代表性的1-2句原话]
+   外部背景：[搜索到的相关数据/现象]
+   播客潜力：⭐⭐⭐⭐⭐
 
-2. "[Precise Topic Title]"
+2. 「[精准话题标题]」
    ...
 ```
 
-After displaying, **immediately move to Step 3's deep interactive confirmation — do not start writing the script on your own.**
+展示完毕后，**立即进入第三步的深度交互确认，不要自行开始写脚本。**
 
 ---
 
-## Step 3: User Confirmation (Iron Rule — Cannot Be Skipped)
+## 第三步：用户深度确认（铁律，不可跳过）
 
-**This is a mandatory step.** After analyzing the chat log, you must confirm all of the following with the user before writing any script.
+**这是强制步骤。** 分析完聊天记录后，必须向用户逐一确认以下所有信息，全部确认后才能开始写脚本。
 
-### 3.1 Topic Confirmation
+### 3.1 话题确认
 
-First, let the user confirm the topic selection:
-
-```
-Above are the N core topics I identified from the chat log.
-
-Please tell me:
-- Which topics do you want to focus on? (I suggest topics 1 and 2, because…)
-- Is there anything important I missed?
-- Are there any topics you don't want in the podcast?
-```
-
-Wait for the user's reply and adjust the topic list based on their feedback.
-
-### 3.2 Podcast Style and Length
-
-After topics are confirmed, ask about style and length:
+先让用户确认话题选择：
 
 ```
-Great, topics confirmed! Now I need to understand the style you're going for:
+以上是我从聊天记录中识别出的 N 个核心话题。
 
-🎙️ Podcast Format (pick one):
-A. Roundtable — multiple perspectives, great for topics with disagreement (like Radiolab)
-B. Deep Interview — one host, one guest, great when someone has a lot to share (like Fresh Air)
-C. Narrative Documentary — narration + clips, great for a complete story arc (like This American Life)
-D. Solo / Personal Podcast — one person thinking deeply (like Hardcore History)
-E. Let me decide — I'll recommend the best format based on the content
-
-⏱️ Target Length:
-- Short: 15–20 min (commute-friendly, bite-sized)
-- Standard: 25–35 min (most common, works for most topics)
-- Deep dive: 40–50 min (for rich content with complex topics)
-
-🎨 Overall Vibe (optional — helps me calibrate tone):
-- Casual & conversational / Serious & analytical / Warm & storytelling / Sharp & opinionated
+请告诉我：
+- 你想聚焦哪几个话题？（我建议话题 1 和 2，理由是……）
+- 有没有你觉得重要但我没提到的内容？
+- 有没有你不想放进播客的话题？
 ```
 
-Wait for the user's reply.
+等待用户回复，根据反馈调整话题列表。
 
-### 3.3 Recommended Structure (Must Include Reasoning)
+### 3.2 播客风格与时长
 
-Based on the user's chosen format and length, recommend a specific three-act structure with reasoning:
-
-```
-Based on your choices, here's the structure I recommend:
-
-📐 Proposed Structure: [Structure Name]
-
-Act 1 (~X min): [specific content]
-  → Why: [reason for this opening]
-
-Act 2 (~X min): [specific content]
-  → Why: [reason for this development]
-
-Act 3 (~X min): [specific content]
-  → Why: [reason for this ending]
-
-Cold Open hook: I'm thinking of opening with "[specific opening line]"
-  → Why: [reason for choosing this hook]
-
-What do you think of this structure? Anything you'd like to adjust?
-```
-
-Wait for the user to confirm or revise. If they have changes, update the structure and confirm again.
-
-### 3.4 Speaker Name Confirmation
-
-Speaker names directly affect how natural and authentic the podcast feels. **You must proactively ask for each speaker's real name or preferred name.**
-
-Script:
+话题确认后，询问风格和时长：
 
 ```
-I identified the following speakers in the chat log: [nickname1], [nickname2], [nickname3]…
+好的，话题确定了！接下来我需要了解你想要的播客风格：
 
-In the podcast, I'll refer to them by name — it sounds much more natural.
-What name would you like to use for each of them? (Can be their real name, English name, or any name you choose.)
+🎙️ 播客形式（选一个）：
+A. 圆桌讨论 — 多人视角，适合有分歧的话题，像《得到头条》
+B. 深度访谈 — 一主一客，适合某人有大量干货，像《故事FM》
+C. 叙事纪录片 — 旁白+片段，适合有完整故事线，像《This American Life》
+D. 独白/个人播客 — 单人深度思考，像《硅谷101》
+E. 让我来决定 — 我根据内容推荐最合适的形式
 
-If you're not sure or prefer not to share, I'll randomly assign each of them a unique English name — like Alex, Jamie, or Morgan.
+⏱️ 目标时长：
+- 短播客：15-20 分钟（适合通勤、碎片时间）
+- 标准播客：25-35 分钟（最常见，适合大多数话题）
+- 深度播客：40-50 分钟（适合内容丰富、话题复杂的情况）
+
+🎨 整体气质（可选，帮助我把握语气）：
+- 轻松聊天型 / 严肃深度型 / 温暖故事型 / 犀利观点型
 ```
 
-**Handling rules:**
+等待用户回复。
 
-- User provides names → use exactly what they provide
-- User says "not sure" / "up to you" / "random" → randomly assign from this name pool, one unique name per person:
+### 3.3 推荐结构方案（必须说明理由）
+
+根据用户选择的形式和时长，向用户推荐一个具体的三幕结构方案，并说明理由：
+
+```
+根据你的选择，我推荐以下结构：
+
+📐 推荐方案：[方案名称]
+
+第一幕（约X分钟）：[具体内容]
+  → 理由：[为什么这样开场]
+
+第二幕（约X分钟）：[具体内容]
+  → 理由：[为什么这样展开]
+
+第三幕（约X分钟）：[具体内容]
+  → 理由：[为什么这样收尾]
+
+Cold Open 钩子：我打算用「[具体的开场句]」开场
+  → 理由：[为什么选这个钩子]
+
+你觉得这个结构怎么样？有没有想调整的地方？
+```
+
+等待用户确认或修改。如果用户有调整意见，修改方案后再次确认。
+
+### 3.4 发言人姓名确认
+
+发言人的名字直接影响播客的真实感和可听性。**必须主动询问每位发言人的真实姓名或希望使用的名字。**
+
+询问话术：
+
+```
+我在聊天记录里识别出以下发言人：[昵称1]、[昵称2]、[昵称3]……
+
+播客里我会用真实的名字称呼他们，这样听起来更自然。
+请告诉我他们各自希望用什么名字？（可以是真名、英文名、或你给他们起的名字）
+
+如果你不确定或不方便透露，我会给他们随机分配一个英文名，比如 Alex、Jamie、Morgan。
+```
+
+**处理规则：**
+
+- 用户提供了名字 → 直接使用用户提供的名字
+- 用户说"不确定"/"随便"/"你来定" → 从以下英文名库中随机分配，每人一个不重复的名字：
   `Alex, Jamie, Morgan, Casey, Riley, Jordan, Taylor, Quinn, Avery, Blake, Drew, Sage, River, Skyler, Reese`
-- User says "keep nicknames" → keep original chat nicknames
-- User says "anonymous" → use descriptive labels like "one guest" / "another guest"
+- 用户说"保留群昵称" → 保留原始昵称
+- 用户说"匿名" → 用"一位嘉宾"/"另一位嘉宾"等描述性称谓
 
-**Host role**: If the format is roundtable or interview, also confirm who plays the host (can be someone from the chat, or a fictional host persona).
+**主持人角色**：如果播客形式是圆桌讨论或深度访谈，还需要确认谁担任主持人角色（可以是群里的某人，也可以是虚构的主持人）。
 
-Also ask: Should I search the web for background material to enrich the content? (Default: yes)
-
----
-
-### 3.5 Show Positioning: Ongoing Show vs. One-Off
-
-**This is a critical question that shapes the entire podcast design. It must be confirmed before writing begins.**
-
-Script:
-
-```
-One more important question — is this podcast…
-
-🎯 A. An ongoing show (you plan to keep making it, with a regular audience)
-   → Needs a consistent show name, fixed host(s), and a consistent intro/outro style
-   → Each episode should feel like part of the same show — listeners recognize it
-
-🎲 B. A one-off (just this episode, trying it out)
-   → More flexible — style can adapt to the content
-   → No need to think about series consistency
-
-If it's an ongoing show, I also need to know:
-- What's the show name? (Or let me suggest a few options)
-- Who are the fixed host(s)? (1–2 recommended for vocal consistency)
-- What's the core positioning? (Who is the audience? What kinds of topics does it cover?)
-```
-
-**Extra rules for ongoing shows:**
-
-If the user chooses an ongoing show, the script must include these fixed elements:
-
-- **Fixed intro**: Same show introduction every episode (~15–20 seconds), builds brand recognition
-- **Fixed host(s)**: 1–2 fixed hosts throughout; guests can change but hosts stay consistent
-- **Unified tone**: Tone is set based on show positioning (casual / serious / warm / sharp) and stays consistent across all episodes
-- **Fixed outro**: Same closing words and call-to-action every episode
-- **Show DNA doc**: At the final confirmation step, output a "Show Style Guide" (show name, host(s), positioning, tone, intro template, outro template) for reference in future episodes
-
-**After collecting all ongoing show information, immediately write to longterm memory:**
-
-```
-Call: memory_write(type="longterm")
-
-Content format:
-## chat2podcast Show Config
-
-- Show Name: [name]
-- Fixed Host(s): [name1], [name2 (if applicable)]
-- Core Positioning: [target audience] + [topic type]
-- Tone: [casual / serious / warm / sharp]
-- Fixed Intro: [full intro text]
-- Fixed Outro: [full outro text]
-- Created: [current date]
-- Last Updated: [current date]
-```
-
-After saving, tell the user: "Show config saved. Next time you use chat2podcast, it'll load automatically — no need to set it up again."
-
-If the user chooses a one-off, skip the fixed elements and memory write. Treat it as a standalone episode.
+另外询问：是否需要联网搜索相关背景资料来丰富内容？（默认：是）
 
 ---
 
-### 3.6 Final Confirmation — Ready to Write
+### 3.5 节目定位：长期节目 vs 单次尝试
 
-After receiving the user's replies to all of the above, do a summary confirmation:
+**这是影响整个播客风格设计的关键问题，必须在开始写脚本前确认。**
+
+询问话术：
 
 ```
-✅ Confirmed Settings:
+还有一个重要问题：这个播客是……
 
-- Focus topics: [topic 1], [topic 2]
-- Format: [format]
-- Target length: [length]
-- Overall vibe: [vibe]
-- Structure: [structure name]
-- Speaker names: [nickname → name mapping]
-- Host: [name]
-- Show type: [Ongoing show / One-off]
-  (Ongoing) Show name: [name] | Positioning: [positioning]
-- Web search: [yes / no]
+🎯 A. 长期节目（打算持续做，有固定受众）
+   → 需要统一的节目名称、固定的主持人、一致的开场/结尾风格
+   → 每期格调保持连贯，听众能认出"这就是XX节目"
 
-Everything's set — I'm starting the script now!
+🎲 B. 单次尝试（就这一期，看看效果）
+   → 更灵活，风格可以随内容调整
+   → 不需要考虑系列一致性
+
+如果是长期节目，我还需要了解：
+- 节目名称是什么？（或者让我来提议几个）
+- 固定主持人是谁？（建议 1-2 位，保持声音一致性）
+- 节目的核心定位是什么？（面向什么人，聊什么类型的话题）
 ```
 
-**Only proceed to Step 4 after the user explicitly confirms with something like "go ahead" / "looks good" / "start".**
+**长期节目的额外处理规则：**
 
-**Ongoing show extra action**: If this is an ongoing show and the user chose "Keep" or "Update" in Step 0, call `memory_write(type="longterm")` after confirmation to update the "Last Used" field to today's date.
+如果用户选择长期节目，必须在脚本中体现以下固定元素：
+
+- **固定开场白**：每期相同的节目介绍语（约 15-20 秒），建立品牌识别度
+- **固定主持人**：1-2 位固定主持人贯穿全程，嘉宾可以变化但主持人不变
+- **统一语气基调**：根据节目定位确定语气（轻松/严肃/温暖/犀利），所有期数保持一致
+- **固定片尾**：每期相同的结束语和行动号召
+- **节目 DNA 文档**：在汇总确认时，额外输出一份"节目风格指南"（节目名、主持人、定位、语气、开场白模板、片尾模板），供后续每期参考
+
+**收集完长期节目信息后，立即写入 longterm memory：**
+
+```
+调用：memory_write(type="longterm")
+
+写入内容格式：
+## chat2podcast 节目配置
+
+- 节目名称：[名称]
+- 固定主持人：[姓名1]、[姓名2（如有）]
+- 核心定位：[面向人群] + [话题类型]
+- 语气基调：[轻松/严肃/温暖/犀利]
+- 固定开场白：[完整开场白文本]
+- 固定片尾：[完整片尾文本]
+- 创建时间：[当前日期]
+- 最近更新：[当前日期]
+```
+
+写入成功后告知用户：「节目配置已保存，下次使用 chat2podcast 时会自动读取，无需重新设置。」
+
+如果用户选择单次尝试，跳过以上固定元素和 memory 写入，按单期最优方案处理。
 
 ---
 
-## Step 4: Select Podcast Format (Internal Reference — Already Confirmed in Step 3)
+### 3.6 全部确认，开始动笔
 
-The format was confirmed with the user in Step 3. This step is for internal reference — use it to load the corresponding format template.
+收到用户对以上所有问题的回复后，做一次汇总确认：
 
 ```
-Format mapping:
-A. Roundtable → roundtable format
-B. Deep Interview → interview format
-C. Narrative Documentary → narrative format
-D. Solo → monologue format
-E. Auto-select → determine based on number of topics and content characteristics
+✅ 确认信息汇总：
+
+- 聚焦话题：[话题1]、[话题2]
+- 播客形式：[形式]
+- 目标时长：[时长]
+- 整体气质：[气质]
+- 结构方案：[方案名]
+- 发言人姓名：[昵称→名字 的对应关系]
+- 主持人：[姓名]
+- 节目类型：[长期节目 / 单次尝试]
+  （长期节目）节目名称：[名称] | 核心定位：[定位]
+- 联网搜索：[是/否]
+
+一切就绪，我现在开始撰写脚本！
+```
+
+**只有在用户明确表示"可以"/"开始吧"/"没问题"等确认信号后，才进入第四步。**
+
+**长期节目额外动作**：如果本次是长期节目且用户选择了"沿用"或"更新"，在用户确认后调用 `memory_write(type="longterm")` 更新"最近使用"字段为当前日期，保持记录新鲜。
+
+---
+
+## 第四步：选择播客 Format（已在第三步确认，此步骤为内部参考）
+
+播客形式已在第三步与用户确认。此步骤作为内部参考，根据用户选择的形式，读取对应的 format 模板。
+
+```
+形式对应关系：
+A. 圆桌讨论 → roundtable format
+B. 深度访谈 → interview format
+C. 叙事纪录片 → narrative format
+D. 独白 → monologue format
+E. 自动选择 → 根据话题数量和内容特征判断
 ```
 
 ---
 
-## Step 5: Write the Podcast Script
+## 第五步：撰写播客脚本
 
-Read `references/podcast-formats.md` for professional podcast structure methodology, then write according to the following principles.
+读取 `references/podcast-formats.md` 了解专业播客结构方法论，然后按以下原则撰写。
 
-### Core Principle: The Ira Glass Method
+### 核心原则：Ira Glass 叙事法
 
-Ira Glass (founder of This American Life) developed the most authoritative podcast narrative framework:
+Ira Glass（This American Life 创始人）的方法论是目前最权威的播客叙事框架：
 
-**Two fundamental building blocks:**
-1. **Anecdote**: A sequence of events in chronological order, where each event raises a question that pulls the listener forward.
-2. **Moment of Reflection**: After the story, explain why it matters and what larger truth it reveals.
+**两个基本构件：**
+1. **Anecdote（轶事/故事）**：一系列按时间顺序发生的事件，每个事件都引出下一个问题，推动听众继续听。
+2. **Moment of Reflection（反思时刻）**：故事讲完后，说明它为什么重要，它揭示了什么更大的道理。
 
-**Golden rule:** Every story needs a "why this matters" moment. Without it, the story is just a sequence of events.
+**黄金法则：** 每个故事都需要一个"为什么这件事很重要"的时刻。没有这个时刻，故事只是流水账。
 
-### Three-Act Structure (Universal Across All Formats)
+### 三幕式结构（所有 format 通用）
 
 ```
-Act 1: Setup
-├── Cold Open / Hook: Open with the most striking line or scene
-│   Not "Hi everyone, welcome to the show" — drop straight into the most compelling content
-│   Example: "Last week, a friend told me his show had 20 people in the audience.
-│             He said feeling invisible hurt more than losing money."
-├── Context: Why are we talking about this now? Why does this topic matter?
-└── Character / Perspective Intro: Who's speaking? What are their positions?
+第一幕：建立（Setup）
+├── Cold Open / 钩子：用最有冲击力的一句话或场景开场
+│   不是"大家好欢迎收听"，而是直接抛出最吸引人的内容
+│   例："上周，一个独立音乐人告诉我，他的演出来了20个人，
+│        但他说，比亏钱更难受的是那种被忽视的感觉。"
+├── 背景建立：为什么现在聊这个？这个话题为什么重要？
+└── 人物/视角介绍：谁在说话？他们的立场是什么？
 
-Act 2: Confrontation
-├── Core tension: What is the central conflict or question?
-├── Multiple angles: Different perspectives, experiences, data
-├── Turning point: Is there a surprising discovery or unexpected viewpoint?
-└── Deepening: Push the topic toward a deeper, broader dimension
+第二幕：发展（Confrontation）
+├── 核心张力：话题的核心矛盾或问题是什么？
+├── 多角度展开：不同人的观点、经历、数据
+├── 转折点：有没有让人意外的发现或观点？
+└── 深化：把话题推向更深、更广的层面
 
-Act 3: Resolution
-├── Moment of reflection: What larger truth do these discussions reveal?
-├── Open ending: Doesn't need an answer, but needs a question worth sitting with
-└── Call to action: What can listeners do?
+第三幕：解决（Resolution）
+├── 反思时刻：这些讨论揭示了什么更大的道理？
+├── 开放性结尾：不一定要有答案，但要有值得思考的问题
+└── 行动号召：听众可以做什么？
 ```
 
-### Script Writing Standards
+### 脚本写作规范
 
-**A script is a content map, not a word-for-word transcript.** For each section, write:
-- What to cover (core content)
-- What material to use (which opinion/story from the chat, or which data from search)
-- Approximate length (in minutes)
-- Key lines or questions (1–3 sentences, not the full text)
+**脚本不是逐字稿，而是内容地图。** 每个部分写清楚：
+- 这里要讲什么（核心内容）
+- 用什么素材（来自聊天记录的哪个观点/故事，或搜索到的哪个数据）
+- 大概多长（分钟数）
+- 关键台词或问题（1-3句，不是全文）
 
-**Format example:**
+**格式示例：**
 
 ```markdown
-## Act 1: Setup (~5 min)
+## 第一幕：建立（约5分钟）
 
-### Cold Open (30 sec)
-[Open directly with Alex's story — no show intro]
-Key line: "Last week, a friend told me his show had 20 people in the audience…"
+### Cold Open（30秒）
+[直接用阿杰的故事开场，不介绍节目]
+关键台词：「上周，一个朋友告诉我，他的演出来了20个人……」
 
-### Context (2 min)
-[Why is the indie live music market especially hard in 2024?]
-Material: Search data — indie music market size / box office figures
-Core question: "When someone loves music but music can't pay the bills — what do they do?"
+### 背景建立（2分钟）
+[为什么独立音乐演出市场在2024年特别难？]
+素材：搜索到的数据——中国独立音乐演出市场规模/票房数据
+引出核心问题：「当一个人热爱音乐，但音乐养不活他，他该怎么办？」
 
-### Character Intro (2 min)
-[Introduce today's three voices, one sentence each]
-- Alex: firsthand experience, just came off a money-losing show
-- Jamie: operations perspective, focused on how community helps musicians
-- Morgan: structural thinker, sees the problem from a systemic angle
-
----
-
-## Act 2: Confrontation (~20 min)
-
-### Topic 1: The Real Struggle of Live Shows (8 min)
-Core tension: It's not just losing money — it's the psychological cost of feeling invisible
-Material:
-  - Alex's 20-person show (direct quote: "feeling invisible hurts more than losing money")
-  - Jamie's similar experience
-  - Search data: average attendance / ticket prices / costs for indie shows
-Key question: "Do you think this is a marketing problem, or something deeper?"
-Turning point: Morgan raises the structural argument — "This isn't something effort can fix"
-
-### Topic 2: Is Community the Answer? (12 min)
-Core tension: Community provides emotional support — but can it fix structural problems?
-Material:
-  - Jamie: "This is a safe place" (psychological safety)
-  - Alex: concrete example of sharing studio resources
-  - Morgan: "Community isn't the answer, it just means we're not alone" (the disagreement)
-  - Search: Reddit/forum discussions on indie musicians and community
-Deepening: Push the disagreement toward a bigger question — "When the industry structure doesn't change, what can individuals do?"
+### 人物介绍（2分钟）
+[介绍今天的三位嘉宾，各一句话定位他们的视角]
+- 阿杰：亲历者，刚经历了亏损演出
+- 晓晴：运营者，关注社群如何帮助音乐人
+- 老王：思考者，从结构性角度看问题
 
 ---
 
-## Act 3: Resolution (~5 min)
+## 第二幕：发展（约20分钟）
 
-### Moment of Reflection (3 min)
-[No answers — just a framework]
-"On the surface, we talked about live shows. But underneath, the question is:
- When the thing you love can't pay your bills, how do you find balance between passion and reality?"
-Close with Morgan's key line
+### 话题一：演出市场的真实困境（8分钟）
+核心张力：不只是亏钱，是"被忽视"的心理代价
+素材：
+  - 阿杰的20人场经历（原话：「被忽视的感觉比亏钱更难受」）
+  - 晓晴的类似经历
+  - 搜索数据：独立音乐演出平均上座率/票价/成本
+关键问题：「你们觉得，这是宣传没做好，还是更深层的问题？」
+转折：老王提出结构性问题——「这不是努力能解决的」
 
-### Open Ending (2 min)
-Question for listeners: "If you're doing something you love that doesn't pay — what's your answer?"
-Call to action: Share your story in the comments
+### 话题二：社群是解药吗？（12分钟）
+核心张力：社群能提供情感支持，但能不能解决结构性困境？
+素材：
+  - 晓晴：「这里是一个安全的地方」（心理安全感）
+  - 阿杰：录音棚资源共享的具体案例
+  - 老王：「社群不是答案，只是让我们不孤单」（分歧点）
+  - 搜索：小红书上独立音乐人对社群的讨论
+深化：把这个分歧推向更大的问题——「当行业结构不改变，个体能做什么？」
+
+---
+
+## 第三幕：解决（约5分钟）
+
+### 反思时刻（3分钟）
+[不给答案，但给框架]
+「今天我们聊的，表面上是演出市场，但更深层是：
+ 当你热爱的东西无法养活你，你如何在坚持和现实之间找到平衡？」
+引用老王的金句作为收尾
+
+### 开放性结尾（2分钟）
+留给听众的问题：「如果你也在做一件热爱但不赚钱的事，你的答案是什么？」
+行动号召：欢迎在评论区分享你的故事
 ```
 
-### Format-Specific Requirements
+### 各 Format 特殊要求
 
-**Roundtable**: The host should design "collision questions" — not questions that get everyone to agree, but questions that surface disagreement. Every topic needs at least one question where guests take different positions.
+**圆桌讨论**：主持人要设计"碰撞问题"——不是让大家都同意，而是让分歧浮现。每个话题至少要有一个让嘉宾观点不同的问题。
 
-**Deep Interview**: Use "funnel questioning" — broad to specific, facts to feelings, past to future. The best question is always "How did that feel?"
+**深度访谈**：用"漏斗式提问"——从宽泛到具体，从事实到感受，从过去到未来。最好的问题是"那你当时是什么感觉？"
 
-**Narrative Documentary**: Narration should be visual — describe a scene, don't summarize. Use present tense for immediacy.
+**叙事纪录片**：旁白要有画面感，像在描述一个场景，不是在总结。用现在时态增强临场感。
 
-**Solo**: The opening must have a question or scene the listener can relate to. Don't lead with your thesis.
-
----
-
-## Step 6: Choose Output Format
-
-After the script is complete, ask the user which output format they want:
-
-```
-Script complete! Choose your output format:
-
-A. Interactive HTML Website (recommended)
-   - Beautiful podcast showcase page with animations and interactions
-   - Choose from 9 visual themes (Dark Vinyl, Late Night Radio, etc.)
-   - Single file — open directly in any browser
-
-B. Word Document (.docx)
-   - Standard document format, easy to edit and print
-   - Great for further editing or sharing for review
-
-C. Markdown File (.md)
-   - Plain text, lightweight, works in any note-taking app
-   - Paste directly into Notion, Obsidian, etc.
-
-D. All formats (HTML + Word + Markdown)
-```
+**独白**：开头必须有一个让听众产生共鸣的问题或场景，不能直接讲观点。
 
 ---
 
-## Step 7 (HTML): Choose Visual Style
+## 第六步：选择输出格式
 
-If the user chooses HTML, enter the style selection flow.
+脚本完成后，询问用户想要哪种输出格式：
 
-### Style Selection Method
+```
+脚本已完成！请选择输出格式：
 
-Ask the user: **"How would you like to choose the website style?"**
+A. HTML 交互网站（推荐）
+   - 美观的播客展示页面，有动画和交互
+   - 可以选择视觉风格（暗黑唱片、深夜电台等9种）
+   - 单文件，直接用浏览器打开
 
-- **A. Show me previews** (recommended) — generate 3 style previews, user picks from visuals
-- **B. Pick directly** — show the style list, user selects one
+B. Word 文档（.docx）
+   - 标准文档格式，方便编辑和打印
+   - 适合需要进一步修改或分享给他人审阅
 
-### If A: Generate 3 Style Previews
+C. Markdown 文件（.md）
+   - 纯文本，轻量，适合放入笔记软件
+   - 可以直接复制到 Notion、Obsidian 等工具
 
-Based on the podcast content's vibe, generate 3 different single-page HTML previews (each ~80–120 lines, showing cover + one quote card).
+D. 全部输出（HTML + Word + Markdown）
+```
 
-Save to `/tmp/podcast-preview/` (style-a.html, style-b.html, style-c.html), then open each in Chrome:
+---
+
+## 第七步（HTML）：选择视觉风格
+
+如果用户选择 HTML，进入风格选择流程。
+
+### 风格选择方式
+
+询问用户：**"你想怎么选择网站风格？"**
+
+- **A. 给我看几个预览**（推荐）— 生成 3 个风格预览，用户看图选择
+- **B. 直接选** — 展示风格列表，用户选一个
+
+### 如果选 A：生成 3 个风格预览
+
+根据播客内容的气质，生成 3 个不同风格的单页 HTML 预览（每个约 80-120 行，展示封面+一段台词的效果）。
+
+保存到 `/tmp/podcast-preview/` 下（style-a.html, style-b.html, style-c.html），然后依次用 Chrome 打开：
 ```bash
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "file:///tmp/podcast-preview/style-a.html" &
 ```
 
-**Style selection guide** (see `references/html-themes.md` for full details):
+**风格选择参考**（详见 `references/html-themes.md`）：
 
-| Content Vibe | Recommended Styles |
-|-------------|-------------------|
-| Music / Art / Culture | Dark Vinyl, Film Grain, Handwritten Magazine |
-| Tech / Startup / Product | Minimal Terminal, Deep Space Blueprint, Glassmorphism |
-| Life / Emotion / Story | Warm Paper, Late Night Radio, Film Grain |
-| Society / News / Analysis | Newspaper Layout, Minimal Terminal, Late Night Radio |
+| 内容气质 | 推荐风格组合 |
+|---------|------------|
+| 音乐/艺术/文化 | 暗黑唱片、胶片复古、手写杂志 |
+| 科技/创业/产品 | 极简终端、深空蓝图、玻璃态 |
+| 生活/情感/故事 | 温暖纸张、深夜电台、胶片复古 |
+| 社会/新闻/深度 | 报纸排版、极简终端、深夜电台 |
 
-Each preview must demonstrate: distinctive typography, color palette, one entrance animation, and hover effects on quote cards.
+每个预览必须体现：独特字体、配色方案、一个入场动画、台词卡片的悬停效果。
 
 ---
 
-## Step 8 (HTML): Generate the Podcast Website
+## 第八步（HTML）：生成播客网站
 
-Read `references/html-themes.md` and `references/animation-patterns.md`, then generate a complete single-file HTML podcast website.
+读取 `references/html-themes.md` 和 `references/animation-patterns.md`，生成完整的单文件 HTML 播客网站。
 
-### Website Structure
+### 网站结构
 
 ```
 ┌─────────────────────────────────────┐
-│  Hero / Cover                        │
-│  Show name + episode topic + animation│
+│  封面区（Hero）                      │
+│  节目名 + 本期主题 + 入场动画         │
 ├─────────────────────────────────────┤
-│  Show Info Bar                       │
-│  Host / Guests / Length / Source     │
+│  节目信息栏                          │
+│  主持人 / 嘉宾 / 时长 / 来源         │
 ├─────────────────────────────────────┤
-│  Topic Navigation (sticky sidebar    │
-│  or top tabs) — click to jump        │
+│  话题导航（sticky 侧边栏或顶部 tab）  │
+│  点击跳转到对应章节                   │
 ├─────────────────────────────────────┤
-│  Main Content (scroll to read)       │
-│  Each exchange as a card             │
-│  Speaker avatar/label + quote bubble │
-│  Section titles animate on entry     │
+│  正文区（滚动阅读）                   │
+│  每段对话以卡片形式展示               │
+│  发言人头像/标识 + 台词气泡           │
+│  章节标题有进入动画                   │
 ├─────────────────────────────────────┤
-│  Key Takeaways                       │
-│  3–5 highlight quotes, card layout   │
+│  核心观点总结区                       │
+│  3-5 条金句，卡片式布局               │
 ├─────────────────────────────────────┤
-│  Outro                               │
-│  Next episode teaser + follow CTA    │
+│  片尾区                              │
+│  下期预告 + 关注引导                  │
 └─────────────────────────────────────┘
 ```
 
-### Required Interactive Features
+### 必须实现的交互功能
 
-**Navigation**: Fixed top or side nav; click section names for smooth scroll; current section highlights as you scroll.
+**导航**：顶部或侧边固定导航，点击章节名平滑滚动，滚动时当前章节高亮。
 
-**Reading experience**: Section titles trigger entrance animations via Intersection Observer; dialogue cards appear with staggered reveal; speaker cards have micro-interactions on hover.
+**阅读体验**：章节标题滚动进入视口时触发入场动画（Intersection Observer）；对话卡片交错出现（staggered reveal）；发言人卡片悬停时有微交互。
 
-**Quote cards**: Core takeaways have a "Copy" button; hover to expand for more context.
+**金句卡片**：核心观点可以点击"复制"按钮；悬停时展开更多上下文。
 
-**Progress indicator**: Thin progress bar at the top fills as you scroll.
+**进度指示**：顶部细线进度条，随页面滚动填充。
 
-**Optional features** (if content fits): Speaker filter (roundtable format — click a person to see only their lines); timeline mode (narrative documentary format).
+**可选功能**（如果内容适合）：发言人筛选（圆桌讨论 format，点击某人只看他的发言）；时间轴模式（叙事纪录片 format）。
 
-### HTML Technical Standards
+### HTML 技术规范
 
-- **Zero dependencies**: Single file, all CSS/JS inline, no npm or build tools required
-- **Fonts**: Load from Google Fonts or Fontshare — never use Arial or system fonts
-- **CSS variables**: All colors, fonts, and spacing defined with `--var`
-- **Responsive**: Mobile-friendly, breakpoints at 768px / 1024px
-- **Animation**: Respects `prefers-reduced-motion`
-- **Code comments**: Each section has a clear `/* === SECTION === */` comment
+- **零依赖**：单文件，所有 CSS/JS 内联，无需 npm 或构建工具
+- **字体**：从 Google Fonts 或 Fontshare 加载，绝不用 Arial/系统字体
+- **CSS 变量**：所有颜色、字体、间距用 `--var` 定义
+- **响应式**：移动端友好，断点 768px / 1024px
+- **动画**：支持 `prefers-reduced-motion`
+- **代码注释**：每个区块有清晰的 `/* === SECTION === */` 注释
 
-### Design Principles (Avoiding "AI Mediocrity")
+### 设计原则（防止"AI 平庸感"）
 
-Avoid: generic purple gradients, overly uniform card grids, too many fragmented animations, choosing Inter/Roboto.
+避免：千篇一律的紫色渐变、过于整齐的卡片网格、动画太多太碎、字体选 Inter/Roboto。
 
-Aim for: a cover with strong visual impact; animations concentrated at key moments; distinctive typography choices; a dominant primary color.
-
----
-
-## Step 9 (Word): Generate Word Document
-
-If the user chooses Word output, use the `docx` skill to generate a properly formatted Word document.
-
-Document structure:
-- Cover page: show name, episode number, topic, date
-- Table of contents
-- Show info (host, guests, length, source material)
-- Script sections (title + content map + key lines)
-- Highlight quotes summary
-- Outro
+要做到：封面有强烈视觉冲击力；动画集中在关键时刻；字体选择有个性；配色有主色调统治感。
 
 ---
 
-## Step 10: Delivery
+## 第九步（Word）：生成 Word 文档
 
-**HTML output:**
-1. Save the HTML file to the user's desktop: `[GroupName]_Podcast_Ep[X].html`
-2. Open in Chrome: `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "file://[path]" &`
-3. Clean up temp preview files: `rm -rf /tmp/podcast-preview/`
-4. Tell the user: file path, theme name, feature overview (navigation / quote copy / progress bar)
+如果用户选择 Word 输出，使用 `docx` skill 生成格式规范的 Word 文档。
 
-**Word output:**
-1. Save to desktop: `[GroupName]_Podcast_Ep[X].docx`
-2. Tell the user the file path
-
-**Markdown output:**
-1. Save to desktop: `[GroupName]_Podcast_Ep[X].md`
-2. Tell the user the file path
+文档结构：
+- 封面页：节目名、期数、主题、日期
+- 目录
+- 节目信息（主持人、嘉宾、时长、素材来源）
+- 各章节脚本（标题 + 内容地图 + 关键台词）
+- 金句汇总
+- 片尾
 
 ---
 
-## Notes
+## 第十步：交付
 
-**Facts first**: Script content must faithfully reflect what was actually discussed in the chat log. Don't distort or exaggerate for the sake of sounding good. If a topic was only briefly touched on, say so in the script — don't pad it into a deep discussion.
+**HTML 输出：**
+1. 将 HTML 文件保存到用户桌面：`[群名]播客_第X期.html`
+2. 用 Chrome 打开：`/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome "file://[路径]" &`
+3. 清理临时预览文件：`rm -rf /tmp/podcast-preview/`
+4. 告知用户：文件路径、风格名称、功能说明（导航/金句复制/进度条）
 
-**Enrichment has limits**: Web search content is for providing background and data — it cannot replace the real opinions from the chat. Clearly label enriched content as "from external sources" and keep it distinct from original chat content.
+**Word 输出：**
+1. 保存到用户桌面：`[群名]播客_第X期.docx`
+2. 告知用户文件路径
 
-**Privacy**: If the chat log contains obvious private information (phone numbers, addresses, sensitive personal situations), anonymize or skip it in the script.
-
-**Speaker handling**: Can keep chat nicknames, or replace with "Guest A/B/C" — ask the user's preference.
-
-**Length control**: A typical podcast episode runs 20–45 minutes. At ~150 words per minute: 20 min ≈ 3,000 words; 45 min ≈ 6,750 words.
-
-**Quality checklist**: After finishing, verify —
-- Does the script faithfully reflect the actual discussions in the chat log?
-- Is there a Cold Open hook?
-- Is there a "Moment of Reflection" (why this matters)?
-- Does the external search content genuinely enrich the topic rather than overshadow it?
-- Does the output format match what the user chose?
+**Markdown 输出：**
+1. 保存到用户桌面：`[群名]播客_第X期.md`
+2. 告知用户文件路径
 
 ---
 
-## Reference Files
+## 注意事项
 
-| File | Purpose | When to Read |
-|------|---------|--------------|
-| `references/podcast-formats.md` | Professional podcast structure methodology with detailed format templates | Step 5 — writing the script |
-| `references/html-themes.md` | Podcast website theme library with color palettes, fonts, and design characteristics | Step 7 — style selection |
-| `references/animation-patterns.md` | Interactive animation code snippets and usage scenarios | Step 8 — generating HTML |
-| `scripts/auto_screenshot.py` | Auto-scroll screenshot script | Step 1 — guiding user to capture screenshots |
-| `scripts/build_podcast_html.py` | Renders script JSON into an HTML website | Step 8 — generating HTML |
+**事实第一**：脚本内容必须忠实于聊天记录中真正发生的讨论。不要为了"好听"而扭曲或夸大原意。如果某个话题群里只是浅聊了几句，脚本里就如实说"这个话题我们只是简单提到了"，不要凭空扩充成深度讨论。
+
+**扩充有边界**：联网搜索的内容用于提供背景和数据，不能替代群里的真实观点。扩充内容要明确标注"根据外部资料"，与群里的原始观点区分开。
+
+**隐私保护**：如果聊天记录中有明显的私人信息（手机号、地址、敏感个人情况），在脚本中匿名化处理或跳过。
+
+**发言人处理**：可以保留群昵称，也可以用"嘉宾A/B/C"代替，询问用户偏好。
+
+**时长控制**：一般播客单期 20-45 分钟为宜。按每分钟约 150 字估算，20 分钟约 3000 字，45 分钟约 6750 字。
+
+**质量自检**：完成后检查——
+- 脚本内容是否忠实于聊天记录的真实讨论？
+- 是否有 Cold Open 钩子？
+- 是否有"反思时刻"（为什么这件事重要）？
+- 外部搜索内容是否真正丰富了话题，而不是喧宾夺主？
+- 输出格式是否符合用户选择？
+
+---
+
+## 参考文件
+
+| 文件 | 用途 | 何时读取 |
+|------|------|---------|
+| `references/podcast-formats.md` | 专业播客结构方法论，含各 format 详细模板 | 第四步撰写脚本时 |
+| `references/html-themes.md` | 播客网站主题风格库，含配色/字体/设计特征 | 第六步风格选择时 |
+| `references/animation-patterns.md` | 交互动画代码片段和使用场景 | 第七步生成 HTML 时 |
+| `scripts/auto_screenshot.py` | 自动滚动截图脚本 | 第一步引导用户截图时 |
+| `scripts/build_podcast_html.py` | 将脚本 JSON 渲染为 HTML 网站 | 第七步生成 HTML 时 |
