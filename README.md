@@ -1,6 +1,6 @@
 # chat2podcast
 
-**Turn your WeChat group chats into professional podcast scripts — with a beautiful interactive website to show for it.**
+**Turn your group chats into professional podcast scripts — with a beautiful interactive website to show for it.**
 
 > 🇨🇳 [查看中文文档 →](README.zh.md)
 
@@ -8,19 +8,46 @@
 
 ## What is this?
 
-`chat2podcast` is a skill for **[CatDesk](https://catdesk.meituan.com)** — an AI agent built by the Meituan Quality & Efficiency team. Once installed, you can trigger this skill directly inside CatDesk by saying things like:
+`chat2podcast` is an **AI agent skill** that transforms group chat logs (WeChat or any messaging app) into professional podcast scripts, then generates a stunning single-file interactive HTML website to present the episode.
+
+**You can use this skill in any AI agent that supports custom skills** — including CatDesk, Claude, or any agent framework that reads `SKILL.md` instruction files.
+
+---
+
+## How to Use in Your Agent
+
+### Option 1 — Drop into your skills folder
+
+If your agent supports a skills directory (e.g. `~/.catpaw/skills/` or similar), place the entire folder there:
+
+```
+your-agent-skills/
+└── chat2podcast/
+    ├── SKILL.md
+    ├── references/
+    ├── scripts/
+    └── evals/
+```
+
+Then just tell your agent:
 
 > *"Turn this chat into a podcast"*
 > *"Make a podcast from my group chat"*
 > *"chat2podcast"*
 
-CatDesk will handle the entire workflow — from reading your screenshots to delivering a finished podcast script and interactive website — without you leaving the chat.
+### Option 2 — Paste SKILL.md as a system prompt
+
+Copy the contents of `SKILL.md` and paste it into your agent's system prompt or custom instructions. The agent will follow the workflow automatically.
+
+### Option 3 — Reference in your agent config
+
+Point your agent config to `SKILL.md` as an instruction file. Most agent frameworks support loading external instruction files by path.
 
 ---
 
 ## What it does
 
-Given a WeChat group chat (as screenshots, a folder of images, or pasted text), the skill:
+Given a group chat log (as screenshots, a folder of images, or pasted text), the skill:
 
 1. **Extracts** all messages via vision OCR, cleans noise, organizes by speaker
 2. **Mines deeply** — reconstructs facts faithfully, clusters topics, searches the web for broader context
@@ -36,7 +63,7 @@ Given a WeChat group chat (as screenshots, a folder of images, or pasted text), 
 The skill never writes a word of script until it has confirmed everything with you. No surprises, no assumptions.
 
 ### 🧠 Persistent Show Memory
-Building a regular podcast? The skill saves your show config (name, fixed hosts, tone, intro/outro templates) to CatDesk's persistent memory. Next session, it loads automatically — no re-setup needed.
+Building a regular podcast? The skill saves your show config (name, fixed hosts, tone, intro/outro templates) to persistent memory. Next session, it loads automatically — no re-setup needed.
 
 ### 👤 Smart Speaker Naming
 Asks for each speaker's real name. If you're unsure or prefer privacy, it assigns unique English names from a curated pool:
@@ -110,23 +137,9 @@ chat2podcast/
 
 ---
 
-## How to Install
-
-Place the entire `chat2podcast/` folder into your CatDesk skills directory:
-
-```
-~/.catpaw/skills/chat2podcast/
-```
-
-CatDesk will automatically detect and load the skill. Then just talk to it:
-
-> *"把这个群聊做成播客"* or *"Turn this chat into a podcast"*
-
----
-
 ## Requirements
 
-- [CatDesk](https://catdesk.meituan.com) (Meituan AI Agent)
+- Any AI agent that can read `SKILL.md` instruction files
 - macOS (for auto-screenshot feature)
 - Python 3 (for screenshot and HTML generation scripts)
 - Google Chrome (for opening HTML output)
