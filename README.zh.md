@@ -1,6 +1,6 @@
 # chat2podcast
 
-**把微信群聊天记录，变成一期有深度的播客。**
+**把群聊天记录，变成一期有深度的播客。**
 
 > 🇺🇸 [View English Documentation →](README.md)
 
@@ -8,19 +8,46 @@
 
 ## 这是什么？
 
-`chat2podcast` 是一个运行在 **[CatDesk](https://catdesk.meituan.com)** 上的 AI Skill。CatDesk 是美团质量与效率团队打造的 AI Agent。安装后，你可以直接在 CatDesk 对话框里触发这个 skill：
+`chat2podcast` 是一个 **AI Agent Skill**，能把群聊天记录（微信或任何聊天工具）转化为专业播客脚本，并生成一个精美的单文件交互式 HTML 网站来展示这期节目。
+
+**你可以在任何支持自定义 Skill 的 AI Agent 上使用它** —— 无论是 CatDesk、Claude，还是任何能读取 `SKILL.md` 指令文件的 Agent 框架。
+
+---
+
+## 如何在你的 Agent 上调用
+
+### 方式一 — 放入 Skills 文件夹
+
+如果你的 Agent 支持 skills 目录（如 `~/.catpaw/skills/` 或类似路径），把整个文件夹放进去：
+
+```
+your-agent-skills/
+└── chat2podcast/
+    ├── SKILL.md
+    ├── references/
+    ├── scripts/
+    └── evals/
+```
+
+然后直接对 Agent 说：
 
 > *"把这个聊天记录做成播客"*
 > *"帮我从群聊生成播客脚本"*
 > *"chat2podcast"*
 
-CatDesk 会处理整个流程——从读取你的截图，到交付完整的播客脚本和交互式网站——全程不需要离开对话框。
+### 方式二 — 把 SKILL.md 粘贴为系统提示词
+
+复制 `SKILL.md` 的全部内容，粘贴到你的 Agent 的系统提示词（System Prompt）或自定义指令里。Agent 会自动按照工作流执行。
+
+### 方式三 — 在 Agent 配置中引用
+
+在你的 Agent 配置文件中，将 `SKILL.md` 作为指令文件路径引用。大多数 Agent 框架都支持从外部文件加载指令。
 
 ---
 
 ## 它能做什么
 
-给它一段微信群聊天记录（截图文件夹、图片、或直接粘贴文字），它会：
+给它一段群聊天记录（截图文件夹、图片、或直接粘贴文字），它会：
 
 1. **提取**所有消息，用视觉模型 OCR 识别，清洗噪音，按发言人整理
 2. **深度挖掘**——忠实还原事实，按话题聚类，联网搜索更大的背景
@@ -36,7 +63,7 @@ CatDesk 会处理整个流程——从读取你的截图，到交付完整的播
 在确认所有信息之前，Skill 不会写任何脚本内容。不会自作主张，不会跳过确认。
 
 ### 🧠 长期节目记忆
-在做一档持续更新的播客？Skill 会把节目配置（名称、固定主持人、语气基调、开场白/片尾模板）写入 CatDesk 的持久化 Memory。下次使用时自动读取，无需重新设置。
+在做一档持续更新的播客？Skill 会把节目配置（名称、固定主持人、语气基调、开场白/片尾模板）写入 Agent 的持久化 Memory。下次使用时自动读取，无需重新设置。
 
 ### 👤 智能发言人命名
 主动询问每位发言人的真实姓名。如果你不确定或不方便透露，它会从精选名库中随机分配英文名：
@@ -85,10 +112,10 @@ CatDesk 会处理整个流程——从读取你的截图，到交付完整的播
 
 | 形式 | 参考节目 | 适合场景 |
 |------|---------|---------|
-| 圆桌讨论 | 得到头条 | 有分歧、多视角的话题 |
-| 深度访谈 | 故事FM | 某人有大量干货分享 |
+| 圆桌讨论 | Radiolab | 有分歧、多视角的话题 |
+| 深度访谈 | Fresh Air | 某人有大量干货分享 |
 | 叙事纪录片 | This American Life | 有完整故事线的话题 |
-| 独白/个人播客 | 硅谷101 | 单人深度思考 |
+| 独白/个人播客 | Hardcore History | 单人深度思考 |
 
 ---
 
@@ -110,23 +137,9 @@ chat2podcast/
 
 ---
 
-## 如何安装
-
-将整个 `chat2podcast/` 文件夹放入 CatDesk 的 skills 目录：
-
-```
-~/.catpaw/skills/chat2podcast/
-```
-
-CatDesk 会自动检测并加载这个 skill。然后直接对话触发：
-
-> *"把这个群聊做成播客"* 或 *"Turn this chat into a podcast"*
-
----
-
 ## 环境要求
 
-- [CatDesk](https://catdesk.meituan.com)（美团 AI Agent）
+- 任何支持读取 `SKILL.md` 指令文件的 AI Agent
 - macOS（自动截图功能需要）
 - Python 3（截图脚本和 HTML 生成脚本需要）
 - Google Chrome（打开 HTML 输出文件需要）
