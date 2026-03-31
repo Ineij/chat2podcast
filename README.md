@@ -1,8 +1,12 @@
 # chat2podcast
 
-**Turn your group chats into professional podcast content maps — with a beautiful, editable interactive website to show for it.**
-
 > 🇨🇳 [查看中文文档 →](README.zh.md)
+
+---
+
+*Your group chat is already a podcast. It just doesn't know it yet.*
+
+Every day, the most interesting conversations happen in group chats — raw takes, buried insights, moments of genuine disagreement. They vanish into scroll history. `chat2podcast` rescues them: drop in your chat log, and walk out with a professional podcast content map and a beautiful interactive website, ready to record.
 
 ---
 
@@ -16,7 +20,7 @@
 
 ## How to Use in Your Agent
 
-### Option 1 — Drop into your skills folder
+### Drop into your skills folder
 
 If your agent supports a skills directory (e.g. `~/.catpaw/skills/` or similar), place the entire folder there:
 
@@ -34,14 +38,6 @@ Then just tell your agent:
 > *"Turn this chat into a podcast"*
 > *"Make a podcast from my group chat"*
 > *"chat2podcast"*
-
-### Option 2 — Paste SKILL.md as a system prompt
-
-Copy the contents of `SKILL.md` and paste it into your agent's system prompt or custom instructions. The agent will follow the workflow automatically.
-
-### Option 3 — Reference in your agent config
-
-Point your agent config to `SKILL.md` as an instruction file. Most agent frameworks support loading external instruction files by path.
 
 ---
 
@@ -86,7 +82,7 @@ The skill auto-detects which mode to use and stays consistent throughout the ses
 The skill produces a **navigation guide for hosts**, not a script to be read aloud:
 - Core tension of each topic (what makes it worth discussing)
 - 3–5 guiding questions per topic (open-ended, designed for natural conversation)
-- 2–3 gold quote candidates per topic (real words from the chat, not AI-generated)
+- 2–3 gold quote candidates per topic — drawn from the most literary, resonant lines in the actual chat, plus AI-crafted quotes inspired by the conversation (original writing, never plagiarized)
 - External context hooks (data or social phenomena that give the topic a larger frame)
 - Transition cues and time allocation
 
@@ -95,9 +91,9 @@ This approach respects the hosts' voice and keeps the conversation authentic.
 ### ✏️ In-Browser Edit Mode
 
 Every generated HTML page includes a fully functional **Edit Mode**:
-- Click the **✏️ 编辑** floating button (bottom-right) to enter edit mode
+- Click the **✏️ Edit** floating button (bottom-right) to enter edit mode
 - Click any text on the page to edit it directly — no code required
-- Click **💾 保存修改** to download the edited page as a new HTML file
+- Click **💾 Save** to download the edited page as a new HTML file
 - The saved file opens in clean reading mode; click the button again to re-enter edit mode
 
 ### 🧠 Persistent Show Memory
@@ -184,9 +180,9 @@ chat2podcast/
 ## Requirements
 
 - Any AI agent that can read `SKILL.md` instruction files
-- macOS (for auto-screenshot feature)
-- Python 3 (for screenshot and HTML generation scripts)
-- Google Chrome (for opening HTML output)
+- Python 3 (for the auto-screenshot and HTML generation scripts — only needed if you use those features)
+- The auto-screenshot script works best on macOS; on other platforms, you can supply screenshots or text directly
+- Any modern browser works for viewing the HTML output (Chrome, Firefox, Safari, Edge)
 
 ---
 
