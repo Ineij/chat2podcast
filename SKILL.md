@@ -50,12 +50,12 @@ When using fallback mode, always format choices like this — never ask open-end
 ```
 [Brief context sentence]
 
-请选择（直接回复字母即可）：
+Please choose (reply with a letter):
 A. [Option A — short label] — [one-line description]
 B. [Option B — short label] — [one-line description]
 C. [Option C — short label] — [one-line description]
 
-[If free text is also valid]: 或者直接告诉我你的想法。
+[If free text is also valid]: Or just tell me your thoughts directly.
 ```
 
 ### When free text is unavoidable
@@ -84,12 +84,12 @@ Show the user what was saved, then ask how to proceed using the dual-mode patter
 {
   "questions": [{
     "id": "existing_config",
-    "prompt": "📻 找到了你的节目配置：\n节目名：[name]\n主播：[hosts]\n定位：[positioning]\n\n如何继续？",
+    "prompt": "📻 Found your saved show config:\nShow name: [name]\nHosts: [hosts]\nPositioning: [positioning]\n\nHow would you like to proceed?",
     "input_type": "choice",
     "options": [
-      { "id": "keep",   "label": "A. 保持现有配置（推荐）" },
-      { "id": "update", "label": "B. 修改某些字段" },
-      { "id": "fresh",  "label": "C. 重新开始（新节目或一次性）" }
+      { "id": "keep",   "label": "A. Keep this setup (recommended)" },
+      { "id": "update", "label": "B. Update specific fields" },
+      { "id": "fresh",  "label": "C. Start fresh (new show or one-off)" }
     ]
   }]
 }
@@ -97,13 +97,13 @@ Show the user what was saved, then ask how to proceed using the dual-mode patter
 
 **Fallback mode**:
 ```
-📻 找到了你的节目配置：
-节目名：[name] | 主播：[hosts] | 定位：[positioning]
+📻 Found your saved show config:
+Show name: [name] | Hosts: [hosts] | Positioning: [positioning]
 
-请选择（直接回复字母即可）：
-A. 保持现有配置（推荐 — 保持节目一致性）
-B. 修改某些字段（告诉我改哪里）
-C. 重新开始（新节目或一次性单集）
+Please choose (reply with a letter):
+A. Keep this setup (recommended — maintains consistency)
+B. Update specific fields (tell me what to change)
+C. Start fresh (new show or one-off episode)
 ```
 
 **STOP. Wait for the user's reply before continuing.**
@@ -323,7 +323,7 @@ Based on the topics identified in Step 2, search for existing podcasts in the sa
 
 ```
 web_search("[topic area] podcast 2024 popular shows")
-web_search("[topic area] podcast Chinese 小宇宙 2024")
+web_search("[topic area] podcast Xiaoyuzhou 2024")
 web_search("best podcasts about [core theme] recommendations")
 ```
 
@@ -378,24 +378,24 @@ This is the single STOP point for both Step 2.6 and Step 2.7. Use the dual-mode 
   "questions": [
     {
       "id": "topics",
-      "prompt": "① 话题确认：以上 N 个话题，你想聚焦哪几个？有没有想加或去掉的？",
+      "prompt": "① Topics: From the N topics above, which ones do you want to focus on? Anything to add or remove?",
       "input_type": "mixed",
       "allow_multiple": true,
       "options": [
-        { "id": "t1", "label": "话题 1：[title]" },
-        { "id": "t2", "label": "话题 2：[title]" },
-        { "id": "t3", "label": "话题 3：[title]" }
+        { "id": "t1", "label": "Topic 1: [title]" },
+        { "id": "t2", "label": "Topic 2: [title]" },
+        { "id": "t3", "label": "Topic 3: [title]" }
       ]
     },
     {
       "id": "positioning",
-      "prompt": "② 定位方向：哪个方向最打动你？",
+      "prompt": "② Positioning: Which direction resonates most with you?",
       "input_type": "choice",
       "options": [
-        { "id": "A", "label": "A. [Positioning A 一句话]" },
-        { "id": "B", "label": "B. [Positioning B 一句话]" },
-        { "id": "C", "label": "C. [Positioning C 一句话]" },
-        { "id": "own", "label": "D. 我有自己的想法（下面说）" }
+        { "id": "A", "label": "A. [Positioning A — one sentence]" },
+        { "id": "B", "label": "B. [Positioning B — one sentence]" },
+        { "id": "C", "label": "C. [Positioning C — one sentence]" },
+        { "id": "own", "label": "D. I have my own idea (tell me below)" }
       ]
     }
   ]
@@ -404,15 +404,16 @@ This is the single STOP point for both Step 2.6 and Step 2.7. Use the dual-mode 
 
 **Fallback mode**:
 ```
-两件事确认一下，再往下走：
+Two things to confirm before moving on:
 
-① 话题：以上 N 个话题，你想聚焦哪几个？（直接说编号，如"1、3"，或告诉我增减）
+① Topics: From the N topics above, which ones do you want to focus on?
+(Reply with numbers, e.g. "1, 3", or tell me what to add/remove)
 
-② 定位：哪个方向最打动你？
-A. [Positioning A 一句话]
-B. [Positioning B 一句话]
-C. [Positioning C 一句话]
-D. 我有自己的想法（直接说）
+② Positioning: Which direction resonates most with you?
+A. [Positioning A — one sentence]
+B. [Positioning B — one sentence]
+C. [Positioning C — one sentence]
+D. I have my own idea (just tell me)
 ```
 
 **STOP. Wait for the user's reply before continuing to Step 3.**
@@ -436,11 +437,11 @@ Topics were already confirmed in Step 2.7. If the user's reply there was clear, 
 {
   "questions": [{
     "id": "show_type",
-    "prompt": "在聊格式之前，先确认一件事：这个播客是……",
+    "prompt": "Before we talk format — one thing to confirm: is this podcast…",
     "input_type": "choice",
     "options": [
-      { "id": "ongoing", "label": "🎯 持续节目 — 打算长期做，有固定受众" },
-      { "id": "oneoff",  "label": "🎲 单集尝试 — 先做这一期，看看效果" }
+      { "id": "ongoing", "label": "🎯 An ongoing series — planning to run long-term with a regular audience" },
+      { "id": "oneoff",  "label": "🎲 A one-off episode — just trying it out, see how it goes" }
     ]
   }]
 }
@@ -448,21 +449,21 @@ Topics were already confirmed in Step 2.7. If the user's reply there was clear, 
 
 **Fallback mode**:
 ```
-在聊格式之前，先确认一件事：
+Before we talk format — one thing to confirm:
 
-请选择（直接回复字母即可）：
-A. 🎯 持续节目 — 打算长期做，有固定受众，需要节目名、固定主播和片头片尾
-B. 🎲 单集尝试 — 先做这一期，看看效果，风格可以灵活
+Please choose (reply with a letter):
+A. 🎯 An ongoing series — planning to run long-term, needs a show name, regular hosts, and fixed intro/outro
+B. 🎲 A one-off episode — just trying it out, style can be flexible
 ```
 
 **STOP. Wait for the user's reply.**
 
 **If ongoing**: Follow up with a second ask (CatDesk: new `AskQuestion` call; fallback: plain text questions):
 ```
-需要再了解几件事：
-- 节目名叫什么？（或者让我来提几个选项）
-- 固定主播是谁？（建议 1–2 人）
-- 节目定位是什么？（面向谁？聊什么类型的话题？）
+A few more things I need to know:
+- What's the show name? (Or I can suggest a few options)
+- Who are the regular hosts? (1–2 recommended)
+- What's the show's positioning? (Who is it for? What kinds of topics?)
 ```
 
 **Additional rules for ongoing shows:**
@@ -493,7 +494,7 @@ Format to write:
 - Last updated: [current date]
 ```
 
-After writing, tell the user: "节目配置已保存，下次使用 chat2podcast 会自动加载，不用重新设置。"
+After writing, tell the user: "Show config saved. Next time you use chat2podcast, it will load automatically — no need to set it up again."
 
 If the user chooses one-off, skip the fixed elements and memory write.
 
@@ -505,24 +506,24 @@ If the user chooses one-off, skip the fixed elements and memory write.
   "questions": [
     {
       "id": "format",
-      "prompt": "🎙️ 播客形式选哪种？",
+      "prompt": "🎙️ Which podcast format?",
       "input_type": "choice",
       "options": [
-        { "id": "roundtable",  "label": "A. 圆桌讨论 — 多视角碰撞，适合有分歧的话题（参考 Radiolab）" },
-        { "id": "interview",   "label": "B. 深度访谈 — 一主一客，适合有大量内容要分享（参考 Fresh Air）" },
-        { "id": "narrative",   "label": "C. 叙事纪录 — 旁白+片段，适合完整故事弧（参考 This American Life）" },
-        { "id": "monologue",   "label": "D. 独白/单人 — 一人深度思考（参考 Hardcore History）" },
-        { "id": "auto",        "label": "E. 帮我决定 — 根据内容推荐最合适的形式" }
+        { "id": "roundtable",  "label": "A. Roundtable — multiple perspectives clashing, great for topics with disagreement (à la Radiolab)" },
+        { "id": "interview",   "label": "B. Deep interview — one host, one guest, great when someone has a lot to share (à la Fresh Air)" },
+        { "id": "narrative",   "label": "C. Narrative documentary — narration + fragments, great for complete story arcs (à la This American Life)" },
+        { "id": "monologue",   "label": "D. Solo / monologue — one person thinking deeply (à la Hardcore History)" },
+        { "id": "auto",        "label": "E. Decide for me — recommend the best format based on the content" }
       ]
     },
     {
       "id": "length",
-      "prompt": "⏱️ 目标时长？",
+      "prompt": "⏱️ Target length?",
       "input_type": "choice",
       "options": [
-        { "id": "short",  "label": "短 15–20 分钟 — 通勤友好，适合聚焦话题" },
-        { "id": "medium", "label": "标准 25–35 分钟 — 最常见，适合大多数话题" },
-        { "id": "long",   "label": "深度 40–50 分钟 — 内容丰富、主题复杂时用" }
+        { "id": "short",  "label": "Short — 15–20 min (commute-friendly, focused topic)" },
+        { "id": "medium", "label": "Standard — 25–35 min (most common, works for most topics)" },
+        { "id": "long",   "label": "Deep dive — 40–50 min (rich content, complex themes)" }
       ]
     }
   ]
@@ -531,20 +532,20 @@ If the user chooses one-off, skip the fixed elements and memory write.
 
 **Fallback mode**:
 ```
-🎙️ 播客形式（选一个）：
-A. 圆桌讨论 — 多视角碰撞，适合有分歧的话题（参考 Radiolab）
-B. 深度访谈 — 一主一客，适合有大量内容要分享（参考 Fresh Air）
-C. 叙事纪录 — 旁白+片段，适合完整故事弧（参考 This American Life）
-D. 独白/单人 — 一人深度思考（参考 Hardcore History）
-E. 帮我决定 — 根据内容推荐最合适的形式
+🎙️ Podcast format (pick one):
+A. Roundtable — multiple perspectives clashing, great for topics with disagreement (à la Radiolab)
+B. Deep interview — one host, one guest, great when someone has a lot to share (à la Fresh Air)
+C. Narrative documentary — narration + fragments, great for complete story arcs (à la This American Life)
+D. Solo / monologue — one person thinking deeply (à la Hardcore History)
+E. Decide for me — recommend the best format based on the content
 
-⏱️ 目标时长：
-- 短：15–20 分钟（通勤友好，适合聚焦话题）
-- 标准：25–35 分钟（最常见，适合大多数话题）
-- 深度：40–50 分钟（内容丰富、主题复杂时用）
+⏱️ Target length:
+- Short: 15–20 min (commute-friendly, focused topic)
+- Standard: 25–35 min (most common, works for most topics)
+- Deep dive: 40–50 min (rich content, complex themes)
 
-🎨 整体氛围（可选）：
-随意聊天 / 严肃分析 / 温暖故事 / 犀利观点
+🎨 Overall vibe (optional):
+Casual chat / Serious analysis / Warm storytelling / Sharp commentary
 ```
 
 **STOP. Wait for the user's reply.**
@@ -555,19 +556,19 @@ Based on the user's chosen format and length, propose a specific three-act struc
 
 Present the structure in text first:
 ```
-📐 推荐结构：[structure name]
+📐 Proposed structure: [structure name]
 
-第一幕（约 X 分钟）：[specific content]
-  → 为什么这样开场：[reason]
+Act 1 (~X min): [specific content]
+  → Why open this way: [reason]
 
-第二幕（约 X 分钟）：[specific content]
-  → 为什么这样展开：[reason]
+Act 2 (~X min): [specific content]
+  → Why develop this way: [reason]
 
-第三幕（约 X 分钟）：[specific content]
-  → 为什么这样收尾：[reason]
+Act 3 (~X min): [specific content]
+  → Why close this way: [reason]
 
-Cold Open 钩子：打算用「[specific opening line]」开场
-  → 为什么：[reason]
+Cold Open hook: planning to open with "[specific opening line]"
+  → Why: [reason]
 ```
 
 Then ask:
@@ -577,11 +578,11 @@ Then ask:
 {
   "questions": [{
     "id": "structure",
-    "prompt": "这个结构你觉得怎么样？",
+    "prompt": "How does this structure feel to you?",
     "input_type": "mixed",
     "options": [
-      { "id": "ok",     "label": "✅ 可以，就这样" },
-      { "id": "adjust", "label": "🔧 需要调整（下面说说）" }
+      { "id": "ok",     "label": "✅ Looks good, let's go" },
+      { "id": "adjust", "label": "🔧 Needs adjustment (tell me below)" }
     ]
   }]
 }
@@ -589,10 +590,10 @@ Then ask:
 
 **Fallback mode**:
 ```
-这个结构你觉得怎么样？
+How does this structure feel to you?
 
-A. ✅ 可以，就这样
-B. 🔧 需要调整（告诉我改哪里）
+A. ✅ Looks good, let's go
+B. 🔧 Needs adjustment (tell me what to change)
 ```
 
 **STOP. Wait for confirmation or revisions. If the user wants changes, revise and confirm again.**
@@ -606,11 +607,12 @@ Note: if the show is ongoing (confirmed in 3.2), the fixed host(s) should alread
 For each speaker identified in the chat, ask their preferred name. This is a free-text question — use `input_type: "text"` in CatDesk, or plain text in fallback:
 
 ```
-我在聊天记录里识别到以下发言人：[nickname1]、[nickname2]、[nickname3]…
+I identified the following speakers in the chat: [nickname1], [nickname2], [nickname3]…
 
-播客里用名字称呼会更自然。每个人想用什么名字？（真名、英文名、或你帮他们取一个都行）
+Using real names makes the podcast feel more natural. What name should each person go by?
+(Real name, English name, or I can assign one — your call)
 
-如果不确定，我会随机分配英文名，比如 Alex、Jamie、Morgan。
+If you're not sure, I'll randomly assign names from the pool, e.g. Alex, Jamie, Morgan.
 ```
 
 **Handling rules:**
@@ -630,11 +632,11 @@ Also ask (CatDesk: include as a choice question; fallback: append to the same me
 {
   "questions": [{
     "id": "web_research",
-    "prompt": "需要我搜索网络资料来丰富内容背景吗？",
+    "prompt": "Should I search the web to enrich the content with background context?",
     "input_type": "choice",
     "options": [
-      { "id": "yes", "label": "✅ 是，帮我搜（推荐）" },
-      { "id": "no",  "label": "❌ 不用，只用聊天记录里的内容" }
+      { "id": "yes", "label": "✅ Yes, search for me (recommended)" },
+      { "id": "no",  "label": "❌ No, stick to what's in the chat log" }
     ]
   }]
 }
@@ -642,9 +644,9 @@ Also ask (CatDesk: include as a choice question; fallback: append to the same me
 
 **Fallback mode**:
 ```
-需要我搜索网络资料来丰富内容背景吗？
-A. ✅ 是，帮我搜（推荐）
-B. ❌ 不用，只用聊天记录里的内容
+Should I search the web to enrich the content with background context?
+A. ✅ Yes, search for me (recommended)
+B. ❌ No, stick to what's in the chat log
 ```
 
 **STOP. Wait for the user's reply.**
@@ -657,19 +659,19 @@ Once you have the user's replies to all of the above, do a final confirmation su
 
 Present the summary in text:
 ```
-✅ 已确认：
+✅ Confirmed:
 
-- 话题：[topic 1]、[topic 2]
-- 定位：[chosen direction]
-- 节目类型：[持续节目 / 单集尝试]
-  （持续）节目名：[name] | 定位：[positioning]
-- 形式：[format]
-- 目标时长：[length]
-- 氛围：[vibe]
-- 结构：[structure name]
-- 发言人：[nickname → name mappings]
-- 主播：[name]
-- 网络搜索：[是 / 否]
+- Topics: [topic 1], [topic 2]
+- Positioning: [chosen direction]
+- Show type: [Ongoing series / One-off episode]
+  (Ongoing) Show name: [name] | Positioning: [positioning]
+- Format: [format]
+- Target length: [length]
+- Vibe: [vibe]
+- Structure: [structure name]
+- Speakers: [nickname → name mappings]
+- Host: [name]
+- Web research: [Yes / No]
 ```
 
 Then ask:
@@ -679,11 +681,11 @@ Then ask:
 {
   "questions": [{
     "id": "confirm_start",
-    "prompt": "一切就绪，开始写内容地图？",
+    "prompt": "Everything's set — ready to build the content map?",
     "input_type": "choice",
     "options": [
-      { "id": "go",     "label": "🚀 开始！" },
-      { "id": "adjust", "label": "✏️ 还有些地方想改" }
+      { "id": "go",     "label": "🚀 Let's go!" },
+      { "id": "adjust", "label": "✏️ I want to change something first" }
     ]
   }]
 }
@@ -691,10 +693,10 @@ Then ask:
 
 **Fallback mode**:
 ```
-一切就绪，开始写内容地图？
+Everything's set — ready to build the content map?
 
-A. 🚀 开始！
-B. ✏️ 还有些地方想改（告诉我）
+A. 🚀 Let's go!
+B. ✏️ I want to change something first (tell me what)
 ```
 
 **STOP. Only proceed to Step 4 after the user picks "go ahead".**
@@ -738,7 +740,7 @@ Read `references/podcast-formats.md` for professional podcast structure methodol
 ✅ DO write:
 - The **core tension** of each topic (what makes it interesting to dig into)
 - **3–5 guiding questions** per topic (open-ended, designed to let conversation flow naturally)
-- **2–3 gold quote candidates** per topic (pulled directly from the chat log — real words, not AI-generated)
+- **2–3 gold quotes** per topic — see the Gold Quote System below
 - **External context hooks** (a data point or social phenomenon that gives the topic a larger frame)
 - **Transition cues** (how to move from one topic to the next)
 - **Approximate time allocation** per section
@@ -771,6 +773,47 @@ Ira Glass (creator of This American Life) developed the most authoritative frame
 
 **The golden rule**: Every story needs a "why does this matter" moment. Without it, the story is just a sequence of events.
 
+### Gold Quote System
+
+Each topic in the content map gets 2–3 gold quotes. These are the lines that could appear on a quote card, be read aloud as a teaser, or anchor the episode's emotional core. There are two types — use both:
+
+**Type 1 — Original quotes** (selected from the chat log)
+
+Not every line in the chat is a gold quote. Most chat messages are functional, conversational, or half-formed. A genuine original quote must meet at least two of these criteria:
+- It captures a feeling or insight that many people have but rarely articulate
+- It contains a specific, concrete image or detail (not a vague generality)
+- It has a rhythm or compression that makes it memorable
+- It reveals something about the speaker's inner world, not just their opinion
+- It would make a listener stop and think "I've never heard it put that way"
+
+**Wrong** (functional chat language, not a gold quote):
+> "yeah I think the problem is that nobody really cares about indie music anymore"
+
+**Right** (specific, compressed, emotionally true):
+> "feeling invisible hurts more than losing money"
+
+**Type 2 — Crafted quotes** (AI-generated, inspired by the chat)
+
+When the chat contains a powerful idea but no one said it in a quotable way, you may craft a quote that distills the spirit of what was discussed. Rules:
+
+- **Grounded in the chat**: The idea must come directly from what was actually discussed — not invented from thin air
+- **Original writing**: Draw inspiration from the craft of poetry, literary nonfiction, and great podcast moments — but never copy or closely paraphrase existing works. Every word must be your own.
+- **Compression over explanation**: A gold quote says in 10 words what a paragraph would take to explain
+- **Concrete over abstract**: Prefer images and specifics over concepts and generalities
+- **Earned, not decorative**: The quote must feel like it belongs to this conversation, not like a generic inspirational line
+
+Craft influences to draw from (for style, not content):
+- The compression of Mary Oliver, Ocean Vuong, or Maggie Nelson
+- The plainspoken precision of Ira Glass or David Sedaris
+- The emotional directness of great podcast cold opens (Serial, S-Town, This American Life)
+- The aphoristic quality of great interview moments (Terri Gross, Krista Tippett)
+
+**Label every quote clearly** in the content map:
+- `[Original]` — exact words from the chat log, speaker attributed
+- `[Crafted]` — AI-generated distillation, labeled as "crafted from [speaker]'s idea" or "crafted from the group's discussion"
+
+Never present a crafted quote as if it were something someone actually said.
+
 ### Content map format
 
 ```markdown
@@ -797,10 +840,10 @@ Source: [search result or data point]
 4. [Optional: question that connects to the external context]
 5. [Optional: question that opens toward the next topic]
 
-### Gold quotes from the chat
-- "[exact quote from chat log]" — [speaker]
-- "[exact quote from chat log]" — [speaker]
-- "[exact quote from chat log]" — [speaker]
+### Gold quotes
+- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
+- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
+- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
 
 ### Moment of reflection
 [What larger truth does this topic reveal? 1–2 sentences. This is what the hosts should land on before moving on.]
@@ -852,11 +895,11 @@ Present the full content map, then ask for feedback using the dual-mode pattern:
 {
   "questions": [{
     "id": "content_map_review",
-    "prompt": "内容地图写好了，检查一下：话题顺序对吗？引导问题有没有要改的？金句选得准吗？",
+    "prompt": "Content map is ready — take a look: Does the topic order feel right? Any guiding questions to change? Are the gold quotes landing?",
     "input_type": "mixed",
     "options": [
-      { "id": "good",   "label": "✅ 很好，进入下一步" },
-      { "id": "adjust", "label": "✏️ 有些地方想调整（下面说）" }
+      { "id": "good",   "label": "✅ Looks great, move on" },
+      { "id": "adjust", "label": "✏️ A few things I'd like to adjust (tell me below)" }
     ]
   }]
 }
@@ -864,14 +907,14 @@ Present the full content map, then ask for feedback using the dual-mode pattern:
 
 **Fallback mode**:
 ```
-内容地图写好了，检查一下：
-- 话题顺序对吗？（我按主题重组了，不是时间顺序）
-- 引导问题有没有要删或加的？
-- 金句选得准吗？有没有想换的？
-- 收尾反思落地了吗？
+Content map is ready — take a look:
+- Does the topic order feel right? (I reorganized by theme, not chronology)
+- Any guiding questions to remove or add?
+- Are the gold quotes landing? Any you'd swap out?
+- Does the closing reflection feel earned?
 
-A. ✅ 很好，进入下一步
-B. ✏️ 有些地方想调整（告诉我）
+A. ✅ Looks great, move on
+B. ✏️ A few things I'd like to adjust (tell me)
 ```
 
 **STOP. Wait for the user's reply and incorporate any changes before proceeding.**
@@ -887,14 +930,14 @@ Once the content map is confirmed, ask the user which format they want using the
 {
   "questions": [{
     "id": "output_format",
-    "prompt": "内容地图确认！选择输出格式：",
+    "prompt": "Content map confirmed! Choose your output format:",
     "input_type": "choice",
     "allow_multiple": false,
     "options": [
-      { "id": "html", "label": "A. 🌐 交互式 HTML 网站（推荐）— 动画、可编辑、单文件直接打开" },
-      { "id": "docx", "label": "B. 📄 Word 文档 — 方便编辑和打印" },
-      { "id": "md",   "label": "C. 📝 Markdown 文件 — 轻量，可粘贴到 Notion / Obsidian" },
-      { "id": "all",  "label": "D. 📦 全部格式（HTML + Word + Markdown）" }
+      { "id": "html", "label": "A. 🌐 Interactive HTML website (recommended) — animated, editable in-browser, single file" },
+      { "id": "docx", "label": "B. 📄 Word document — easy to edit and print" },
+      { "id": "md",   "label": "C. 📝 Markdown file — lightweight, paste into Notion / Obsidian" },
+      { "id": "all",  "label": "D. 📦 All formats (HTML + Word + Markdown)" }
     ]
   }]
 }
@@ -902,15 +945,15 @@ Once the content map is confirmed, ask the user which format they want using the
 
 **Fallback mode**:
 ```
-内容地图确认！选择输出格式：
+Content map confirmed! Choose your output format:
 
-A. 🌐 交互式 HTML 网站（推荐）
-   — 动画效果、可在浏览器直接编辑文字、单文件打开
-B. 📄 Word 文档
-   — 方便编辑和打印，适合进一步修改或分享审阅
-C. 📝 Markdown 文件
-   — 轻量，可直接粘贴到 Notion / Obsidian
-D. 📦 全部格式（HTML + Word + Markdown）
+A. 🌐 Interactive HTML website (recommended)
+   — Animated, editable directly in the browser, single file
+B. 📄 Word document
+   — Easy to edit and print, great for sharing for review
+C. 📝 Markdown file
+   — Lightweight, paste directly into Notion / Obsidian
+D. 📦 All formats (HTML + Word + Markdown)
 ```
 
 **STOP. Wait for the user's reply.**
@@ -928,11 +971,11 @@ Ask the user how they want to choose the visual style using the dual-mode patter
 {
   "questions": [{
     "id": "theme_method",
-    "prompt": "怎么选网站视觉风格？",
+    "prompt": "How do you want to choose the visual style?",
     "input_type": "choice",
     "options": [
-      { "id": "preview", "label": "A. 👀 给我看预览（推荐）— 生成 3 个风格小样，我来挑" },
-      { "id": "direct",  "label": "B. 📋 直接选 — 给我看主题列表，我自己选" }
+      { "id": "preview", "label": "A. 👀 Show me previews (recommended) — generate 3 style samples, I'll pick" },
+      { "id": "direct",  "label": "B. 📋 Pick directly — show me the theme list, I'll choose myself" }
     ]
   }]
 }
@@ -940,10 +983,10 @@ Ask the user how they want to choose the visual style using the dual-mode patter
 
 **Fallback mode**:
 ```
-怎么选网站视觉风格？
+How do you want to choose the visual style?
 
-A. 👀 给我看预览（推荐）— 生成 3 个风格小样，我来挑
-B. 📋 直接选 — 给我看主题列表，我自己选
+A. 👀 Show me previews (recommended) — generate 3 style samples, I'll pick
+B. 📋 Pick directly — show me the theme list, I'll choose myself
 ```
 
 **STOP. Wait for the user's reply.**
@@ -974,12 +1017,12 @@ After showing the previews, ask the user to pick using the dual-mode pattern:
 {
   "questions": [{
     "id": "theme_pick",
-    "prompt": "三个风格小样已生成，你更喜欢哪个？",
+    "prompt": "Three style previews generated — which one do you prefer?",
     "input_type": "choice",
     "options": [
-      { "id": "A", "label": "A. 风格 A" },
-      { "id": "B", "label": "B. 风格 B" },
-      { "id": "C", "label": "C. 风格 C" }
+      { "id": "A", "label": "A. Style A" },
+      { "id": "B", "label": "B. Style B" },
+      { "id": "C", "label": "C. Style C" }
     ]
   }]
 }
@@ -987,10 +1030,10 @@ After showing the previews, ask the user to pick using the dual-mode pattern:
 
 **Fallback mode**:
 ```
-三个风格小样已生成，你更喜欢哪个？
-A. 风格 A
-B. 风格 B
-C. 风格 C
+Three style previews generated — which one do you prefer?
+A. Style A
+B. Style B
+C. Style C
 ```
 
 **STOP. Wait for the user to pick a theme before generating the full HTML.**
@@ -1050,10 +1093,10 @@ Every generated HTML page must include a fully functional **Edit Mode** that let
 Place a floating button in the bottom-right corner of the page:
 
 ```html
-<button id="edit-toggle" title="Toggle Edit Mode">✏️ 编辑</button>
+<button id="edit-toggle" title="Toggle Edit Mode">✏️ Edit</button>
 ```
 
-Style it as a pill-shaped floating action button, always visible, with a subtle shadow. When edit mode is active, change the label to "✅ 完成编辑" and add a visible highlight ring.
+Style it as a pill-shaped floating action button, always visible, with a subtle shadow. When edit mode is active, change the label to "✅ Done editing" and add a visible highlight ring.
 
 #### What becomes editable
 
@@ -1085,7 +1128,7 @@ When edit mode is OFF, remove `contenteditable` from all elements (or set to `fa
 
 #### Save as new file button
 
-When edit mode is active, show a second floating button: **"💾 保存修改"**
+When edit mode is active, show a second floating button: **"💾 Save changes"**
 
 Clicking it triggers a JavaScript download of the current page's full HTML (including all edits) as a new file:
 
@@ -1112,15 +1155,15 @@ function saveEdits() {
 #### Edit toolbar (shown only when edit mode is active)
 
 A slim bar at the top of the page (below the nav) with:
-- A brief instruction: "点击任意文字即可直接编辑"
-- A "💾 保存修改" button (same as the floating one)
-- A "↩️ 撤销" hint: "Cmd+Z 撤销"
+- A brief instruction: "Click any text to edit it directly"
+- A "💾 Save changes" button (same as the floating one)
+- An undo hint: "Cmd+Z to undo"
 
 ```html
 <div id="edit-toolbar" style="display:none">
-  <span>✏️ 编辑模式已开启 — 点击任意文字即可直接编辑</span>
-  <button onclick="saveEdits()">💾 保存修改</button>
-  <span style="opacity:0.5">Cmd+Z 撤销</span>
+  <span>✏️ Edit mode on — click any text to edit it directly</span>
+  <button onclick="saveEdits()">💾 Save changes</button>
+  <span style="opacity:0.5">Cmd+Z to undo</span>
 </div>
 ```
 
@@ -1151,7 +1194,7 @@ function toggleEditMode(forceState) {
       });
     });
     toolbar.style.display = 'flex';
-    toggleBtn.textContent = '✅ 完成编辑';
+    toggleBtn.textContent = '✅ Done editing';
     toggleBtn.classList.add('active');
     if (saveBtn) saveBtn.style.display = 'block';
   } else {
@@ -1161,7 +1204,7 @@ function toggleEditMode(forceState) {
       });
     });
     toolbar.style.display = 'none';
-    toggleBtn.textContent = '✏️ 编辑';
+    toggleBtn.textContent = '✏️ Edit';
     toggleBtn.classList.remove('active');
     if (saveBtn) saveBtn.style.display = 'none';
   }
@@ -1219,7 +1262,7 @@ Document structure:
 2. Open in browser to verify it renders correctly
 3. Clean up temp preview files if any: `rm /tmp/podcast-preview/style-*.html` then `rmdir /tmp/podcast-preview`
 4. Tell the user: file path, theme name, and feature overview (navigation / quote copy / progress bar / **edit mode**)
-5. Specifically mention: "点击右下角 ✏️ 编辑 按钮可以直接在页面上修改任何文字，改完后点「💾 保存修改」下载新版本。"
+5. Specifically mention: "Click the ✏️ Edit button in the bottom-right corner to edit any text directly on the page. When done, click '💾 Save changes' to download the updated version."
 
 **Word output:**
 1. Save to desktop: `[ShowName]_Ep[X].docx`
