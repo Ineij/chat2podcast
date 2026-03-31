@@ -3,15 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>聊天记录 · Ep.01「进监狱了」</title>
+<title>聊天记录 · Saved Conversations — EP01 奥德赛时期</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Bebas+Neue&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@300;400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
-/* === RESET & BASE === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+/* === CSS VARIABLES: Late Night Radio === */
 :root {
   --bg: #0f0f1a;
   --surface: #16162a;
@@ -23,17 +21,19 @@
   --text-muted: #636e72;
   --border: #2d3436;
   --warm-glow: radial-gradient(ellipse at 50% 0%, rgba(255,159,67,0.12) 0%, transparent 65%);
-  --jenny-color: #ff9f43;
-  --tracy-color: #a29bfe;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-quote: 'Libre Baskerville', serif;
 }
 
+/* === RESET === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Noto Sans SC', 'Nunito', sans-serif;
-  font-weight: 300;
+  font-family: var(--font-body);
+  font-size: 16px;
   line-height: 1.8;
   overflow-x: hidden;
 }
@@ -50,250 +50,224 @@ body {
   transition: width 0.1s linear;
 }
 
+/* === NOISE OVERLAY === */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  z-index: 999;
+}
+
 /* === NAVIGATION === */
-#nav {
+nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 900;
-  padding: 16px 40px;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: rgba(15,15,26,0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255,159,67,0.08);
-  transition: all 0.3s ease;
 }
 
 .nav-logo {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
   color: var(--accent);
-  letter-spacing: 0.05em;
+  text-decoration: none;
 }
 
 .nav-links {
   display: flex;
-  gap: 28px;
+  gap: 1.5rem;
   list-style: none;
 }
 
 .nav-link {
-  font-size: 12px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: color 0.2s ease;
+  transition: color 0.2s;
   text-transform: uppercase;
 }
 
-.nav-link:hover, .nav-link.active {
-  color: var(--accent);
-}
+.nav-link:hover,
+.nav-link.active { color: var(--accent); }
 
 /* === HERO === */
-#hero {
+.hero {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 40px 80px;
+  padding: 6rem 2rem 4rem;
   position: relative;
+  background: var(--warm-glow), var(--bg);
   overflow: hidden;
 }
 
-.hero-bg-glow {
+/* 音波涟漪 */
+.wave-rings {
   position: absolute;
-  inset: 0;
-  background: var(--warm-glow);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-.hero-wave-container {
+.wave-ring {
   position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255,159,67,0.15);
+  transform: translate(-50%, -50%);
+  animation: ripple 3s ease-out infinite;
+}
+
+.wave-ring:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
+.wave-ring:nth-child(2) { width: 500px; height: 500px; animation-delay: 0.8s; }
+.wave-ring:nth-child(3) { width: 700px; height: 700px; animation-delay: 1.6s; }
+.wave-ring:nth-child(4) { width: 900px; height: 900px; animation-delay: 2.4s; }
+
+@keyframes ripple {
+  0%   { opacity: 0.6; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 0;   transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.hero-ep {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.hero-title span { color: var(--accent); }
+
+.hero-subtitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  letter-spacing: 0.2em;
+  color: var(--accent-2);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+
+.meta-item {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.meta-item strong { color: var(--text); }
+.meta-sep { color: var(--border); }
+
+/* 音波可视化 */
+.audio-wave {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  height: 36px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1s forwards;
 }
 
 .wave-bar {
   width: 3px;
   background: var(--accent);
   border-radius: 2px;
-  opacity: 0.6;
   animation: wave-dance 1.4s ease-in-out infinite;
 }
-.wave-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
-.wave-bar:nth-child(2) { height: 16px; animation-delay: 0.1s; }
-.wave-bar:nth-child(3) { height: 24px; animation-delay: 0.2s; }
-.wave-bar:nth-child(4) { height: 18px; animation-delay: 0.3s; }
-.wave-bar:nth-child(5) { height: 28px; animation-delay: 0.4s; }
-.wave-bar:nth-child(6) { height: 20px; animation-delay: 0.5s; }
-.wave-bar:nth-child(7) { height: 14px; animation-delay: 0.6s; }
-.wave-bar:nth-child(8) { height: 22px; animation-delay: 0.7s; }
-.wave-bar:nth-child(9) { height: 10px; animation-delay: 0.8s; }
-.wave-bar:nth-child(10) { height: 18px; animation-delay: 0.9s; }
-.wave-bar:nth-child(11) { height: 26px; animation-delay: 1.0s; }
-.wave-bar:nth-child(12) { height: 12px; animation-delay: 1.1s; }
 
 @keyframes wave-dance {
-  0%, 100% { transform: scaleY(0.4); }
-  50% { transform: scaleY(1); }
+  0%, 100% { height: 4px; opacity: 0.4; }
+  50%       { height: 28px; opacity: 1; }
 }
 
-.hero-tag {
-  font-size: 11px;
+.wave-bar:nth-child(1)  { animation-delay: 0s; }
+.wave-bar:nth-child(2)  { animation-delay: 0.1s; }
+.wave-bar:nth-child(3)  { animation-delay: 0.2s; }
+.wave-bar:nth-child(4)  { animation-delay: 0.3s; }
+.wave-bar:nth-child(5)  { animation-delay: 0.4s; }
+.wave-bar:nth-child(6)  { animation-delay: 0.3s; }
+.wave-bar:nth-child(7)  { animation-delay: 0.2s; }
+.wave-bar:nth-child(8)  { animation-delay: 0.1s; }
+.wave-bar:nth-child(9)  { animation-delay: 0s; }
+.wave-bar:nth-child(10) { animation-delay: 0.15s; }
+.wave-bar:nth-child(11) { animation-delay: 0.25s; }
+.wave-bar:nth-child(12) { animation-delay: 0.35s; }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
   letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 24px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.2s forwards;
-}
-
-.hero-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(48px, 8vw, 96px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.4s forwards;
-}
-
-.hero-title span {
-  color: var(--accent);
-}
-
-.hero-ep {
-  font-size: 13px;
   color: var(--text-muted);
-  letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 32px;
   opacity: 0;
-  animation: fadeUp 0.8s ease 0.6s forwards;
+  animation: fadeUp 0.8s ease 1.4s forwards, bob 2s ease-in-out 2.2s infinite;
 }
 
-.hero-subtitle {
-  font-size: clamp(18px, 3vw, 26px);
-  font-weight: 300;
-  color: var(--text-muted);
-  max-width: 600px;
-  margin-bottom: 48px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 0.8s forwards;
-}
-
-.hero-meta {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 1.0s forwards;
-}
-
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.meta-label {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.meta-value {
-  font-size: 14px;
-  color: var(--text);
-  font-weight: 500;
-}
-
-.meta-divider {
-  width: 1px;
-  height: 40px;
-  background: var(--border);
-}
-
-.speaker-badges {
-  display: flex;
-  gap: 12px;
-  margin-top: 40px;
-  opacity: 0;
-  animation: fadeUp 0.8s ease 1.2s forwards;
-}
-
-.speaker-badge {
-  padding: 8px 20px;
-  border-radius: 100px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-}
-
-.speaker-badge.jenny {
-  background: rgba(255,159,67,0.12);
-  color: var(--jenny-color);
-  border-color: rgba(255,159,67,0.3);
-}
-
-.speaker-badge.tracy {
-  background: rgba(162,155,254,0.12);
-  color: var(--tracy-color);
-  border-color: rgba(162,155,254,0.3);
-}
-
-.speaker-badge:hover {
-  transform: translateY(-2px);
-}
-
-.speaker-badge.jenny:hover {
-  background: rgba(255,159,67,0.2);
-  box-shadow: 0 4px 20px rgba(255,159,67,0.2);
-}
-
-.speaker-badge.tracy:hover {
-  background: rgba(162,155,254,0.2);
-  box-shadow: 0 4px 20px rgba(162,155,254,0.2);
-}
-
-.speaker-badge.dimmed {
-  opacity: 0.3;
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(6px); }
 }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* === MAIN CONTENT === */
-#content {
+.content {
   max-width: 780px;
   margin: 0 auto;
-  padding: 0 40px 120px;
+  padding: 0 1.5rem 6rem;
 }
 
 /* === CHAPTER === */
 .chapter {
-  margin-bottom: 80px;
-  padding-top: 80px;
+  padding: 5rem 0 2rem;
 }
 
 .chapter-header {
-  margin-bottom: 40px;
+  margin-bottom: 3rem;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -304,43 +278,46 @@ body {
   transform: translateY(0);
 }
 
-.chapter-number {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.chapter-number::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,159,67,0.4), transparent);
+.chapter-num {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(255,159,67,0.08);
+  letter-spacing: 0.05em;
+  margin-bottom: -1.5rem;
+  display: block;
 }
 
 .chapter-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(22px, 4vw, 32px);
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.08em;
   color: var(--text);
+  line-height: 1.1;
 }
 
+.chapter-title span { color: var(--accent); }
+
 .chapter-desc {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
+  letter-spacing: 0.03em;
+  font-style: italic;
+}
+
+.chapter-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  margin: 1.2rem 0 0;
 }
 
 /* === DIALOGUE CARDS === */
 .dialogue-card {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 1rem;
+  margin-bottom: 1rem;
   opacity: 0;
   transform: translateX(-16px);
   transition: opacity 0.45s ease, transform 0.45s ease, box-shadow 0.2s ease;
@@ -351,118 +328,74 @@ body {
   transform: translateX(0);
 }
 
-.dialogue-card:hover .bubble {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+.dialogue-card:hover {
   transform: translateY(-2px);
 }
 
-.speaker-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+.speaker-label {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  margin-top: 4px;
-}
-
-.speaker-avatar.jenny {
-  background: rgba(255,159,67,0.15);
-  color: var(--jenny-color);
-  border: 1px solid rgba(255,159,67,0.3);
-}
-
-.speaker-avatar.tracy {
-  background: rgba(162,155,254,0.15);
-  color: var(--tracy-color);
-  border: 1px solid rgba(162,155,254,0.3);
-}
-
-.bubble-wrap {
-  flex: 1;
+  width: 64px;
+  text-align: right;
+  padding-top: 0.9rem;
 }
 
 .speaker-name {
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 6px;
-  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
-.speaker-name.jenny { color: var(--jenny-color); }
-.speaker-name.tracy { color: var(--tracy-color); }
+.speaker-name.jenny { color: var(--accent); }
+.speaker-name.tracy { color: var(--accent-2); }
 
 .bubble {
+  flex: 1;
   background: var(--surface);
-  border-radius: 4px 16px 16px 16px;
-  padding: 14px 18px;
-  font-size: 15px;
-  line-height: 1.75;
-  color: var(--text);
+  border-radius: 0 12px 12px 12px;
+  padding: 0.9rem 1.2rem;
   border-left: 3px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  position: relative;
 }
 
-.bubble.jenny { border-left-color: var(--jenny-color); }
-.bubble.tracy { border-left-color: var(--tracy-color); }
+.dialogue-card[data-speaker="jenny"] .bubble {
+  border-left-color: var(--accent);
+  border-radius: 0 12px 12px 12px;
+}
 
-/* === PAUSE CARD === */
-.pause-card {
+.dialogue-card[data-speaker="tracy"] .bubble {
+  border-left-color: var(--accent-2);
+}
+
+/* 停顿标记 */
+.pause {
   text-align: center;
-  padding: 20px;
-  margin: 24px 0;
+  padding: 1.5rem 0;
   color: var(--text-muted);
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
   opacity: 0;
   transition: opacity 0.6s ease;
 }
 
-.pause-card.revealed { opacity: 1; }
+.pause.revealed { opacity: 1; }
+.pause::before { content: '· · ·'; }
 
 /* === QUOTE CARDS === */
-.quotes-section {
-  margin: 80px 0;
-  padding-top: 80px;
-}
-
-.quotes-title {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 32px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.quotes-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255,159,67,0.4), transparent);
-}
-
-.quotes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-}
-
 .quote-card {
-  background: var(--surface);
+  background: var(--surface-2);
+  border: 1px solid rgba(255,159,67,0.2);
   border-radius: 12px;
-  padding: 24px;
-  border: 1px solid var(--border);
+  padding: 2rem 2rem 1.5rem;
+  margin: 2.5rem 0;
   position: relative;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .quote-card.revealed {
@@ -470,187 +403,242 @@ body {
   transform: translateY(0);
 }
 
-.quote-card:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-  border-color: rgba(255,159,67,0.2);
-}
-
-.quote-mark {
-  font-size: 48px;
-  line-height: 1;
+.quote-card::before {
+  content: '"';
+  position: absolute;
+  top: -0.5rem;
+  left: 1.5rem;
+  font-family: var(--font-quote);
+  font-size: 4rem;
   color: var(--accent);
-  opacity: 0.3;
-  font-family: Georgia, serif;
-  margin-bottom: 8px;
+  line-height: 1;
+  opacity: 0.6;
 }
 
 .quote-text {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 16px;
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 1.15rem;
   line-height: 1.7;
   color: var(--text);
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
+}
+
+.quote-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .quote-speaker {
-  font-size: 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.08em;
 }
 
 .copy-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255,159,67,0.1);
-  border: 1px solid rgba(255,159,67,0.2);
-  color: var(--accent);
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.copy-btn:hover {
-  background: rgba(255,159,67,0.2);
-}
-
-.copy-btn.copied {
-  background: rgba(255,159,67,0.3);
-  color: var(--accent);
-}
-
-/* === LISTENER QUESTION === */
-.listener-question {
-  margin: 80px 0;
-  padding: 48px;
-  background: var(--surface);
-  border-radius: 16px;
-  border: 1px solid rgba(255,159,67,0.15);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.listener-question.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.listener-question::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-}
-
-.lq-label {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 20px;
-}
-
-.lq-text {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(18px, 3vw, 24px);
-  line-height: 1.6;
-  color: var(--text);
-  max-width: 560px;
-  margin: 0 auto;
-}
-
-/* === OUTRO === */
-.outro {
-  margin: 80px 0 40px;
-  padding: 48px;
-  background: linear-gradient(135deg, rgba(255,159,67,0.06), rgba(162,155,254,0.06));
-  border-radius: 16px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: none;
   border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn.copied { color: var(--accent-2); border-color: var(--accent-2); }
+
+/* === CONTEXT BOX (外部背景) === */
+.context-box {
+  background: rgba(162,155,254,0.06);
+  border: 1px solid rgba(162,155,254,0.15);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin: 2rem 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.context-box.revealed { opacity: 1; transform: translateY(0); }
+
+.context-box strong {
+  color: var(--accent-2);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* === REFLECTION BOX === */
+.reflection {
+  background: linear-gradient(135deg, rgba(255,159,67,0.08), rgba(162,155,254,0.08));
+  border: 1px solid rgba(255,159,67,0.2);
+  border-radius: 14px;
+  padding: 2.5rem;
+  margin: 3rem 0;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.outro.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reflection.revealed { opacity: 1; transform: translateY(0); }
 
-.outro-title {
-  font-size: 11px;
+.reflection-label {
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 24px;
+  color: var(--accent);
+  margin-bottom: 1rem;
 }
 
-.outro-dialogue {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.reflection-text {
+  font-family: var(--font-quote);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text);
 }
 
-.outro-line {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.outro-line .speaker {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-right: 12px;
-  font-family: 'Noto Sans SC', sans-serif;
-}
-
-.outro-line .speaker.jenny { color: var(--jenny-color); }
-.outro-line .speaker.tracy { color: var(--tracy-color); }
-
-/* === FOOTER === */
-footer {
-  text-align: center;
-  padding: 60px 40px;
-  color: var(--text-muted);
-  font-size: 13px;
+/* === TAKEAWAYS === */
+.takeaways {
+  padding: 4rem 0;
   border-top: 1px solid var(--border);
 }
 
-footer .show-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: 18px;
+.takeaways-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.takeaways-title.revealed { opacity: 1; transform: translateY(0); }
+
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.takeaway-item {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 1.4rem;
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.65;
   color: var(--text);
-  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.2s;
 }
 
-/* === FILTER DIMMING === */
-.dialogue-card.dimmed .bubble {
-  opacity: 0.2;
+.takeaway-item.revealed { opacity: 1; transform: translateY(0); }
+.takeaway-item:hover { box-shadow: 0 4px 20px rgba(255,159,67,0.1); }
+.takeaway-item:nth-child(2) { border-left-color: var(--accent-2); }
+.takeaway-item:nth-child(3) { border-left-color: var(--accent-3); }
+.takeaway-item:nth-child(4) { border-left-color: var(--accent); }
+
+/* === OUTRO === */
+.outro {
+  text-align: center;
+  padding: 5rem 0 4rem;
+  border-top: 1px solid var(--border);
 }
 
-.dialogue-card.dimmed .speaker-avatar,
-.dialogue-card.dimmed .speaker-name {
-  opacity: 0.2;
+.outro-show {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
 }
+
+.outro-tagline {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.outro-hosts {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.host-chip {
+  background: var(--surface);
+  border-radius: 100px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+}
+
+.host-chip.jenny { color: var(--accent); border: 1px solid rgba(255,159,67,0.3); }
+.host-chip.tracy { color: var(--accent-2); border: 1px solid rgba(162,155,254,0.3); }
+
+.outro-next {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* === SPEAKER FILTER === */
+.filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.filter-bar.revealed { opacity: 1; }
+
+.filter-btn {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active-jenny { border-color: var(--accent); color: var(--accent); background: rgba(255,159,67,0.08); }
+.filter-btn.active-tracy { border-color: var(--accent-2); color: var(--accent-2); background: rgba(162,155,254,0.08); }
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-  #nav { padding: 14px 20px; }
   .nav-links { display: none; }
-  #content { padding: 0 20px 80px; }
-  #hero { padding: 100px 20px 80px; }
-  .hero-meta { flex-wrap: wrap; justify-content: center; gap: 20px; }
-  .meta-divider { display: none; }
-  .quotes-grid { grid-template-columns: 1fr; }
-  .listener-question, .outro { padding: 32px 24px; }
+  .speaker-label { width: 44px; }
+  .speaker-name { font-size: 0.6rem; }
+  .hero-meta { gap: 1rem; }
+  .meta-sep { display: none; }
+  .takeaway-grid { grid-template-columns: 1fr; }
+  .reflection { padding: 1.8rem; }
 }
 
 /* === REDUCED MOTION === */
@@ -660,11 +648,9 @@ footer .show-name {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .dialogue-card, .chapter-header, .quote-card,
-  .listener-question, .outro, .pause-card {
-    opacity: 1 !important;
-    transform: none !important;
-  }
+  .reveal, .dialogue-card, .chapter-header, .quote-card,
+  .context-box, .reflection, .takeaways-title, .takeaway-item,
+  .pause, .filter-bar { opacity: 1 !important; transform: none !important; }
 }
 </style>
 </head>
@@ -674,909 +660,668 @@ footer .show-name {
 <!-- Progress Bar -->
 <div id="progress-bar"></div>
 
+<!-- Noise Overlay -->
+<div class="noise-overlay"></div>
+
 <!-- Navigation -->
-<nav id="nav">
-  <div class="nav-logo">聊天记录</div>
+<nav>
+  <a class="nav-logo" href="#">SC · PODCAST</a>
   <ul class="nav-links">
-    <li class="nav-link" data-target="ch-intro">起源</li>
-    <li class="nav-link" data-target="ch-1">进监狱了</li>
-    <li class="nav-link" data-target="ch-2">攀岩</li>
-    <li class="nav-link" data-target="ch-3">求职</li>
-    <li class="nav-link" data-target="ch-4">不想当官</li>
-    <li class="nav-link" data-target="ch-quotes">金句</li>
+    <li><span class="nav-link" data-target="ch1">第一幕</span></li>
+    <li><span class="nav-link" data-target="ch2">第二幕</span></li>
+    <li><span class="nav-link" data-target="ch3">第三幕</span></li>
+    <li><span class="nav-link" data-target="takeaways">金句</span></li>
   </ul>
 </nav>
 
 <!-- Hero -->
-<section id="hero">
-  <div class="hero-bg-glow"></div>
+<section class="hero">
+  <div class="wave-rings">
+    <div class="wave-ring"></div>
+    <div class="wave-ring"></div>
+    <div class="wave-ring"></div>
+    <div class="wave-ring"></div>
+  </div>
 
-  <div class="hero-tag">聊天记录 · Saved Conversations</div>
-  <h1 class="hero-title">「进监<span>狱</span>了」</h1>
-  <div class="hero-ep">Episode 01 · 2026年3月</div>
-  <p class="hero-subtitle">两个研究生的微信聊天记录，被做成了播客。</p>
+  <div class="hero-ep">聊天记录 · Saved Conversations &nbsp;/&nbsp; EP 01</div>
+
+  <h1 class="hero-title">奥德<span>赛</span>时期</h1>
+
+  <div class="hero-subtitle">THE ODYSSEY YEARS</div>
 
   <div class="hero-meta">
-    <div class="meta-item">
-      <span class="meta-label">时长</span>
-      <span class="meta-value">约 35 分钟</span>
-    </div>
-    <div class="meta-divider"></div>
-    <div class="meta-item">
-      <span class="meta-label">时间跨度</span>
-      <span class="meta-value">3月16日—20日</span>
-    </div>
-    <div class="meta-divider"></div>
-    <div class="meta-item">
-      <span class="meta-label">话题数</span>
-      <span class="meta-value">4 个</span>
-    </div>
+    <span class="meta-item"><strong>Jenny</strong> &amp; <strong>Tracy</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-item">约 <strong>30 分钟</strong></span>
+    <span class="meta-sep">|</span>
+    <span class="meta-item"><strong>2026 · 03 · 31</strong></span>
   </div>
 
-  <div class="speaker-badges">
-    <div class="speaker-badge jenny" data-speaker="jenny">Jenny</div>
-    <div class="speaker-badge tracy" data-speaker="tracy">Tracy</div>
+  <div class="audio-wave">
+    <div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div>
+    <div class="wave-bar"></div><div class="wave-bar"></div>
   </div>
 
-  <div class="hero-wave-container">
-    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-    <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-  </div>
+  <div class="hero-scroll">向下滚动</div>
 </section>
 
-<!-- Content -->
-<main id="content">
+<!-- Main Content -->
+<main class="content">
+
+  <!-- 固定开场 -->
+  <div class="chapter" id="intro">
+    <div class="chapter-header reveal">
+      <span class="chapter-num">00</span>
+      <h2 class="chapter-title">固定<span>开场</span></h2>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">这是一档把微信聊天做成播客的节目。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">我们也不知道为什么要这样做。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">因为有些话，值得被听见。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">……好吧这句说得挺好的。</div>
+    </div>
+  </div>
 
   <!-- Cold Open -->
-  <div class="chapter" id="ch-cold">
+  <div class="chapter" id="coldopen">
     <div class="chapter-header reveal">
-      <div class="chapter-number">Cold Open</div>
-      <h2 class="chapter-title">3月18日，早上8点40</h2>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">3月18日，早上8点40，我发了一条消息。</div>
-      </div>
+      <span class="chapter-num">COLD</span>
+      <h2 class="chapter-title">Cold <span>Open</span></h2>
+      <div class="chapter-divider"></div>
     </div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我记得，你说"我今天开始上班了"。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">Tracy，你最近跟我说了一句话，我一直记着。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">然后我自己接了一句——</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">哪句？</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">"进监狱了。"</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你说——"为啥啊，出现一个热词，都跟我能对上。"</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">哈哈哈，对，我说的是"奥德赛时期"。</div>
     </div>
-
-    <div class="pause-card reveal">— 停顿两秒 —</div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">今天我们就从这里开始聊。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">对。你当时是什么感觉？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">就是那种……有点被说中了，但又有点烦的感觉。被说中了，是因为它描述的那种状态我每天都在经历。烦，是因为——凭什么又是我。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">凭什么又是我。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，为什么每个描述迷茫的词，都跟我能对上。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">今天我们就聊这件事。不是聊"奥德赛时期"这个概念，而是聊——它到底是什么感觉，从里面看是什么样的。</div>
     </div>
 
-    <!-- 固定开场白 -->
-    <div style="margin-top: 40px; padding: 32px; background: var(--surface-2); border-radius: 12px; border: 1px solid var(--border);" class="reveal">
-      <div style="font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px;">固定开场白</div>
-      <div class="dialogue-card" style="margin-bottom: 12px; opacity: 1; transform: none;">
-        <div class="speaker-avatar jenny">J</div>
-        <div class="bubble-wrap">
-          <div class="speaker-name jenny">Jenny</div>
-          <div class="bubble jenny">这是一档把微信聊天做成播客的节目。</div>
-        </div>
-      </div>
-      <div class="dialogue-card" style="margin-bottom: 12px; opacity: 1; transform: none;">
-        <div class="speaker-avatar tracy">T</div>
-        <div class="bubble-wrap">
-          <div class="speaker-name tracy">Tracy</div>
-          <div class="bubble tracy">我们也不知道为什么要这样做。</div>
-        </div>
-      </div>
-      <div class="dialogue-card" style="margin-bottom: 12px; opacity: 1; transform: none;">
-        <div class="speaker-avatar jenny">J</div>
-        <div class="bubble-wrap">
-          <div class="speaker-name jenny">Jenny</div>
-          <div class="bubble jenny">因为有些话，值得被听见。</div>
-        </div>
-      </div>
-      <div class="dialogue-card" style="opacity: 1; transform: none;">
-        <div class="speaker-avatar tracy">T</div>
-        <div class="bubble-wrap">
-          <div class="speaker-name tracy">Tracy</div>
-          <div class="bubble tracy">……好吧这句说得挺好的。</div>
-        </div>
+    <div class="quote-card reveal">
+      <p class="quote-text">为啥啊，出现一个热词，都跟我能对上。</p>
+      <div class="quote-footer">
+        <span class="quote-speaker">Tracy</span>
+        <button class="copy-btn" data-text="为啥啊，出现一个热词，都跟我能对上。">复制</button>
       </div>
     </div>
   </div>
 
-  <!-- 节目起源 -->
-  <div class="chapter" id="ch-intro">
+  <!-- 第一幕 -->
+  <div class="chapter" id="ch1">
     <div class="chapter-header reveal">
-      <div class="chapter-number">节目起源</div>
-      <h2 class="chapter-title">内容不是设计出来的，是生长出来的</h2>
-      <p class="chapter-desc">约 3 分钟</p>
+      <span class="chapter-num">01</span>
+      <h2 class="chapter-title">它不是<span>迷茫</span></h2>
+      <p class="chapter-desc">迷茫是你不知道往哪走。奥德赛时期是你同时往好几个方向走。</p>
+      <div class="chapter-divider"></div>
+    </div>
+
+    <div class="context-box reveal">
+      <strong>背景</strong>
+      "奥德赛时期"由《纽约时报》专栏作家大卫·布鲁克斯于2007年提出，描述20到35岁之间那段从学校到稳定生活之间的漂泊期。荷马史诗里的奥德修斯，特洛伊战争打完了，用了十年才回到家。布鲁克斯说，这不是失败，这是一段必要的漂泊。
     </div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">先说一下这档节目是怎么来的。其实是3月20日，我们在聊天，我突然说——我想做一个skill，把我们的对话碎片聚类，变成播客脚本。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">先说说这个词本身。"奥德赛时期"，2007年《纽约时报》专栏作家大卫·布鲁克斯提出来的，描述20到35岁之间那段从学校到稳定生活之间的漂泊期。荷马史诗里的奥德修斯，特洛伊战争打完了，用了十年才回到家。布鲁克斯说，这不是失败，这是一段必要的漂泊。但我想问你——你觉得你现在是在漂泊吗？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">不是。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">为什么不是？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">因为漂泊的感觉是你不知道往哪走，随波逐流。但我不是，我知道我在走，我只是同时在走好几条路。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">说说你在走哪几条路。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">大厂实习这条，体制内这条，还有……攀岩那条。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">攀岩也是一条路？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对我来说是。不上班我就攀岩。那是我真正热爱的东西。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">但你入职了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，我入职了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以你同时在走三条路。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，而且每条路我都在认真走。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">这不是迷茫。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，这不是迷茫。迷茫是你站在原地不动。我一直在动，只是我不知道这几条路最后会走到哪里，会不会走到同一个地方。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我觉得这个区别很重要。我们经常把奥德赛时期理解成"迷茫"，但其实它更像是……同时持有好几个未完成的自己。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，每一个都是真的，每一个都没完成。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">你当时说的原话是"从今天开始我就把我们讨论过的乱七八糟的东西及金句记录下来"。</div>
-      </div>
-    </div>
+    <div class="pause reveal"></div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">对，然后你说"太棒了"。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你入职那天发给我说"进监狱了"。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">但你去了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，因为那条路是真的，我在认真走它。"进监狱了"也是真的，但它不妨碍我去。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">两件事同时成立。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，这就是奥德赛时期的感觉——你同时持有好几个互相矛盾的真实。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我确实觉得很好。因为我们聊天的时候经常会说一些话，说完就过去了，但其实挺值得被记下来的。</div>
-      </div>
-    </div>
+    <div class="pause reveal"></div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">所以这档播客的逻辑就是——我们不是为了做播客而聊天，而是我们本来就在聊，然后把聊过的东西整理出来，说给你听。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我也有这个感觉。我说"我每天卡点上班"，好像我很摆烂。但我其实在认真做事。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">内容不是设计出来的，是生长出来的。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，你不是摆烂，你只是不想让自己显得太用力。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我们是研究生同学，也是很好的朋友。这期是第一期，内容来自我们3月16日到3月20日的聊天记录。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">为什么不想显得太用力？</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">时间跨度五天，话题跨度……从博物馆到考公。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">因为……如果你很用力，但这条路最后没走成，那很难看。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">今天我们选了四个话题，都跟一件事有关——</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以"卡点上班"是一种保护。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，是一种降低期待的方式。但降低期待不等于不在乎，我们都很在乎。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以奥德赛时期还有另一面——你在认真走，但你不敢说你在认真走。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，因为你不知道这条路走不走得通。你在走一条你不确定终点在哪里的路，而且你同时在走好几条。这才是奥德赛时期真正的感觉。不是迷茫，是——我在走，但我不知道走向哪里，而且我同时在走好几个方向。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">就是，我们到底想要什么样的生活。</div>
+    <div class="quote-card reveal">
+      <p class="quote-text">你同时持有好几个互相矛盾的真实。</p>
+      <div class="quote-footer">
+        <span class="quote-speaker">Tracy</span>
+        <button class="copy-btn" data-text="你同时持有好几个互相矛盾的真实。">复制</button>
       </div>
     </div>
   </div>
 
-  <!-- 话题一 -->
-  <div class="chapter" id="ch-1">
+  <!-- 第二幕 -->
+  <div class="chapter" id="ch2">
     <div class="chapter-header reveal">
-      <div class="chapter-number">话题一</div>
-      <h2 class="chapter-title">「进监狱了」——第一天上班实录</h2>
-      <p class="chapter-desc">约 8 分钟 · 3月18日</p>
+      <span class="chapter-num">02</span>
+      <h2 class="chapter-title">最难的<span>那一刻</span></h2>
+      <p class="chapter-desc">当这几条路真的撞车，你同时持有的几个自己，被迫要放弃其中一个。</p>
+      <div class="chapter-divider"></div>
     </div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">好，第一个话题。Tracy，你3月18日正式开始上班了对吗？</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你说你同时在走好几条路。但有没有一刻，这几条路真的撞车了？</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对，实习。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">有。清明假前一天，晚上9点，我收到通知，说4月3号有个答辩。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">然后你发了那条消息。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你第二天要去云南。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我说"我今天开始上班了"，然后自己接了一句"进监狱了"。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，已经订好了。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我当时看到这条消息，第一反应是——这个人没救了。但同时我也觉得，这句话说得太准了。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">然后你说——</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">"妈的草，恨这个世界，就对我好了一秒。"</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">就是那种感觉，你知道吗。前一天还是自由的，第二天早上要定闹钟，要挤地铁，要坐在一个固定的位置上，对着电脑，不能随便走。</div>
+    <div class="quote-card reveal">
+      <p class="quote-text">恨这个世界，就对我好了一秒。</p>
+      <div class="quote-footer">
+        <span class="quote-speaker">Tracy</span>
+        <button class="copy-btn" data-text="恨这个世界，就对我好了一秒。">复制</button>
       </div>
     </div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">然后我问你"第一天上班如何"。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我想在这句话上停一下。"就对我好了一秒"——那一秒是什么？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">是云南。是我订好机票那一刻，觉得我可以喘口气了，觉得这条路暂时可以放一放，我可以去玩了。然后那条通知来了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">那一秒的松弛感，被打断了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">但我觉得这句话还有另一层。"恨这个世界"——你恨的是什么？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">我恨的是……这种感觉，你同时在走好几条路，每条路都在要求你，然后它们在最不合时宜的时候撞在一起。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">不是某一条路的问题，是同时走好几条路这件事本身。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，如果我只走一条路，就不会有这个问题。但我没办法只走一条。因为每条路都有我想要的东西。大厂这条，有那种快速成长的感觉，有同事，有归属感。体制内那条，有确定性，有稳定。攀岩那条，有热爱。我没办法说哪条不要。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以你不是在选择，你是在试图把所有的都留住。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，但你留不住所有的。那条通知来的时候，我必须放弃其中一个。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你最后放弃了哪个？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">我去云南了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你去云南了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，答辩的事，我在支部唯一的人脉也请假了，我去了也不一定选得上，那就去云南吧。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我回了两个字——"入眠"。第一天上班，下班回来直接睡了。</div>
-      </div>
-    </div>
+    <div class="pause reveal"></div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我觉得这两个字是这五天聊天记录里最有力量的两个字。不是"很累"，不是"还好"，是"入眠"。就是那种……身体直接关机的感觉。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你怎么做这个决定的？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">就是……那一刻我意识到，我没办法同时持有所有的。我必须在那一秒做一个选择。然后我选了云南。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">为什么是云南？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">因为云南是我给自己的那一秒。那条通知来之前，我已经给自己留了那一秒。我不想让它被拿走。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">其实我觉得第一天上班最难受的不是累，是那种……格格不入感。你坐在那里，周围都是不认识的人，大家都在做事，你不知道自己该做什么，也不知道自己算什么。</div>
-      </div>
-    </div>
+    <div class="pause reveal"></div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">你有没有想过，为什么我们会把上班叫"进监狱"？监狱的核心是——你的时间不属于你了。你不能决定几点吃饭，不能决定几点休息，不能决定今天想做什么。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我觉得这个很重要。你说"恨这个世界，就对我好了一秒"——但你最后保住了那一秒。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">奥德赛时期最难的地方，不是你不知道往哪走，而是你同时持有好几个自己，然后有一刻你必须选择放弃其中一个。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，而且你不知道你放弃的那个，以后还有没有机会再捡回来。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">但你拿了工资。</div>
-      </div>
-    </div>
+    <div class="pause reveal"></div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">对，所以是自愿进去的监狱。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我想问你一个更大的问题。你说你感觉不想当官，只想老老实实混日子。但你在认真走那条路。这两件事怎么同时成立？</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">……这个说法让我更难受了。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">因为……"不想当官"是真的，我真的不想坐在那个位置上管人。但那条路有另一些东西我想要——稳定，确定性，一种知道自己35岁在哪里的感觉。</div>
     </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我觉得我不怕累，我怕的是那种……我的时间在流逝，但不是在我想要的方向上流逝。</div>
-      </div>
-    </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">这句话很好，我要截图。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以你走那条路，不是因为你想要那条路本身，而是因为你想要它附带的东西。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。但我嘴上说"不想当官"，因为那是最简单的说法。我没办法每次都解释——我不想当官，但我想要稳定，但我也想要热爱，但我也想要成长，但我也想要那一秒的云南。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你在用一句话概括一件非常复杂的事。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，而且那句话还不准确。奥德赛时期就是这样，你所有的自我描述都是部分真实的，因为你同时持有太多个自己。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">你现在就在做这档播客的事情了。</div>
+    <div class="quote-card reveal">
+      <p class="quote-text">你所有的自我描述都是部分真实的，因为你同时持有太多个自己。</p>
+      <div class="quote-footer">
+        <span class="quote-speaker">Tracy</span>
+        <button class="copy-btn" data-text="你所有的自我描述都是部分真实的，因为你同时持有太多个自己。">复制</button>
       </div>
     </div>
   </div>
 
-  <!-- 话题二 -->
-  <div class="chapter" id="ch-2">
+  <!-- 第三幕 -->
+  <div class="chapter" id="ch3">
     <div class="chapter-header reveal">
-      <div class="chapter-number">话题二</div>
-      <h2 class="chapter-title">「不上班我就攀岩」——身体自由与精神松弛</h2>
-      <p class="chapter-desc">约 7 分钟 · 3月16日</p>
+      <span class="chapter-num">03</span>
+      <h2 class="chapter-title">那它会<span>结束吗</span></h2>
+      <p class="chapter-desc">归属感才是这段漂泊真正在找的东西，而它不需要你先到达终点。</p>
+      <div class="chapter-divider"></div>
     </div>
 
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">第二个话题，其实和第一个话题是一个硬币的两面。Tracy，你上班之前，不上班的时候在干嘛？</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">布鲁克斯说奥德赛时期会结束，奥德修斯最后回到家了。那你觉得你的奥德赛时期会结束吗？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">我不知道。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你想让它结束吗？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">……我不确定。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">为什么不确定？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">因为结束意味着你选定了一条路，放弃了其他的。我现在同时走好几条路，虽然很累，但每条路都还在。结束了，就只剩一条了。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以漂泊也有它的自由。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，你还没有选定，就意味着你还没有失去。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">但漂泊也有它的代价。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，就是那种——你不知道你在走向哪里，你不知道你现在做的事有没有意义，你不知道你同时持有的这几个自己，最后哪一个才是真正的你。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你有没有想过，哪一个才是真正的你？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">有时候觉得是攀岩那个。有时候觉得是在食堂玩手机坐到9:30那个。有时候觉得是说"恨这个世界"然后去云南那个。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">都是真的。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，都是真的。</div>
+    </div>
+
+    <div class="pause reveal"></div>
+
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">你跟我说过一句话，我觉得是这期节目最重要的一句话。你说——"成就感远不如归属感和意义感这块。"</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，我是入职之后开始这么想的。你每天在做事，有成就，但你不知道这件事对你来说意味着什么。成就感是别人给你的，你做了一件事，有人说你做得好，然后那个感觉很快就没了。但归属感不一样。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">归属感是什么感觉？</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">就是……有一天晚上，我去第三空间喝了点酒，然后我给你发消息说"想你"。那种感觉。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我当时说我也偷喝了，坐在书桌前一笔没动。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，就是那种感觉。你不在同一个城市，但你也在，你也在喝酒，你也在想我。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我觉得这个很重要。你在走奥德赛时期，你不知道走向哪里，你同时持有好几个未完成的自己。但那个"有人在另一个城市也在想你"的感觉——那个感觉不需要你先结束漂泊才能有。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，那个感觉跟你在走哪条路没关系。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">所以奥德赛时期真正在找的，不是终点，不是那条"正确的路"，而是在漂泊的过程中，有没有那种归属感。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。奥德修斯漂泊了十年，但他一直知道他在找什么——他在找回家的路。我现在不知道我的家在哪里，但我知道那种感觉是什么感觉。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="jenny">
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">就是"有人在另一个城市也在想你"。</div>
+    </div>
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对。</div>
+    </div>
+
+    <!-- Moment of Reflection -->
+    <div class="reflection reveal">
+      <div class="reflection-label">Moment of Reflection</div>
+      <p class="reflection-text">
+        奥德赛时期不是迷茫，是你同时持有好几个未完成的自己，同时走好几条路，不知道走向哪里。它最难的地方，不是选择，是在某一刻你必须放弃其中一个——就像清明假前一天晚上9点那条通知。但它也有它的东西——你还没有失去任何一个，你还在走。而在这段漂泊里，你真正在找的，不是终点，是那种"有人在另一个城市也在想你"的感觉。那个感觉，不需要你先到达终点才能有。
+      </p>
     </div>
 
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">攀岩。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">说得我真的想哭了。</div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">你发了一张照片，在健身房，攀岩墙前面，自拍。然后说"不上班我就攀岩"。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">别哭，你还要继续走呢。</div>
     </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我觉得那张照片里有一种东西，就是……那种不上班的人才有的松弛感。</div>
-      </div>
-    </div>
-
     <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">攀岩这件事我挺喜欢的，因为它需要你全神贯注。你在墙上的时候，你不能想别的事情，你只能想下一个落脚点在哪里。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">对，我继续走。</div>
     </div>
 
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">所以它是一种……强制清空大脑的方式？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对。而且它有一种很直接的成就感——你爬上去了，就是爬上去了。不像很多事情，你努力了，但结果不一定好。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">当你不上班的时候，你有没有觉得那段时间是"浪费"的？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">完全没有。我觉得那段时间是我最近过得最好的一段时间。因为我的时间是我的。我可以早上睡到自然醒，可以下午去攀岩，可以晚上看书或者什么都不做。没有人在等我的产出，没有人在评估我的价值。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">但是你现在上班了。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">但是我现在上班了。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">所以那段时间是一种……你知道它会结束的自由。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对。而且正因为知道它会结束，所以每一天都过得很认真。</div>
+    <div class="quote-card reveal">
+      <p class="quote-text">成就感远不如归属感和意义感这块。</p>
+      <div class="quote-footer">
+        <span class="quote-speaker">Tracy</span>
+        <button class="copy-btn" data-text="成就感远不如归属感和意义感这块。">复制</button>
       </div>
     </div>
   </div>
 
-  <!-- 话题三 -->
-  <div class="chapter" id="ch-3">
+  <!-- 固定片尾 -->
+  <div class="chapter" id="outro-ch">
     <div class="chapter-header reveal">
-      <div class="chapter-number">话题三</div>
-      <h2 class="chapter-title">「我这个毕业就投递」——求职焦虑与五五一批</h2>
-      <p class="chapter-desc">约 8 分钟 · 3月20日</p>
+      <span class="chapter-num">FIN</span>
+      <h2 class="chapter-title">固定<span>片尾</span></h2>
+      <div class="chapter-divider"></div>
     </div>
-
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">第三个话题，求职。Tracy，你3月20日给我发了一个链接——腾讯2026青云计划实习生招聘。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">好了，今天的聊天记录就到这里。</div>
     </div>
-
+    <div class="dialogue-card reveal" data-speaker="tracy">
+      <div class="speaker-label"><span class="speaker-name tracy">Tracy</span></div>
+      <div class="bubble">如果你也有想说的话，欢迎来找我们。</div>
+    </div>
     <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我的第一反应是"投递"。然后我说"是不是五五一批得投递"，然后我说"我这个毕业就投递"。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">你说这话的时候我感觉到了一种……悲壮感。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">哈哈哈哈。但这是真的，我就是那种会把所有能投的都投一遍的人。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我当时说"我一个实习生 不去 是不是更好"。然后我说"我真的不喜欢工作应酬"。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我觉得我们这一代人对"职场社交"这件事，到底是怎么看的？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我觉得我们这一代人比上一代人更清楚自己的边界。我不是说我不愿意合作，我是说我不愿意为了维持一种表面的关系而消耗自己。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我觉得我和你不一样。我其实不太排斥应酬，我觉得认识新的人是有意思的事情。但我排斥的是那种……你必须表演热情的应酬。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对，这个我也排斥。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">所以我们排斥的不是"社交"，是"表演"。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">这个说法很准确。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我当时在想……我到底想去哪里工作。不是"哪里招我"，是"我想去哪里"。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">这是一个很难回答的问题。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对，所以我没有回答。</div>
-      </div>
+      <div class="speaker-label"><span class="speaker-name jenny">Jenny</span></div>
+      <div class="bubble">我们下期见。</div>
     </div>
   </div>
 
-  <!-- 话题四 -->
-  <div class="chapter" id="ch-4">
-    <div class="chapter-header reveal">
-      <div class="chapter-number">话题四</div>
-      <h2 class="chapter-title">「我感觉不想当官」——只想老老实实混日子</h2>
-      <p class="chapter-desc">约 8 分钟 · 3月20日</p>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">第四个话题，也是我觉得这五天聊天里最有意思的一段——关于考公和选调。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我感觉不想当官，只想老老实实混日子。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">你能展开说说吗？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">就是……我不是那种有很强权力欲的人。我不想管别人，也不想被别人管。我想要的生活是——我做我擅长的事，把它做好，然后下班回家，过自己的日子。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">但是"考国考能上岸就不错了"——这句话说明你还是在考虑考公的。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对，因为稳定。我不是说我热爱公务员这个职业，我是说它提供了一种……可预期的生活。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">我觉得你说的"只想老老实实混日子"这句话，很多人会觉得这是一种消极的态度。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我不觉得。"混日子"这个词被污名化了。它的本意是——把日子过下去，过得还不错。这有什么问题吗？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">但是"不断进步"进步到哪里？为了什么？</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">我觉得我现在的答案是——我想要的不是"进步"，我想要的是"稳定"。不是那种停滞不前的稳定，是那种……你知道明天会是什么样子的稳定。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">可预期的生活。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">对。本质上都是——我想要对自己的生活有掌控感。</div>
-      </div>
+  <!-- Takeaways -->
+  <div class="takeaways" id="takeaways">
+    <h2 class="takeaways-title reveal">本期金句</h2>
+    <div class="takeaway-grid">
+      <div class="takeaway-item reveal">为啥啊，出现一个热词，都跟我能对上。</div>
+      <div class="takeaway-item reveal">你同时持有好几个互相矛盾的真实。</div>
+      <div class="takeaway-item reveal">恨这个世界，就对我好了一秒。</div>
+      <div class="takeaway-item reveal">你所有的自我描述都是部分真实的，因为你同时持有太多个自己。</div>
+      <div class="takeaway-item reveal">你还没有选定，就意味着你还没有失去。</div>
+      <div class="takeaway-item reveal">成就感远不如归属感和意义感这块。</div>
     </div>
   </div>
 
-  <!-- 反思时刻 -->
-  <div class="chapter" id="ch-reflection">
-    <div class="chapter-header reveal">
-      <div class="chapter-number">反思时刻</div>
-      <h2 class="chapter-title">我们对"好的生活"的定义</h2>
-      <p class="chapter-desc">约 3 分钟</p>
+  <!-- Outro -->
+  <div class="outro" id="outro">
+    <div class="outro-show">聊天记录 · Saved Conversations</div>
+    <p class="outro-tagline">
+      把微信聊天做成播客。<br>
+      内容不是设计出来的，是生长出来的。
+    </p>
+    <div class="outro-hosts">
+      <span class="host-chip jenny">Jenny</span>
+      <span class="host-chip tracy">Tracy</span>
     </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">好，我们聊了四个话题——进监狱了、不上班我就攀岩、我这个毕业就投递、我感觉不想当官。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">听起来我们这期聊的都是很丧的事情。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">但我觉得不是丧。我觉得这期聊的是一个更根本的问题——就是，我们对"好的生活"的定义，和我们被教育出来的那个定义，之间的距离。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">你说得对。我们被教育的那个版本是——努力、上进、成功、有钱。但我们真正想要的是——自由、稳定、有掌控感、不用表演。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">而且我觉得这不是我们两个人特有的困惑。我觉得很多同龄人都在想这个问题，只是不一定说出来。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">所以我们说出来了。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">对，这就是这档播客存在的原因。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="tracy">
-      <div class="speaker-avatar tracy">T</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name tracy">Tracy</div>
-        <div class="bubble tracy">……好吧，这句话比开场白那句更好。</div>
-      </div>
-    </div>
-
-    <div class="dialogue-card reveal" data-speaker="jenny">
-      <div class="speaker-avatar jenny">J</div>
-      <div class="bubble-wrap">
-        <div class="speaker-name jenny">Jenny</div>
-        <div class="bubble jenny">哈哈哈哈。</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 金句 -->
-  <div class="quotes-section" id="ch-quotes">
-    <div class="quotes-title reveal">本期金句</div>
-    <div class="quotes-grid">
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">进监狱了。</div>
-        <div class="quote-speaker">— Tracy，3月18日早上8:40，上班第一天</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">我的时间在流逝，但不是在我想要的方向上流逝。</div>
-        <div class="quote-speaker">— Tracy</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">不上班我就攀岩。</div>
-        <div class="quote-speaker">— Tracy</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">我们排斥的不是"社交"，是"表演"。</div>
-        <div class="quote-speaker">— Jenny</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">我感觉不想当官，只想老老实实混日子。</div>
-        <div class="quote-speaker">— Tracy</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">"混日子"这个词被污名化了。</div>
-        <div class="quote-speaker">— Tracy</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">内容不是设计出来的，是生长出来的。</div>
-        <div class="quote-speaker">— Jenny</div>
-      </div>
-
-      <div class="quote-card reveal">
-        <button class="copy-btn">复制</button>
-        <div class="quote-mark">"</div>
-        <div class="quote-text">正因为知道它会结束，所以每一天都过得很认真。</div>
-        <div class="quote-speaker">— Tracy</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 留给听众的问题 -->
-  <div class="listener-question reveal">
-    <div class="lq-label">留给你的问题</div>
-    <p class="lq-text">你有没有那种感觉——你知道自己"应该"想要什么，但你真正想要的是另一件事？</p>
-  </div>
-
-  <!-- 片尾 -->
-  <div class="outro reveal">
-    <div class="outro-title">固定片尾语</div>
-    <div class="outro-dialogue">
-      <div class="outro-line">
-        <span class="speaker jenny">Jenny</span>好了，今天的聊天记录就到这里。
-      </div>
-      <div class="outro-line">
-        <span class="speaker tracy">Tracy</span>如果你也有想说的话，欢迎来找我们。
-      </div>
-      <div class="outro-line">
-        <span class="speaker jenny">Jenny</span>我们下期见。
-      </div>
-    </div>
+    <p class="outro-next">下期见 · See You Next Time</p>
   </div>
 
 </main>
 
-<footer>
-  <div class="show-name">聊天记录 · Saved Conversations</div>
-  <div>Episode 01 · 2026年3月 · Jenny & Tracy</div>
-</footer>
-
 <script>
-// === PROGRESS BAR ===
+/* === PROGRESS BAR === */
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  document.getElementById('progress-bar').style.width = `${progress}%`;
+  document.getElementById('progress-bar').style.width = progress + '%';
 });
 
-// === SCROLL REVEAL ===
+/* === SCROLL REVEAL === */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1584,20 +1329,23 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Stagger dialogue cards within each chapter
+/* 对话卡片交错延迟 */
 document.querySelectorAll('.chapter').forEach(chapter => {
-  chapter.querySelectorAll('.dialogue-card.reveal').forEach((card, i) => {
-    card.style.transitionDelay = `${i * 0.06}s`;
+  let delay = 0;
+  chapter.querySelectorAll('.dialogue-card.reveal').forEach((card) => {
+    card.style.transitionDelay = delay + 's';
+    delay += 0.06;
+    if (delay > 0.5) delay = 0;
   });
 });
 
-// === NAVIGATION ACTIVE STATE ===
-const chapters = document.querySelectorAll('.chapter, .quotes-section');
-const navLinks = document.querySelectorAll('.nav-link');
+/* === NAV ACTIVE STATE === */
+const chapters = document.querySelectorAll('.chapter[id]');
+const navLinks = document.querySelectorAll('.nav-link[data-target]');
 
 const navObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1610,9 +1358,9 @@ const navObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.3 });
 
-chapters.forEach(ch => { if (ch.id) navObserver.observe(ch); });
+chapters.forEach(ch => navObserver.observe(ch));
 
-// === SMOOTH SCROLL ===
+/* === SMOOTH SCROLL === */
 navLinks.forEach(link => {
   link.addEventListener('click', () => {
     const target = document.getElementById(link.dataset.target);
@@ -1620,48 +1368,21 @@ navLinks.forEach(link => {
   });
 });
 
-// === SPEAKER FILTER ===
-let activeFilter = null;
-
-document.querySelectorAll('.speaker-badge').forEach(badge => {
-  badge.addEventListener('click', () => {
-    const speaker = badge.dataset.speaker;
-
-    if (activeFilter === speaker) {
-      activeFilter = null;
-      document.querySelectorAll('.dialogue-card').forEach(card => {
-        card.classList.remove('dimmed');
-      });
-      document.querySelectorAll('.speaker-badge').forEach(b => b.classList.remove('dimmed'));
-    } else {
-      activeFilter = speaker;
-      document.querySelectorAll('.dialogue-card').forEach(card => {
-        card.classList.toggle('dimmed', card.dataset.speaker !== speaker);
-      });
-      document.querySelectorAll('.speaker-badge').forEach(b => {
-        b.classList.toggle('dimmed', b.dataset.speaker !== speaker);
-      });
-    }
-  });
-});
-
-// === QUOTE COPY ===
-document.querySelectorAll('.quote-card').forEach(card => {
-  const copyBtn = card.querySelector('.copy-btn');
-  const text = card.querySelector('.quote-text').textContent.trim();
-
-  copyBtn.addEventListener('click', async () => {
+/* === COPY BUTTONS === */
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.text;
     try {
       await navigator.clipboard.writeText(text);
-      copyBtn.textContent = '已复制 ✓';
-      copyBtn.classList.add('copied');
+      btn.textContent = '已复制 ✓';
+      btn.classList.add('copied');
       setTimeout(() => {
-        copyBtn.textContent = '复制';
-        copyBtn.classList.remove('copied');
+        btn.textContent = '复制';
+        btn.classList.remove('copied');
       }, 2000);
     } catch {
-      copyBtn.textContent = '复制失败';
-      setTimeout(() => { copyBtn.textContent = '复制'; }, 2000);
+      btn.textContent = '复制失败';
+      setTimeout(() => { btn.textContent = '复制'; }, 2000);
     }
   });
 });
