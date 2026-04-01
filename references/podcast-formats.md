@@ -1,286 +1,306 @@
-# 播客结构方法论参考
+# Podcast Formats Reference
 
-## 核心理论：Ira Glass 叙事法
-
-Ira Glass 是 This American Life 的创始人，他的叙事方法论是目前最权威的播客/广播叙事框架，被 NPR、BBC、Serial 等顶级节目广泛采用。
-
-### 两个基本构件
-
-**1. Anecdote（轶事/故事）**
-一系列按时间顺序发生的事件。关键不是"发生了什么"，而是每个事件都要引出下一个问题，推动听众继续听。
-
-好的 Anecdote 有"悬念引擎"：
-- 事件 A → 引出问题"然后呢？"
-- 事件 B → 引出问题"为什么会这样？"
-- 事件 C → 引出问题"这意味着什么？"
-
-**2. Moment of Reflection（反思时刻）**
-故事讲完后，说明它为什么重要，它揭示了什么更大的道理。
-
-这是最容易被忽略但最重要的部分。没有反思时刻，故事只是流水账。
-
-**Ira Glass 的原话：**
-> "The thing that makes a story a story is that something changes. And the thing that makes a story worth telling is that the change reveals something true about the world."
+This file is read at Step 4 before building the content map. It contains three things: (1) the narrative framework that underlies all good podcasts, (2) format-specific templates for the four supported formats, and (3) benchmark show analysis — the structural DNA of the best podcasts in the world, distilled into principles you apply directly to the content map.
 
 ---
 
-## 三幕式结构（Three-Act Structure）
+## Part 1: The Narrative Framework
 
-所有优秀播客都遵循这个底层结构，无论形式如何。
+### The Ira Glass two-gear model
 
-### 第一幕：建立（Setup）
+Every good podcast episode is built from two alternating gears:
 
-**目标**：在前 60 秒内抓住听众，建立"为什么要听这期"的理由。
+**Gear 1 — Anecdote**: A sequence of events unfolding in time. The key is not what happened, but that each event raises a question that pulls the listener forward. A good anecdote has a suspense engine: event A raises "then what?", event B raises "why?", event C raises "what does this mean?"
 
-**Cold Open / 钩子（前 30-60 秒）**
-这是最重要的 60 秒。不要从"大家好欢迎收听"开始，直接抛出最有冲击力的内容。
+**Gear 2 — Moment of Reflection**: After the story, explain why it matters — what larger truth it reveals. This is the most commonly skipped step and the most important one. Without it, the story is just a sequence of events.
 
-四种有效的 Cold Open 类型：
-- **悬念型**：「我要告诉你一件事，它改变了我对 [话题] 的所有看法。」
-- **场景型**：「那是 [时间地点]，[人物] 正在做 [事情]……」（直接进入故事）
-- **反常识型**：「大多数人都以为 [常识]，但实际上 [反转]。」
-- **共鸣型**：「你有没有遇到过这种情况：[具体场景，听众会说"对！就是这个！"]」
+Ira Glass: *"The thing that makes a story a story is that something changes. And the thing that makes a story worth telling is that the change reveals something true about the world."*
 
-**背景建立（1-2 分钟）**
-- 为什么现在聊这个话题？
-- 这个话题为什么重要？（不是"这个话题很有趣"，而是"这个话题关系到 [具体的人/事/影响]"）
-- 今天的讨论会带给听众什么？
-
-**人物/视角介绍**
-- 每个发言人一句话定位：他们的立场、经历、为什么他们的观点值得听
-- 不要念简历，要说"他是一个 [具体经历] 的人"
+**The golden rule**: Reflection always comes *after* the story, never before. Don't front-load the insight. Let the story land first, then pull back to the larger meaning.
 
 ---
 
-### 第二幕：发展（Confrontation）
+### Three-act structure
 
-**目标**：深入话题，制造张力，让听众不断产生"然后呢？"的冲动。
+All good podcasts follow this underlying structure regardless of format.
 
-**核心张力**
-每个好的播客话题都有一个核心矛盾或张力。找到它，然后把它放大。
+**Act 1 — Setup** (first 3–5 min): Hook the listener in the first 60 seconds. Establish why this episode exists. Plant the central question. Do not summarize what's coming — drop the listener into a scene or a moment of tension.
 
-常见张力类型：
-- **理想 vs 现实**：「我们都知道应该怎样，但实际上……」
-- **个人 vs 结构**：「努力能解决问题吗，还是系统本身有问题？」
-- **情感 vs 理性**：「理性上我知道该怎么做，但情感上……」
-- **过去 vs 现在**：「以前是这样的，但现在……」
+Four effective cold open types:
+- **Scene**: "It was [time/place]. [Person] was doing [thing]…" — drop straight into a specific moment
+- **Counter-intuitive**: "Most people assume [X]. But actually [reversal]."
+- **Resonance**: "Have you ever been in this situation: [specific scenario the listener recognizes]?"
+- **Suspense**: "I'm going to tell you something that changed how I think about [topic]."
 
-**多角度展开**
-- 不要让所有人都同意，分歧才是内容
-- 每个角度都要有具体的故事或数据支撑，不能只是观点
-- 用"追问"推进：「你说 [观点]，但 [反例] 怎么解释？」
+**Act 2 — Confrontation** (the bulk): Deepen the topic, build tension, make the listener keep asking "then what?" Every good episode has a core tension — find it and amplify it. Common tension types: ideal vs. reality, individual vs. structure, emotion vs. reason, past vs. present. Include at least one pivot — an unexpected data point, a counter-intuitive argument, or a story detail that reframes everything.
 
-**转折点（Pivot）**
-每期好的播客都有一个让人意外的转折——一个让听众重新思考的时刻。
-- 可以是一个意外的数据
-- 可以是一个反直觉的观点
-- 可以是一个让人动容的故事细节
+**Act 3 — Resolution** (final 3–5 min): Do not resolve the tension — reframe it. The listener should leave with a harder, more interesting question than they arrived with. The closing reflection answers: "What does this conversation reveal about something larger than itself?" The closing question is one the episode deliberately does not answer.
 
-**深化**
-把话题从"这个群的事"推向"更大的问题"：
-- 「这不只是 [具体情况]，它反映了 [更大的社会/行业/人性问题]」
+**Arc types that work:**
+- Comfort → Discomfort → New discomfort (the answer creates a harder question)
+- Certainty → Doubt → Productive uncertainty (the listener ends less sure, but more awake)
+- Personal → Universal → Personal again (zoom out to the pattern, zoom back in to what it means for you)
+
+**Arc types that don't work:**
+- Linear progression (A → B → C, each step slightly deeper) — this is a lecture
+- Resolution arc (problem → analysis → solution) — this is a self-help article
+- Agreement arc (we all feel this → here's why → we agree it's hard) — this is a support group
 
 ---
 
-### 第三幕：解决（Resolution）
+### Transition rule
 
-**目标**：给听众一个值得带走的东西，不一定是答案，但要有意义。
-
-**反思时刻（Moment of Reflection）**
-这是 Ira Glass 方法论的核心。问自己：「这期节目讲完了，它揭示了什么真相？」
-
-好的反思时刻不是总结，而是升华：
-- 不是「今天我们聊了 A、B、C 三个话题」
-- 而是「今天的讨论让我意识到，[更深层的洞察]」
-
-**开放性结尾**
-最好的播客结尾不给答案，而是给问题：
-- 「如果你也在面对 [类似情况]，你会怎么做？」
-- 「这件事让我想到一个问题，我还没有答案……」
-
-**行动号召**
-具体的、可执行的：
-- 不是「欢迎关注我们」
-- 而是「如果你也有类似的经历，欢迎在评论区分享，我们下期可能会聊到你的故事」
+"Next we'll talk about Y" is not a transition — it's an announcement. A real transition connects the emotional residue of what just happened to the question that opens the next segment. It should feel like: "We just landed somewhere. Here's why we can't stay."
 
 ---
 
-## 各 Format 详细模板
+## Part 2: Format Templates
 
-### Format A：圆桌讨论（Roundtable）
+### Format A — Roundtable
 
-**适用**：3人以上，有多个角度，有分歧的话题
+**Best for**: 3+ speakers, multiple angles, topics with genuine disagreement.
 
-**主持人的核心职责**：
-1. 设计"碰撞问题"——不是让大家都同意，而是让分歧浮现
-2. 在嘉宾说完后追问，而不是直接转向下一个问题
-3. 在讨论偏离时拉回，但不要打断好的对话
+**Host's core job**: Design collision questions — not questions that produce agreement, but questions that surface the fault lines between speakers. Follow up on what was just said rather than moving to the next prepared question. Pull the conversation back when it drifts, but don't interrupt a productive exchange.
 
-**关键问题设计原则**：
-- 开放式：「你怎么看 [话题]？」而不是「你同意 [观点] 吗？」
-- 具体化：「你有没有遇到过 [具体情况]？」
-- 碰撞式：「[嘉宾A] 说 [观点]，[嘉宾B] 你怎么看？」
+**Question design principles:**
+- Open: "How do you see [topic]?" not "Do you agree with [position]?"
+- Specific: "Has this ever happened to you?" not "What do you think about this in general?"
+- Collision: "[Speaker A] said [X]. [Speaker B], does that match your experience?"
 
-**脚本结构**：
+**Script structure:**
 ```
-Cold Open（30秒）：用最有冲击力的一句话或场景开场
-背景建立（2分钟）：为什么聊这个，今天的嘉宾是谁
+Cold Open (30 sec): The single most arresting line or scene from the episode
+Context (2 min): Why this topic, why these people, why now
 ---
-话题一（8-12分钟）：
-  - 开场问题（宽泛，让嘉宾自由发挥）
-  - 追问（具体化，挖掘细节）
-  - 碰撞问题（让不同观点交锋）
-  - 小结（主持人提炼这段的核心）
+Topic 1 (8–12 min):
+  Opening question (broad — let speakers find their footing)
+  Follow-up (specific — dig into a detail or contradiction)
+  Collision question (designed to produce disagreement)
+  Host synthesis (pull out the core tension from this exchange)
 ---
-话题二（8-12分钟）：同上
+Topic 2 (8–12 min): same structure
 ---
-反思时刻（3分钟）：主持人说出这期讨论揭示了什么
-开放性结尾（2分钟）：留给听众的问题
+Moment of Reflection (3 min): What does this conversation reveal?
+Open-ended closing question (2 min): Leave the listener with something to think about
 ```
 
 ---
 
-### Format B：深度访谈（In-depth Interview）
+### Format B — Deep Interview
 
-**适用**：某人有大量干货、独特经历或专业见解
+**Best for**: One person with substantial experience, expertise, or a story worth telling in full.
 
-**漏斗式提问法**：
+**Funnel questioning method** — move from broad to specific, facts to feelings, past to future:
 ```
-宽泛 → 具体 → 感受 → 意义
-「你是怎么开始做 [事情] 的？」
-→「那个时候具体发生了什么？」
-→「你当时是什么感觉？」
-→「这件事对你来说意味着什么？」
-```
-
-**最好的问题**：「那你当时是什么感觉？」（让嘉宾从事实层面进入情感层面）
-
-**脚本结构**：
-```
-Cold Open（30秒）：用嘉宾最有冲击力的一句话开场
-嘉宾介绍（1分钟）：不是简历，是"他是一个 [具体经历] 的人"
----
-第一章：起点（5-8分钟）
-  背景：他/她是怎么走到今天这一步的？
-  关键问题：「你是什么时候意识到 [转折点]？」
----
-第二章：核心话题（15-20分钟）
-  深入展开最有价值的部分
-  至少有一个「那你当时是什么感觉？」的时刻
-  至少有一个让听众意外的细节或观点
----
-第三章：洞察与建议（5分钟）
-  「如果要给 [目标听众] 一个建议，你会说什么？」
----
-反思时刻（2分钟）：主持人说出这次对话揭示了什么
+"How did you get started with [thing]?"
+→ "What specifically happened at that point?"
+→ "What were you feeling in that moment?"
+→ "What does that mean to you now?"
 ```
 
----
+The best question is often: "What were you *feeling* in that moment — not what were you thinking?" Feelings are specific; thoughts are general.
 
-### Format C：叙事纪录片（Narrative Documentary）
-
-**适用**：有完整故事线的话题，记录一段事件经过
-
-**旁白写作原则**：
-- 用现在时态，增强临场感（「他站在舞台上，台下只有20个人」）
-- 有画面感，像在描述一个场景（不是「演出效果不好」，而是「灯光打下来，他看到了空荡荡的前排」）
-- 旁白和"采访"交替，旁白推进故事，采访提供视角
-
-**脚本结构**：
+**Script structure:**
 ```
-Cold Open（30秒）：直接进入最有冲击力的场景
+Cold Open (30 sec): The guest's single most striking line — used as a hook
+Guest intro (1 min): Not a résumé — "This is someone who [specific experience]"
 ---
-第一幕：事件起点
-  旁白：[设定场景，时间地点，人物]
-  采访片段：[当事人的视角]
-  旁白：[事件起因]
+Chapter 1: Origin (5–8 min)
+  How did they get here? What was the turning point?
+  Key question: "When did you realize [X]?"
 ---
-第二幕：事件发展
-  旁白：[转折]
-  采访片段：[不同视角]
-  旁白：[深化]
+Chapter 2: Core topic (15–20 min)
+  The deepest, most valuable part of their experience
+  Must include at least one "what were you feeling" moment
+  Must include at least one detail or perspective that surprises the listener
 ---
-第三幕：结局与反思
-  旁白：[事件结果]
-  采访片段：[当事人的感悟]
-  旁白：[升华，这件事揭示了什么]
+Chapter 3: Insight (5 min)
+  "If you could tell [target listener] one thing, what would it be?"
+---
+Moment of Reflection (2 min): What does this conversation reveal?
 ```
 
 ---
 
-### Format D：独白/个人播客（Solo）
+### Format C — Narrative Documentary
 
-**适用**：单人深度思考，个人观点输出
+**Best for**: Topics with a complete story arc — a sequence of events with a beginning, middle, and end.
 
-**开头必须有共鸣点**：
-不能直接讲观点，要先建立"我和你有同样的困惑/经历"的连接。
+**Narration writing principles:**
+- Use present tense for immediacy: "He's standing on stage. Twenty people in the audience."
+- Write visually — describe a scene, don't summarize: not "the show went badly" but "the lights came up and he could see the empty front rows"
+- Alternate narration and interview fragments: narration advances the story, interview provides perspective
+- Every narration block should end with a question, not a statement
 
-**结构**：
+**Script structure:**
 ```
-共鸣开场（1分钟）：「你有没有遇到过 [具体场景]？」
+Cold Open (30 sec): Drop straight into the most striking scene
 ---
-我的观察（3-5分钟）：具体的经历或现象，不是泛泛而谈
+Act 1: The starting point
+  Narration: [Set the scene — time, place, person]
+  Interview fragment: [The subject's perspective on how it began]
+  Narration: [What set things in motion]
 ---
-深入分析（5-10分钟）：为什么会这样？背后的逻辑是什么？
+Act 2: The development
+  Narration: [The turn]
+  Interview fragment: [A different angle on the same events]
+  Narration: [Deepening — what's really at stake]
 ---
-我的结论（3分钟）：不一定是答案，可以是"我现在的想法是……"
----
-留给听众的问题（1分钟）：「如果你也在思考这个问题……」
-```
-
----
-
-## 时长与字数对照表
-
-| 时长 | 字数（约） | 适合话题数 | 适合 Format |
-|------|-----------|-----------|------------|
-| 15 分钟 | 2250 字 | 1 个 | 独白、简短访谈 |
-| 20 分钟 | 3000 字 | 1-2 个 | 访谈、独白 |
-| 30 分钟 | 4500 字 | 2-3 个 | 圆桌、访谈 |
-| 45 分钟 | 6750 字 | 3-4 个 | 圆桌、纪录片 |
-| 60 分钟 | 9000 字 | 4-5 个 | 圆桌、深度访谈 |
-
----
-
-## 从聊天记录到播客的转化示例
-
-### 原始聊天记录（浅层提炼 vs 深度提炼）
-
-**原始记录**：
-```
-阿杰：最近演出市场真的很难，上周那场才来了20个人
-晓晴：是啊，我们上次也差不多，成本都收不回来
-老王：主要是宣传没做好吧
-阿杰：不只是宣传，现在大家都不愿意为小众音乐付钱
-晓晴：对，但是线上流量又变现不了
-老王：我觉得这是结构性问题，不是努力能解决的
+Act 3: The outcome and reflection
+  Narration: [What happened]
+  Interview fragment: [What the subject makes of it now]
+  Narration: [The larger meaning — what this story reveals]
 ```
 
-**浅层提炼（错误示范）**：
-> 群里讨论了演出市场的困境，大家都觉得很难，有宣传问题，也有结构性问题。
+---
 
-**深度提炼（正确示范）**：
-> 阿杰上周演出只来了20人，他说"被忽视的感觉比亏钱更难受"——这句话是整个讨论的情感核心。晓晴有类似经历，但她的关注点是"线上流量变现难"的困境。老王提出了最深刻的观点：这是结构性问题，不是努力能解决的——这与阿杰和晓晴的"宣传没做好"论形成了直接分歧。这个分歧是这段讨论最有价值的地方：个人努力 vs 系统性困境，这是独立音乐人面临的核心矛盾。
+### Format D — Solo / Monologue
 
-**转化为播客 Cold Open**：
-> 「上周，一个朋友告诉我，他的演出来了20个人。他说，比亏钱更难受的，是那种被忽视的感觉。
-> 
-> 我问他：是宣传没做好吗？
-> 
-> 他说：不是。是这个行业本身就没有给独立音乐人留下生存的空间。
-> 
-> 今天，我们就来聊聊这件事。」
+**Best for**: One person thinking deeply about a topic they know well.
+
+**Opening rule**: Never lead with your thesis. Open with a resonance moment — a question or scene the listener can feel. The thesis, if there is one, belongs in Act 3.
+
+**Script structure:**
+```
+Resonance opening (1 min): "Have you ever been in this situation: [specific scenario]?"
+---
+Observation (3–5 min): A specific experience or phenomenon — not a generality
+---
+Analysis (5–10 min): Why does this happen? What's the underlying logic?
+---
+Conclusion (3 min): Not necessarily an answer — "Here's where I've landed…"
+---
+Closing question (1 min): "If you're thinking about this too…"
+```
 
 ---
 
-## 质量检查清单
+## Part 3: Benchmark Shows
 
-写完脚本后，逐项检查：
+These are the shows that define the professional standard. Read this section before building any content map. The goal is not to imitate these shows — it is to understand *why* they work, so you can apply the same principles to the specific content you're working with.
 
-- [ ] 前 60 秒有没有让人想继续听的钩子？
-- [ ] 每个话题有没有具体的故事或数据，而不只是观点？
-- [ ] 有没有至少一个让人意外的转折或细节？
-- [ ] 有没有"反思时刻"——这期节目揭示了什么？
-- [ ] 结尾有没有给听众留下值得思考的问题？
-- [ ] 脚本内容是否忠实于聊天记录的真实讨论？
-- [ ] 外部搜索内容是否真正丰富了话题，而不是喧宾夺主？
+---
+
+### Global benchmarks
+
+**Serial (Sarah Koenig)** — narrative tension
+The cold open drops you into a specific moment with no setup. The listener is inside the story before they know what the story is. Every episode ends with a question, not an answer — the cliffhanger is intellectual, not melodramatic. Koenig narrates her own uncertainty in real time ("I don't know what to make of this"), which creates intimacy and keeps the listener as a co-investigator. Structure is non-linear: facts from different time periods are juxtaposed to create contradiction, not chronology.
+*Apply*: cold open as scene; narrator uncertainty as intimacy; episode-ending open question.
+
+**This American Life (Ira Glass)** — personal-to-universal arc
+Every story has two gears: anecdote + reflection. The episode theme is announced upfront but approached from unexpected angles — the theme is a lens, not a constraint. Act transitions are explicit and conversational ("Act Two. Act Two is called…"), giving the listener permission to reset. The reflection beat always comes after the story, never before.
+*Apply*: two-gear structure; explicit act transitions; reflection-after-story rule.
+
+**Huberman Lab (Andrew Huberman)** — information density in long-form
+Signposting at the start of every episode: "Today we'll cover X, Y, and Z." Each claim is immediately followed by the mechanism — not just "this works" but "here's why it works at the neurological level." Complexity is introduced in layers: simple version first, then nuance, then edge cases. Transitions are explicit bridges: "Now that we understand X, we can talk about Y, because they're connected by Z."
+*Apply*: upfront roadmap; claim-then-mechanism pattern; layered complexity; bridge transitions.
+
+**The Daily (NYT, Michael Barbaro)** — news-driven intimacy
+Opens with a scene, not a headline. One story per episode, told completely — no topic-hopping. The host's questions are designed to make the guest *explain*, not just state: "walk me through what happened" not "what happened." Ends with the larger implication, not a summary: "what does this mean going forward?"
+*Apply*: scene-first opening; single-topic depth; explanation-forcing questions; implication-based closing.
+
+**SmartLess (Bateman / Hayes / Arnett)** — chemistry-driven conversation
+Three hosts create natural triangulation: one asks, one challenges, one empathizes — no single voice dominates. Humor is used to lower defenses before going deep — the laugh comes first, then the real question.
+*Apply*: triangulation dynamic for roundtable formats; humor as a gateway to depth.
+
+**Call Her Daddy (Alex Cooper)** — radical intimacy
+Cooper speaks directly to the listener as if they're the only person in the room. Vulnerability is strategic: she shares something personal first, which gives the guest permission to go deeper. The episode arc moves from relatable → uncomfortable → cathartic — the listener ends feeling seen, not just informed.
+*Apply*: direct-address technique; vulnerability-first opening; relatable → uncomfortable → cathartic arc.
+
+---
+
+### Chinese benchmarks
+
+**故事FM** — narrative specificity
+First-person storytelling: the subject tells their own story in their own voice — no narrator paraphrasing. Stories are chosen for their specificity: not "a story about loss" but "the specific way this person's father said goodbye." The host's role is invisible.
+*Apply*: first-person specificity; choosing the concrete detail over the general theme.
+
+**随机波动** — intellectual roundtable
+Three hosts with genuinely different perspectives — disagreement is structural, not performed. Academic concepts are introduced through personal experience first, then named — the theory arrives after the feeling. Episodes often end without resolution; the open ending respects the listener's intelligence.
+*Apply*: disagreement as structure; theory-after-feeling sequencing; the unresolved ending as intellectual respect.
+
+**忽左忽右** — deep-dive interview
+The host does visible research — references specific books, papers, and prior interviews in the conversation. Questions are built on the guest's previous answers, not a pre-set list. Complex topics are given full time: no artificial compression.
+*Apply*: visible research as credibility; responsive questioning; respecting complexity with time.
+
+**天真不天真 (杨天真)** — host-driven lens
+The host's strong personal brand creates a consistent lens — every topic is filtered through her specific worldview. Directness as a format: she says what others won't. Personal stories are used as evidence, not decoration.
+*Apply*: consistent host lens; directness as engagement; personal story as evidence.
+
+---
+
+### Script craft references
+
+If you need to go deeper on script structure, these sources are worth consulting:
+
+| URL | What to extract |
+|-----|----------------|
+| https://www.captivate.fm/learn-podcasting/record/write-perfect-podcast-script-plus-examples-templates | Hook + teaser structure; script vs. outline |
+| https://www.thepodcastacademy.com/podcasting-industry-insights/7scriptelements | The 7 essential script elements |
+| https://www.quillpodcasting.com/blog-posts/podcast-script | Opening strong, maintaining momentum, closing with intention |
+| https://scriptation.com/blog/best-screenwriting-podcasts/ | How craft-focused shows structure deep-dive episodes |
+
+If URLs are inaccessible:
+```
+web_search("captivate fm podcast script hook teaser structure elements")
+web_search("podcast academy 7 script elements professional")
+web_search("quill podcasting script writing impact open close")
+web_search("scriptation best screenwriting podcasts structure format")
+```
+
+---
+
+## Part 4: Cross-Show Principles (apply to every content map)
+
+These five principles are distilled from the benchmark shows above. Check every content map against them before presenting it to the user.
+
+**1. The cold open is a scene, not a summary.** Drop the listener into a specific moment. No "today we're going to talk about X." The listener should be inside the story before they know what the story is. (Serial, The Daily)
+
+**2. Every transition must earn its place.** "Next we'll talk about Y" is an announcement, not a transition. A real transition connects the emotional residue of what just happened to the question that opens the next segment. (This American Life, Huberman Lab)
+
+**3. Reflection comes after the story, never before.** Don't front-load the insight. Let the story land first, then pull back to the larger meaning. (Ira Glass rule — applies to every format)
+
+**4. Disagreement is more interesting than agreement.** Design the content map to surface the moments where speakers' perspectives diverge. These are the moments listeners remember. (随机波动, SmartLess)
+
+**5. Specificity beats generality every time.** "A story about grief" is forgettable. "The specific way my father's hands looked the last time I saw him" is not. Push every topic toward its most specific, concrete version. (故事FM)
+
+---
+
+## Part 5: Length and Word Count Reference
+
+| Length | ~Word count | Topics | Best formats |
+|--------|------------|--------|-------------|
+| 15 min | 2,250 | 1 | Solo, short interview |
+| 20 min | 3,000 | 1–2 | Interview, solo |
+| 30 min | 4,500 | 2–3 | Roundtable, interview |
+| 45 min | 6,750 | 3–4 | Roundtable, documentary |
+| 60 min | 9,000 | 4–5 | Roundtable, deep interview |
+
+---
+
+## Part 6: Chat-to-Podcast Conversion Example
+
+**Raw chat log:**
+```
+Ajie: The live music market is brutal right now. Last week's show — only 20 people showed up.
+Xiaoqing: Same for us. Couldn't even cover costs.
+Lao Wang: Mostly a promotion problem, I think.
+Ajie: It's not just promotion. People just won't pay for indie music anymore.
+Xiaoqing: Right, and online followers don't convert to ticket buyers.
+Lao Wang: I think it's structural. Not something effort can fix.
+```
+
+**Shallow extraction (wrong):**
+> The group discussed challenges in the live music market. Everyone agreed it's difficult, with issues around promotion and structural problems.
+
+**Deep extraction (right):**
+> Ajie's show last week drew 20 people. He said "feeling invisible hurts more than losing money" — that line is the emotional core of the entire discussion. Xiaoqing has the same experience but focuses on a different problem: online followers who won't convert to ticket buyers. Lao Wang makes the sharpest point: this is structural, not fixable by effort alone. That directly contradicts Ajie and Xiaoqing's implicit assumption that better promotion or community-building could help. The disagreement — individual effort vs. systemic constraint — is the most valuable thing in this exchange. It's the core tension of the episode.
+
+**Converted to a podcast cold open:**
+> "Last week, a friend told me his show drew 20 people. He said: losing money I can handle. But feeling invisible — that's something else.
+>
+> I asked him: was it a promotion problem?
+>
+> He said: no. The industry just doesn't have room for independent musicians anymore.
+>
+> Today, we're going to sit with that."
