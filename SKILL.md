@@ -251,26 +251,9 @@ Give each cluster a precise title that captures the **core tension**, for exampl
 - "Live Shows: The Real Cost and Psychological Toll of a 20-Person Gig" (not "live music struggles")
 - "Community Value: Psychological Safety vs. Structural Problems — A Genuine Disagreement" (not "community discussion")
 
-### 2.4 Broad search (web enrichment)
+### 2.4 Three-Source Enrichment Protocol (mandatory for every topic)
 
-**For every topic worth exploring, proactively search for relevant background.** Don't wait for the user to ask — this is default behavior.
-
-Search strategy:
-- Use `web_search` to find industry data, social phenomena, and others' experiences related to each topic
-- Search for discussions on Reddit, Twitter/X, or relevant forums to understand how widely the topic resonates
-- Look for news articles, research reports, and expert perspectives
-
-**Example searches:**
-```
-web_search("independent music live shows 2024 market data")
-web_search("indie musician losing money on shows personal experience")
-web_search("music community mutual support independent artists")
-```
-
-Use search results to:
-- Back up points made in the chat with data ("this phenomenon the group described affects XX% of independent musicians")
-- Surface important context that wasn't mentioned in the chat
-- Find the larger social frame so the topic isn't just "something this group talked about"
+**Read `references/enrichment-protocol.md` now.** It defines the three required sources (social media resonance, academic research, sociology/psychology theory), search directions for each, quality standards, and the output format to use before moving to the content map.
 
 ### 2.5 Filter for podcast value
 
@@ -311,64 +294,9 @@ After presenting the topic analysis, **immediately continue to Step 2.7 without 
 
 **This step must happen before any discussion of format or structure. Its purpose: help the user find a differentiated position in the market, and avoid entering a saturated space.**
 
-### Why this matters
+**Read `references/positioning-guide.md` now.** It defines the three-step method (search the landscape, map unique assets, find the intersection), the exact output format for the positioning map, and what makes a positioning strong enough to use.
 
-Most podcasts fail not because the content is bad, but because they're doing exactly what 500 other shows are already doing. A chat-to-podcast workflow is especially prone to this — the content is personal and specific, but the framing can easily default to generic categories (e.g., "a show about life and work", "a show about tech and culture").
-
-### How to do it
-
-**Step 1: Search the current podcast landscape**
-
-Based on the topics identified in Step 2, search for existing podcasts in the same space:
-
-```
-web_search("[topic area] podcast 2024 popular shows")
-web_search("[topic area] podcast Xiaoyuzhou 2024")
-web_search("best podcasts about [core theme] recommendations")
-```
-
-Look for: what shows already exist, what angles they take, what audiences they serve, what's oversaturated.
-
-**Step 2: Map the user's unique assets**
-
-From the chat log analysis, identify what's genuinely distinctive about this group:
-- Specific life stage or identity (e.g., "people in their late 20s navigating the gap between ambition and stability")
-- Specific perspective or expertise (e.g., "people who've worked in both big tech and government")
-- Specific emotional texture (e.g., "the kind of conversations you have at 11pm after a few drinks")
-- Specific format advantage (e.g., "real unfiltered group chat, not a produced interview")
-
-**Step 3: Find the intersection**
-
-Present a positioning map:
-
-```
-🗺️ Podcast Positioning Analysis
-
-🔴 Red Ocean (avoid — already crowded):
-- [Category 1]: [why it's saturated, examples of existing shows]
-- [Category 2]: [why it's saturated, examples of existing shows]
-
-🟡 Adjacent (possible but competitive):
-- [Category]: [what exists, what gap might remain]
-
-🟢 White Space (your opportunity):
-- [Positioning A]: "[one-sentence description]"
-  Why it's open: [reason]
-  Your unique asset that fits: [from the chat analysis]
-
-- [Positioning B]: "[one-sentence description]"
-  Why it's open: [reason]
-  Your unique asset that fits: [from the chat analysis]
-
-- [Positioning C]: "[one-sentence description]"
-  Why it's open: [reason]
-  Your unique asset that fits: [from the chat analysis]
-
-💡 My recommendation: [Positioning X], because [specific reason tied to the chat content].
-   One-line pitch: "[what this show is, for whom, and why it's different]"
-```
-
-**Step 4: Combined ask (topics + positioning)**
+**Combined ask (topics + positioning)**
 
 This is the single STOP point for both Step 2.6 and Step 2.7. Use the dual-mode pattern:
 
@@ -424,11 +352,7 @@ D. I have my own idea (just tell me)
 
 **This is a mandatory step.** After analyzing the chat and confirming positioning, you must confirm all of the following with the user before writing anything. Every item. No exceptions.
 
-### 3.1 Topic confirmation
-
-Topics were already confirmed in Step 2.7. If the user's reply there was clear, carry those choices forward and skip re-asking. Only ask again here if the user's Step 2.7 reply was ambiguous.
-
-### 3.2 Ongoing series vs. one-off
+### 3.1 Ongoing series vs. one-off
 
 **Ask this before format, structure, or speaker questions. The answer shapes everything that follows.**
 
@@ -457,6 +381,8 @@ B. 🎲 A one-off episode — just trying it out, style can be flexible
 ```
 
 **STOP. Wait for the user's reply.**
+
+### 3.2 Show DNA (ongoing series only)
 
 **If ongoing**: Follow up with a second ask (CatDesk: new `AskQuestion` call; fallback: plain text questions):
 ```
@@ -500,7 +426,7 @@ If the user chooses one-off, skip the fixed elements and memory write.
 
 ### 3.3 Podcast style and length
 
-**CatDesk mode** — call `AskQuestion` with two questions:
+**CatDesk mode** — call `AskQuestion` with three questions:
 ```json
 {
   "questions": [
@@ -524,6 +450,17 @@ If the user chooses one-off, skip the fixed elements and memory write.
         { "id": "short",  "label": "Short — 15–20 min (commute-friendly, focused topic)" },
         { "id": "medium", "label": "Standard — 25–35 min (most common, works for most topics)" },
         { "id": "long",   "label": "Deep dive — 40–50 min (rich content, complex themes)" }
+      ]
+    },
+    {
+      "id": "vibe",
+      "prompt": "🎨 Overall vibe? (optional)",
+      "input_type": "choice",
+      "options": [
+        { "id": "casual",     "label": "Casual chat — relaxed, conversational, like talking with friends" },
+        { "id": "serious",    "label": "Serious analysis — rigorous, evidence-driven, intellectually demanding" },
+        { "id": "warm",       "label": "Warm storytelling — empathetic, personal, emotionally resonant" },
+        { "id": "sharp",      "label": "Sharp commentary — opinionated, punchy, doesn't pull punches" }
       ]
     }
   ]
@@ -708,194 +645,53 @@ B. ✏️ I want to change something first (tell me what)
 
 ---
 
-## Step 4: Select Podcast Format (confirmed in Step 3 — internal reference only)
+## Step 4: Build the Content Map
 
-The format was confirmed with the user in Step 3. This step is internal reference: load the corresponding format template based on the user's choice.
-
-```
-Format mapping:
-A. Roundtable → roundtable format
-B. Deep interview → interview format
-C. Narrative documentary → narrative format
-D. Solo / monologue → monologue format
-E. Auto-select → determine based on topic count and content characteristics
-```
-
----
-
-## Step 5: Build the Content Map (NOT a word-for-word script)
-
-Read `references/podcast-formats.md` for professional podcast structure methodology, then build the content map according to the following principles.
+**Before writing anything**: Read `references/podcast-formats.md` — it contains the format templates, benchmark show analysis, and cross-show principles that define the professional standard for this skill. Then draw the tension curve. Only then begin the content map.
 
 ### What a content map is (and is not)
 
-**A content map is a navigation guide for the hosts — not a script to be read aloud.**
+**A content map is a high-density navigation guide — not a transcript, not a flow chart, not a list of topics.**
 
 ❌ Do NOT write:
-- Full sentences for the hosts to say
-- Narration paragraphs
-- Dialogue transcripts
-- Anything that sounds like a finished script
+- Full sentences for the hosts to say verbatim
+- Filler dialogue ("that's a great point", "yeah totally", "so what you're saying is")
+- Vague topic labels ("they'll discuss X")
+- Anything that could be cut without losing information
 
 ✅ DO write:
-- The **core tension** of each topic (what makes it interesting to dig into)
-- **3–5 guiding questions** per topic (open-ended, designed to let conversation flow naturally)
-- **2–3 gold quotes** per topic — see the Gold Quote System below
-- **External context hooks** (a data point or social phenomenon that gives the topic a larger frame)
-- **Transition cues** (how to move from one topic to the next)
-- **Approximate time allocation** per section
+- The **core dramatic tension** of each segment (one sentence, must contain a conflict or contradiction)
+- **Scripted anchor lines** — the 2–3 sentences that MUST be said to land the key insight (not the whole conversation, just the load-bearing lines)
+- **Guiding questions** that are designed to create collision, not consensus
+- **Gold quotes** — see the Gold Quote System below
+- **Information payloads** — the specific data, story, or finding from your deep-dig that gets dropped at a precise moment
+- **Transition bridges** — the exact sentence that closes one segment and opens the next
 
-### Cross-time clustering (critical)
+### Information density standard
 
-**Do not follow the chronological order of the chat log.** The chat log is raw material — your job is to find the underlying architecture.
+Professional podcasts run at 150–160 words per minute. Every minute of airtime must carry **at least one new piece of information, one emotional shift, or one perspective change**. If a minute passes without any of these, that content should be cut.
 
-Ask yourself: what is this conversation *really* about? What's the deeper theme connecting messages from different times? Cluster by emotional and intellectual resonance, not by when things were said.
+Apply this test to every segment in your content map: **"If a listener skipped this 2-minute block, what would they miss?"** If the answer is "not much," the segment needs to be compressed or cut.
 
-Example: A message from Monday about "feeling invisible at work" and a message from Thursday about "not knowing if this path is right" might belong to the same topic cluster — even though they're days apart and seem unrelated on the surface.
+**Signs of low information density (cut these):**
+- Two speakers agreeing with each other at length
+- Restating what was just said in different words
+- Extended personal anecdotes that don't connect to the episode's core question
+- Transitions that take more than 15 seconds
+- Any exchange that could be summarized as "they talked about how hard X is"
 
-### Go deeper than the surface (critical)
-
-The chat log shows what people said. Your job is to find what they *meant* — and what it connects to in the wider world.
-
-For each topic:
-1. What's the surface-level conversation? (what they literally discussed)
-2. What's the underlying tension? (the real question beneath the words)
-3. What does this connect to in the broader social/cultural/psychological landscape? (use web research)
-4. What's the "why does this matter" moment? (the Ira Glass reflection — what larger truth does this reveal?)
-
-### The Ira Glass approach
-
-Ira Glass (creator of This American Life) developed the most authoritative framework for podcast storytelling:
-
-**Two fundamental building blocks:**
-1. **Anecdote**: A sequence of events unfolding in time, where each event raises a question that pulls the listener forward.
-2. **Moment of Reflection**: After the story, explain why it matters — what larger truth it reveals.
-
-**The golden rule**: Every story needs a "why does this matter" moment. Without it, the story is just a sequence of events.
-
-### Gold Quote System
-
-Each topic in the content map gets 2–3 gold quotes. These are the lines that could appear on a quote card, be read aloud as a teaser, or anchor the episode's emotional core. There are two types — use both:
-
-**Type 1 — Original quotes** (selected from the chat log)
-
-Not every line in the chat is a gold quote. Most chat messages are functional, conversational, or half-formed. A genuine original quote must meet at least two of these criteria:
-- It captures a feeling or insight that many people have but rarely articulate
-- It contains a specific, concrete image or detail (not a vague generality)
-- It has a rhythm or compression that makes it memorable
-- It reveals something about the speaker's inner world, not just their opinion
-- It would make a listener stop and think "I've never heard it put that way"
-
-**Wrong** (functional chat language, not a gold quote):
-> "yeah I think the problem is that nobody really cares about indie music anymore"
-
-**Right** (specific, compressed, emotionally true):
-> "feeling invisible hurts more than losing money"
-
-**Type 2 — Crafted quotes** (AI-generated, inspired by the chat)
-
-When the chat contains a powerful idea but no one said it in a quotable way, you may craft a quote that distills the spirit of what was discussed. Rules:
-
-- **Grounded in the chat**: The idea must come directly from what was actually discussed — not invented from thin air
-- **Original writing**: Draw inspiration from the craft of poetry, literary nonfiction, and great podcast moments — but never copy or closely paraphrase existing works. Every word must be your own.
-- **Compression over explanation**: A gold quote says in 10 words what a paragraph would take to explain
-- **Concrete over abstract**: Prefer images and specifics over concepts and generalities
-- **Earned, not decorative**: The quote must feel like it belongs to this conversation, not like a generic inspirational line
-
-Craft influences to draw from (for style, not content):
-- The compression of Mary Oliver, Ocean Vuong, or Maggie Nelson
-- The plainspoken precision of Ira Glass or David Sedaris
-- The emotional directness of great podcast cold opens (Serial, S-Town, This American Life)
-- The aphoristic quality of great interview moments (Terri Gross, Krista Tippett)
-
-**Label every quote clearly** in the content map:
-- `[Original]` — exact words from the chat log, speaker attributed
-- `[Crafted]` — AI-generated distillation, labeled as "crafted from [speaker]'s idea" or "crafted from the group's discussion"
-
-Never present a crafted quote as if it were something someone actually said.
-
-### Content map format
-
-```markdown
-## Cold Open (30–60 sec)
-
-Hook line: [the single most compelling line or moment from the entire chat — drop straight in, no intro]
-Why this works: [reason]
-
----
-
-## Act 1: [Title] (~X min)
-
-### Core tension
-[One sentence: what's the real question or conflict here? Not "they discussed X" but "the tension between X and Y"]
-
-### Background context
-[1–2 sentences of external context from web research that gives this topic a larger frame]
-Source: [search result or data point]
-
-### Guiding questions (for the hosts)
-1. [Open question that invites personal story, not yes/no]
-2. [Question that surfaces the tension or disagreement]
-3. [Question that pushes toward the deeper "why does this matter"]
-4. [Optional: question that connects to the external context]
-5. [Optional: question that opens toward the next topic]
-
-### Gold quotes
-- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
-- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
-- [Type: Original / Crafted] "[quote]" — [speaker or "crafted"]
-
-### Moment of reflection
-[What larger truth does this topic reveal? 1–2 sentences. This is what the hosts should land on before moving on.]
-
-### Transition to next topic
-[One sentence: how does this topic naturally lead into the next one?]
-
----
-
-## Act 2: [Title] (~X min)
-
-[Same structure as above]
-
----
-
-## Act 3: [Title] (~X min)
-
-[Same structure as above]
-
-### Closing reflection
-[The final "why does this whole episode matter" — not a summary, but a frame]
-
-### Open-ended closing question
-[A question for listeners to sit with — not answered in the episode]
-
----
-
-## Outro (~30 sec)
-
-[Fixed outro text if ongoing show / flexible closing if one-off]
-```
-
-### Format-specific requirements
-
-**Roundtable**: Design "collision questions" — not questions that get everyone to agree, but questions that surface disagreement. Every topic needs at least one question where the guests genuinely diverge.
-
-**Deep interview**: Use "funnel questioning" — broad to specific, facts to feelings, past to future. The best question is often "what were you feeling in that moment?"
-
-**Narrative documentary**: Narration should be visual — describe a scene, don't summarize. Use present tense to create immediacy.
-
-**Solo / monologue**: The opening must create resonance with a question or scene the listener can feel — don't lead with your thesis.
+**Read `references/content-map-guide.md` now.** It contains: the tension curve framework (with arc types and failure patterns), the Ira Glass anecdote + reflection method, the Gold Quote System (original vs. crafted, three-test filter, examples), the full content map format template, and format-specific writing rules for roundtable / interview / narrative / monologue.
 
 ### After completing the content map
 
-Present the full content map, then ask for feedback using the dual-mode pattern:
+Present the full content map — tension curve first, then the full map — then ask for feedback using the dual-mode pattern:
 
 **CatDesk mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
     "id": "content_map_review",
-    "prompt": "Content map is ready — take a look: Does the topic order feel right? Any guiding questions to change? Are the gold quotes landing?",
+    "prompt": "Content map is ready. I've included the tension curve at the top — does the arc feel right? Are the anchor lines landing? Any gold quotes to swap?",
     "input_type": "mixed",
     "options": [
       { "id": "good",   "label": "✅ Looks great, move on" },
@@ -907,11 +703,13 @@ Present the full content map, then ask for feedback using the dual-mode pattern:
 
 **Fallback mode**:
 ```
-Content map is ready — take a look:
-- Does the topic order feel right? (I reorganized by theme, not chronology)
-- Any guiding questions to remove or add?
-- Are the gold quotes landing? Any you'd swap out?
-- Does the closing reflection feel earned?
+Content map is ready — tension curve first, then the full map.
+
+Key things to check:
+- Does the arc feel right? (Act 1 baseline → Act 2 peak → Act 3 reframe)
+- Are the scripted anchor lines the right load-bearing sentences?
+- Do the gold quotes pass the test? Any to swap?
+- Does the closing question land?
 
 A. ✅ Looks great, move on
 B. ✏️ A few things I'd like to adjust (tell me)
@@ -921,9 +719,94 @@ B. ✏️ A few things I'd like to adjust (tell me)
 
 ---
 
+## Step 5: BGM Selection
+
+Once the content map is confirmed, select background music for the episode. BGM is not decoration — it is a structural tool. Every cue must serve a specific function in the script.
+
+**Read `references/bgm-guide.md` now.** It contains: the five cue types with duration and volume specs, professional volume rules, mood-to-genre mapping, the full cue sheet format template, and selection rules (when to use / never use BGM, track criteria).
+
+### Search using the Netease Cloud Music API
+
+Use the enhanced API at `https://github.com/neteasecloudmusicapienhanced/api-enhanced` to search for tracks. The API must be running locally (default port 3000) or via a deployed instance.
+
+**Key endpoints:**
+
+```bash
+# Search for tracks by keyword + mood
+GET /cloudsearch?keywords=[keyword]&type=1&limit=10
+# type=1 = songs, type=1000 = playlists
+
+# Get song detail (name, artist, album, duration)
+GET /song/detail?ids=[song_id]
+
+# Get playable URL (to verify the track is accessible)
+GET /song/url?id=[song_id]
+
+# Search a playlist by mood keyword
+GET /cloudsearch?keywords=[mood keyword] 轻音乐 播客&type=1000&limit=5
+```
+
+**Search strategy — run these searches for each cue type needed:**
+
+> Note: The keywords below are in Chinese because Netease Cloud Music's catalog and tagging system is primarily Chinese. These are search terms for the API, not content in the script.
+
+```bash
+# Intro bed — match the episode's opening emotional register
+/cloudsearch?keywords=[episode mood] 轻音乐 纯音乐&type=1&limit=10
+
+# Tension bed — for Act 2 peak
+/cloudsearch?keywords=紧张 悬疑 ambient&type=1&limit=10
+
+# Reflection bed — for closing / Moment of Reflection
+/cloudsearch?keywords=治愈 温柔 钢琴&type=1&limit=10
+
+# Transition sting — short, clean cut
+/cloudsearch?keywords=过渡 转场 短片&type=1&limit=10
+
+# Outro — warm, closing feeling
+/cloudsearch?keywords=结尾 温暖 轻音乐&type=1&limit=10
+```
+
+For each cue, search → retrieve top results → check song detail → verify URL is accessible → select the best match.
+
+**If the API is not available**, fall back to describing the track by mood/genre/texture and let the user find it manually. Do not skip the BGM plan — just note "manual search required" next to each cue.
+
+### After completing the cue sheet
+
+Present the full cue sheet to the user, then ask for confirmation using the dual-mode pattern:
+
+**CatDesk mode** — call `AskQuestion`:
+```json
+{
+  "questions": [{
+    "id": "bgm_review",
+    "prompt": "BGM cue sheet ready — 5 tracks mapped to the episode structure. Does the mood match feel right? Any tracks to swap?",
+    "input_type": "mixed",
+    "options": [
+      { "id": "good",   "label": "✅ Looks good, move on" },
+      { "id": "adjust", "label": "🎵 Swap one or more tracks (tell me which)" },
+      { "id": "skip",   "label": "⏭️ Skip BGM for this episode" }
+    ]
+  }]
+}
+```
+
+**Fallback mode**:
+```
+BGM cue sheet ready — 5 tracks mapped to the episode structure.
+
+A. ✅ Looks good, move on
+B. 🎵 Swap one or more tracks (tell me which cue and what mood you want)
+C. ⏭️ Skip BGM for this episode
+```
+
+**STOP. Wait for the user's reply before proceeding.**
+
+---
+
 ## Step 6: Choose Output Format
 
-Once the content map is confirmed, ask the user which format they want using the dual-mode pattern:
+Once the content map and BGM are confirmed, ask the user which format they want using the dual-mode pattern:
 
 **CatDesk mode** — call `AskQuestion`:
 ```json
@@ -1042,202 +925,56 @@ C. Style C
 
 ## Step 8 (HTML): Generate the Podcast Website
 
-Read `references/html-themes.md` and `references/animation-patterns.md`, then generate a complete single-file HTML podcast website.
+**Read `references/html-build-guide.md`, `references/html-themes.md`, and `references/animation-patterns.md` before writing any code.** The build guide defines the required page structure, interactive features, the full Edit Mode implementation (HTML/CSS/JS), technical requirements, and design principles.
 
-### Page structure
+### Generation checklist (verify before writing a single line)
 
-```
-┌─────────────────────────────────────┐
-│  Hero / Cover                        │
-│  Show name + episode title + entrance animation │
-├─────────────────────────────────────┤
-│  Episode info bar                    │
-│  Hosts / Guests / Length / Source   │
-├─────────────────────────────────────┤
-│  Topic navigation (sticky sidebar or top tabs) │
-│  Click to jump to any section        │
-├─────────────────────────────────────┤
-│  Main content (scroll to read)       │
-│  Each exchange displayed as a card  │
-│  Speaker avatar/label + speech bubble │
-│  Section headings animate on entry  │
-├─────────────────────────────────────┤
-│  Key takeaways section              │
-│  3–5 standout quotes, card layout   │
-├─────────────────────────────────────┤
-│  Outro                              │
-│  Next episode teaser + follow CTA   │
-└─────────────────────────────────────┘
+- Theme selected (from Step 7) — apply its color palette, fonts, and design characteristics exactly
+- Content map confirmed (from Step 4) — every section, gold quote, and anchor line must appear in the HTML
+- BGM cue sheet confirmed (from Step 5) — include cue annotations as HTML comments at the relevant trigger points (e.g., `<!-- BGM CUE: Intro Bed starts here -->`)
+- Edit Mode — must be fully implemented per `html-build-guide.md` Section 3 (toggle button, editable selectors, save-as-file function, edit toolbar)
+- All animations from `animation-patterns.md` — use the patterns that match the chosen theme; do not invent new animation logic from scratch
+- `prefers-reduced-motion` — required; include the media query block from `animation-patterns.md`
+- Zero external dependencies — single file, all CSS/JS inline
+
+### What to generate
+
+Write the complete, self-contained HTML file. Structure it exactly as defined in `html-build-guide.md` Section 1 (Hero → Episode info bar → Topic nav → Main content → Key takeaways → Outro). Every section from the content map becomes a chapter in the HTML.
+
+### After generating
+
+Open the file in Chrome to verify it renders correctly:
+
+```bash
+open -a "Google Chrome" /path/to/output.html
 ```
 
-### Required interactive features
+Then present a brief summary to the user and ask for sign-off using the dual-mode pattern:
 
-**Navigation**: Fixed top or side nav; click a section name to smooth-scroll; current section highlights as you scroll.
-
-**Reading experience**: Section headings trigger entrance animations when they enter the viewport (Intersection Observer); dialogue cards appear in a staggered reveal; speaker cards have micro-interactions on hover.
-
-**Quote cards**: Core takeaways have a "copy" button; hover to expand for more context.
-
-**Progress indicator**: A thin progress bar at the top fills as the user scrolls.
-
-**Optional features** (if the content suits it): Speaker filter (roundtable format — click a person to see only their lines); timeline mode (narrative documentary format).
-
----
-
-### ✏️ In-Browser Edit Mode (required — every HTML output must include this)
-
-Every generated HTML page must include a fully functional **Edit Mode** that lets the user modify content directly in the browser without touching any code.
-
-#### Edit Mode toggle button
-
-Place a floating button in the bottom-right corner of the page:
-
-```html
-<button id="edit-toggle" title="Toggle Edit Mode">✏️ Edit</button>
-```
-
-Style it as a pill-shaped floating action button, always visible, with a subtle shadow. When edit mode is active, change the label to "✅ Done editing" and add a visible highlight ring.
-
-#### What becomes editable
-
-When edit mode is ON, add `contenteditable="true"` to:
-- All dialogue bubble text (`.bubble` or equivalent)
-- All quote card text (`.quote-text` or equivalent)
-- All chapter/section titles (`.chapter-title` or equivalent)
-- All reflection/context box text
-- All takeaway items
-- The hero title and subtitle
-- The outro tagline
-
-When edit mode is OFF, remove `contenteditable` from all elements (or set to `false`).
-
-**Visual feedback when editable:**
-```css
-[contenteditable="true"] {
-  outline: 2px dashed var(--accent);
-  outline-offset: 3px;
-  border-radius: 4px;
-  cursor: text;
-  background: rgba(255, 255, 255, 0.03);
-}
-[contenteditable="true"]:focus {
-  outline-color: var(--accent-2);
-  background: rgba(255, 255, 255, 0.06);
+**CatDesk mode** — call `AskQuestion`:
+```json
+{
+  "questions": [{
+    "id": "html_review",
+    "prompt": "HTML generated and opened in Chrome. Does everything look right?",
+    "input_type": "mixed",
+    "options": [
+      { "id": "good",   "label": "✅ Looks great, deliver it" },
+      { "id": "adjust", "label": "🔧 Something needs fixing (tell me below)" }
+    ]
+  }]
 }
 ```
 
-#### Save as new file button
+**Fallback mode**:
+```
+HTML generated and opened in Chrome.
 
-When edit mode is active, show a second floating button: **"💾 Save changes"**
-
-Clicking it triggers a JavaScript download of the current page's full HTML (including all edits) as a new file:
-
-```javascript
-function saveEdits() {
-  // Disable contenteditable before saving so the saved file opens in view mode
-  document.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-  // Also hide the edit toolbar in the saved file
-  document.getElementById('edit-toolbar').style.display = 'none';
-
-  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  const blob = new Blob([html], { type: 'text/html' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = document.title.replace(/\s+/g, '_') + '_edited.html';
-  a.click();
-
-  // Re-enable edit mode UI after saving
-  document.getElementById('edit-toolbar').style.display = '';
-  toggleEditMode(true); // restore edit state
-}
+A. ✅ Looks great, deliver it
+B. 🔧 Something needs fixing (tell me what)
 ```
 
-#### Edit toolbar (shown only when edit mode is active)
-
-A slim bar at the top of the page (below the nav) with:
-- A brief instruction: "Click any text to edit it directly"
-- A "💾 Save changes" button (same as the floating one)
-- An undo hint: "Cmd+Z to undo"
-
-```html
-<div id="edit-toolbar" style="display:none">
-  <span>✏️ Edit mode on — click any text to edit it directly</span>
-  <button onclick="saveEdits()">💾 Save changes</button>
-  <span style="opacity:0.5">Cmd+Z to undo</span>
-</div>
-```
-
-#### JavaScript implementation
-
-```javascript
-let editModeActive = false;
-
-const EDITABLE_SELECTORS = [
-  '.bubble', '.quote-text', '.chapter-title', '.chapter-desc',
-  '.reflection-text', '.context-box p', '.takeaway-item',
-  '.hero-title', '.hero-subtitle', '.outro-tagline',
-  '.speaker-name' // optional — allow renaming speakers inline
-];
-
-function toggleEditMode(forceState) {
-  editModeActive = (forceState !== undefined) ? forceState : !editModeActive;
-
-  const toolbar = document.getElementById('edit-toolbar');
-  const toggleBtn = document.getElementById('edit-toggle');
-  const saveBtn = document.getElementById('save-btn');
-
-  if (editModeActive) {
-    EDITABLE_SELECTORS.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => {
-        el.setAttribute('contenteditable', 'true');
-        el.setAttribute('spellcheck', 'false');
-      });
-    });
-    toolbar.style.display = 'flex';
-    toggleBtn.textContent = '✅ Done editing';
-    toggleBtn.classList.add('active');
-    if (saveBtn) saveBtn.style.display = 'block';
-  } else {
-    EDITABLE_SELECTORS.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => {
-        el.removeAttribute('contenteditable');
-      });
-    });
-    toolbar.style.display = 'none';
-    toggleBtn.textContent = '✏️ Edit';
-    toggleBtn.classList.remove('active');
-    if (saveBtn) saveBtn.style.display = 'none';
-  }
-}
-
-document.getElementById('edit-toggle').addEventListener('click', () => toggleEditMode());
-```
-
-#### UX rules for edit mode
-
-- Edit mode is **OFF by default** — the page opens in clean reading mode
-- Clicking the toggle button switches between view and edit mode
-- In edit mode, the scroll-reveal animations are paused (so elements don't re-hide while editing)
-- The progress bar and nav remain functional in both modes
-- `Cmd+Z` / `Ctrl+Z` works natively for undo within any editable element
-- The saved file opens in view mode (no edit toolbar visible) — the user must click the toggle to re-enter edit mode
-
----
-
-### HTML technical requirements
-
-- **Zero dependencies**: Single file, all CSS/JS inline, no npm or build tools required
-- **Fonts**: Load from Google Fonts or Fontshare — never use Arial or system fonts
-- **CSS variables**: All colors, fonts, and spacing defined as `--var`
-- **Responsive**: Mobile-friendly, breakpoints at 768px / 1024px
-- **Motion**: Respect `prefers-reduced-motion`
-- **Comments**: Clear `/* === SECTION === */` comments for every block
-
-### Design principles (avoiding the "AI mediocrity" look)
-
-Avoid: generic purple gradients, overly uniform card grids, too many small animations, choosing Inter or Roboto.
-
-Aim for: a cover with strong visual impact; animations concentrated at key moments; a typeface with personality; a dominant primary color that owns the palette.
+**STOP. Wait for the user's reply before proceeding to Step 10.**
 
 ---
 
@@ -1252,6 +989,33 @@ Document structure:
 - Content map by section (heading + core tension + guiding questions + gold quotes)
 - Standout quotes summary
 - Outro
+
+After generating, tell the user the file path and ask for sign-off using the dual-mode pattern:
+
+**CatDesk mode** — call `AskQuestion`:
+```json
+{
+  "questions": [{
+    "id": "docx_review",
+    "prompt": "Word document generated. Does it look right?",
+    "input_type": "mixed",
+    "options": [
+      { "id": "good",   "label": "✅ Looks good, deliver it" },
+      { "id": "adjust", "label": "🔧 Something needs fixing (tell me below)" }
+    ]
+  }]
+}
+```
+
+**Fallback mode**:
+```
+Word document generated — file path: [path]
+
+A. ✅ Looks good, deliver it
+B. 🔧 Something needs fixing (tell me what)
+```
+
+**STOP. Wait for the user's reply before proceeding to Step 10.**
 
 ---
 
@@ -1282,8 +1046,6 @@ Document structure:
 
 **Privacy**: If the chat contains obviously private information (phone numbers, addresses, sensitive personal details), anonymize or omit it.
 
-**Speaker handling**: Nicknames can be kept, or replaced with "Guest A / B / C" — ask the user's preference.
-
 **Length calibration**: A typical podcast episode runs 20–45 minutes. At roughly 150 words per minute: 20 min ≈ 3,000 words; 45 min ≈ 6,750 words. The content map should give enough material for the target length without over-scripting.
 
 **Quality checklist** — before delivering, verify:
@@ -1292,6 +1054,8 @@ Document structure:
 - Is there a Moment of Reflection ("why does this matter") for each topic?
 - Does the web research genuinely enrich the topic, rather than overshadow the original voices?
 - Are the guiding questions open-ended and designed to let conversation flow naturally?
+- Is there a BGM cue sheet with at least an intro bed, one transition sting, and an outro? (Unless the user skipped BGM)
+- Does every BGM cue have a specific trigger point tied to the script?
 - Does the HTML include a working Edit Mode toggle?
 - Does the output format match what the user chose?
 
@@ -1301,8 +1065,14 @@ Document structure:
 
 | File | Purpose | When to read |
 |------|---------|-------------|
-| `references/podcast-formats.md` | Professional podcast structure methodology with detailed format templates | Step 4 — when building the content map |
+| `references/enrichment-protocol.md` | Three-source enrichment protocol: social media, academic research, and theory — with search directions, quality standards, and output format | Step 2.4 — before enriching any topic |
+| `references/positioning-guide.md` | Positioning analysis method: search the landscape, map unique assets, find the intersection — with output format template and quality criteria | Step 2.7 — before running the positioning analysis |
+| `references/content-map-guide.md` | Tension curve framework, Ira Glass method, Gold Quote System, content map format template, and format-specific writing rules | Step 4 — before building the content map |
+| `references/bgm-guide.md` | Five BGM cue types, volume rules, mood-to-genre mapping, cue sheet format template, and selection rules | Step 5 — before selecting tracks |
+| `references/podcast-formats.md` | Format templates, benchmark show analysis, and cross-show principles | Step 4 — supplementary reference for format choice |
+| `references/html-build-guide.md` | Page structure, required interactive features, Edit Mode full implementation (HTML/CSS/JS), technical requirements, and design principles | Step 8 — before generating the HTML |
 | `references/html-themes.md` | Podcast website theme library with color palettes, fonts, and design characteristics | Step 7 — when selecting a visual theme |
 | `references/animation-patterns.md` | Interactive animation code snippets and usage contexts | Step 8 — when generating the HTML |
 | `scripts/auto_screenshot.py` | Auto-scroll screenshot capture script | Step 1 — when guiding the user to capture screenshots |
 | `scripts/build_podcast_html.py` | Renders script JSON into an HTML website | Step 8 — when generating the HTML |
+
