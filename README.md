@@ -18,7 +18,7 @@ Every day, the most interesting conversations happen in group chats — raw take
 
 ---
 
-## How to Use in Your Agent
+## How to Use
 
 ### Drop into your skills folder
 
@@ -46,11 +46,12 @@ Then just tell your agent:
 Given a group chat log (as screenshots, a folder of images, or pasted text), the skill:
 
 1. **Extracts** all messages via vision OCR, cleans noise, organizes by speaker
-2. **Mines deeply** — reconstructs facts faithfully, clusters topics, searches the web for broader context
+2. **Mines deeply** — reconstructs facts faithfully, clusters topics by theme (not chronology), searches the web for broader context
 3. **Analyzes the podcast landscape** — maps red-ocean categories to avoid and surfaces white-space positioning opportunities
 4. **Talks to you first** — confirms topics, positioning, style, length, structure, and speaker names before writing a single word
 5. **Builds a content map** using the Ira Glass three-act narrative method — guiding questions, gold quotes, and reflection moments (not a word-for-word script)
-6. **Outputs** in your chosen format: interactive HTML website, Word document, or Markdown
+6. **Selects background music** — maps BGM cues to the episode structure (intro bed, transition stings, tension bed, reflection bed, outro)
+7. **Outputs** in your chosen format: interactive HTML website, Word document, or Markdown
 
 ---
 
@@ -63,6 +64,7 @@ The skill never writes a word of content until it has confirmed everything with 
 ### 🗺️ Podcast Positioning Analysis (Red Ocean Warning)
 
 Before any scripting, the skill searches the current podcast landscape and maps out:
+
 - **Red Ocean** — oversaturated categories to avoid
 - **Adjacent** — competitive but possible
 - **White Space** — open positioning that fits your unique content
@@ -72,6 +74,7 @@ It then recommends a specific one-line pitch for your show and asks you to confi
 ### 🎛️ Dual-Mode Interaction
 
 Every decision point offers clickable choices — not just open-ended questions:
+
 - **CatDesk mode**: Uses the `AskQuestion` tool to render interactive choice cards. You click directly without typing.
 - **Fallback mode**: If running in another agent environment, automatically falls back to formatted A/B/C text options. You reply with a letter.
 
@@ -80,17 +83,31 @@ The skill auto-detects which mode to use and stays consistent throughout the ses
 ### 📋 Content Map (Not a Word-for-Word Script)
 
 The skill produces a **navigation guide for hosts**, not a script to be read aloud:
-- Core tension of each topic (what makes it worth discussing)
+
+- Core tension of each segment (what makes it worth discussing)
 - 3–5 guiding questions per topic (open-ended, designed for natural conversation)
-- 2–3 gold quote candidates per topic — drawn from the most literary, resonant lines in the actual chat, plus AI-crafted quotes inspired by the conversation (original writing, never plagiarized)
+- 2–3 gold quote candidates per topic — drawn from the most resonant lines in the actual chat, plus AI-crafted quotes inspired by the conversation (original writing, never plagiarized)
 - External context hooks (data or social phenomena that give the topic a larger frame)
-- Transition cues and time allocation
+- Transition bridges and time allocation
 
 This approach respects the hosts' voice and keeps the conversation authentic.
+
+### 🎵 BGM Cue Sheet
+
+The skill selects background music for every structural moment in the episode and outputs a production-ready cue sheet:
+
+- **Intro bed** — sets the emotional register under the cold open
+- **Transition stings** — marks act breaks, gives the listener a moment to reset
+- **Tension bed** — holds pressure under the Act 2 peak
+- **Reflection bed** — softer, under the closing reflection
+- **Outro** — the closing ritual
+
+Tracks are searched via the Netease Cloud Music API. If unavailable, the cue sheet describes each track by mood and genre for manual lookup.
 
 ### ✏️ In-Browser Edit Mode
 
 Every generated HTML page includes a fully functional **Edit Mode**:
+
 - Click the **✏️ Edit** floating button (bottom-right) to enter edit mode
 - Click any text on the page to edit it directly — no code required
 - Click **💾 Save** to download the edited page as a new HTML file
@@ -103,6 +120,7 @@ Building a regular podcast? The skill saves your show config (name, fixed hosts,
 ### 👤 Smart Speaker Naming
 
 Asks for each speaker's real name. If you're unsure or prefer privacy, it assigns unique English names from a curated pool:
+
 `Alex, Jamie, Morgan, Casey, Riley, Jordan, Taylor, Quinn, Avery, Blake, Drew, Sage, River, Skyler, Reese`
 
 ### 🎙️ Professional Narrative Structure
@@ -111,7 +129,7 @@ Content maps follow the **Ira Glass method** — the gold standard for podcast s
 
 ### 🎨 9 Visual Themes for HTML Output
 
-`Dark Vinyl` · `Late Night Radio` · `Film Grain` · `Warm Paper` · `Minimal Terminal` · `Deep Space Blueprint` · `Glassmorphism` · `Handwritten Magazine` · `Newspaper Layout`
+`Dark Vinyl` · `Cyber Neon` · `Warm Paper` · `Minimal Terminal` · `Film Grain` · `Late Night Radio` · `Broadsheet` · `Glassmorphism` · `Handmade Zine`
 
 ### 📸 Auto-Screenshot Capture
 
@@ -122,18 +140,18 @@ A bundled Python script automatically scrolls and screenshots your WeChat window
 ## Workflow
 
 ```
-Step 0   Check memory for existing show config
-Step 1   Collect chat log (auto-screenshot / folder / paste / upload)
-Step 2   Deep mining: clean, reconstruct facts, cluster topics, web search
-Step 2.7 Podcast positioning analysis (Red Ocean Warning)
-Step 3   Confirm everything with user (topics, positioning, format, length, names, show type)
-Step 4   Load format template
-Step 5   Build the content map (guiding questions + gold quotes + reflection moments)
-Step 6   Choose output format (HTML / Word / Markdown)
-Step 7   Choose visual theme (HTML only)
-Step 8   Generate the podcast website (HTML only) — includes Edit Mode
-Step 9   Generate Word document (Word only)
-Step 10  Deliver files to desktop
+Step 0    Check memory for existing show config
+Step 1    Collect chat log (auto-screenshot / folder / paste / upload)
+Step 2    Deep mining: clean, reconstruct facts, cluster topics, web search
+Step 2.7  Podcast positioning analysis (Red Ocean Warning)
+Step 3    Confirm everything with user (topics, positioning, format, length, names, show type)
+Step 4    Build the content map (guiding questions + gold quotes + reflection moments)
+Step 5    BGM selection — map cues to episode structure, output cue sheet
+Step 6    Choose output format (HTML / Word / Markdown)
+Step 7    Choose visual theme (HTML only)
+Step 8    Generate the podcast website (HTML only) — includes Edit Mode
+Step 9    Generate Word document (Word only)
+Step 10   Deliver files to desktop
 ```
 
 ---
@@ -163,16 +181,21 @@ Step 10  Deliver files to desktop
 
 ```
 chat2podcast/
-├── SKILL.md                    # Main skill — the full workflow
+├── SKILL.md                        # Main skill — the full workflow
 ├── references/
-│   ├── podcast-formats.md      # Ira Glass methodology + format templates
-│   ├── html-themes.md          # 9 visual theme definitions
-│   └── animation-patterns.md  # Interactive animation code snippets
+│   ├── enrichment-protocol.md      # Three-source enrichment: social media, research, theory
+│   ├── positioning-guide.md        # Red Ocean / White Space positioning method
+│   ├── content-map-guide.md        # Tension curve, Gold Quote System, content map template
+│   ├── bgm-guide.md                # BGM cue types, volume rules, cue sheet template
+│   ├── podcast-formats.md          # Ira Glass framework + format templates + benchmark shows
+│   ├── html-build-guide.md         # Page structure, Edit Mode implementation, design principles
+│   ├── html-themes.md              # 9 visual theme definitions
+│   └── animation-patterns.md      # Interactive animation code snippets
 ├── scripts/
-│   ├── auto_screenshot.py      # Auto-scroll screenshot capture
-│   └── build_podcast_html.py  # Renders script JSON → HTML website
+│   ├── auto_screenshot.py          # Auto-scroll screenshot capture
+│   └── build_podcast_html.py       # Renders script JSON → HTML website
 └── evals/
-    └── evals.json              # Skill evaluation test cases
+    └── evals.json                  # Skill evaluation test cases
 ```
 
 ---
