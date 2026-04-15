@@ -35,13 +35,13 @@ At every decision point, you must offer clickable choices — not just ask the u
 
 ### How it works
 
-**Mode 1 — CatDesk (preferred)**: Use the `AskQuestion` tool to render interactive choice cards. The user clicks directly without typing.
+**Mode 1 — Interactive (preferred)**: Use the `AskQuestion` tool to render interactive choice cards. The user clicks directly without typing.
 
 **Mode 2 — Fallback (all other environments)**: If `AskQuestion` is unavailable or throws an error, immediately fall back to formatted text options. The user replies with a letter (A / B / C…) or a short answer.
 
 ### How to detect which mode to use
 
-Try calling `AskQuestion` first. If it succeeds, you're in CatDesk — use it for all subsequent STOP points in this session. If it fails or is not available, switch to fallback mode for the rest of the session. Do not retry `AskQuestion` after a failure.
+Try calling `AskQuestion` first. If it succeeds, use it for all subsequent STOP points in this session. If it fails or is not available, switch to fallback mode for the rest of the session. Do not retry `AskQuestion` after a failure.
 
 ### Fallback format template
 
@@ -61,7 +61,7 @@ C. [Option C — short label] — [one-line description]
 ### When free text is unavoidable
 
 Some questions (e.g., "what's the show name?", "what are the speaker names?") can't be reduced to A/B/C. For these:
-- In CatDesk: use `input_type: "mixed"` or `input_type: "text"` in `AskQuestion`
+- In interactive mode: use `input_type: "mixed"` or `input_type: "text"` in `AskQuestion`
 - In fallback: ask the question clearly and concisely, one question at a time
 
 ---
@@ -79,7 +79,7 @@ Look for keywords: chat2podcast / show DNA / podcast_show
 
 Show the user what was saved, then ask how to proceed using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -132,7 +132,7 @@ This is the preferred method. The user just opens their WeChat chat window; the 
 
 ```
 The easiest way is auto-screenshot:
-1. Grant permission first: System Settings → Privacy & Security → Screen Recording → enable CatPaw Desk
+1. Grant permission first: System Settings → Privacy & Security → Screen Recording → enable the relevant app
 2. Open WeChat, go to the group chat you want to capture, scroll to the latest message
 3. Tell me how far back you want to capture (see the table below)
 4. I'll run the screenshot script — just keep WeChat in the foreground once the countdown ends
@@ -151,21 +151,21 @@ The easiest way is auto-screenshot:
 
 ```bash
 # Basic usage (120 seconds, recommended)
-python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py --duration 120
+python3 /path/to/chat2podcast/scripts/auto_screenshot.py --duration 120
 
 # Custom duration and output folder
-python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py \
+python3 /path/to/chat2podcast/scripts/auto_screenshot.py \
   --duration 60 \
   --output ~/Desktop/my_screenshots
 
 # Manual scroll mode (no auto Page Up — you scroll yourself)
-python3 ~/.catpaw/skills/chat2podcast/scripts/auto_screenshot.py \
+python3 /path/to/chat2podcast/scripts/auto_screenshot.py \
   --duration 120 --no-scroll
 ```
 
 The script will print the output folder path when it finishes — the user just passes that path to you.
 
-**If screenshots fail:** Guide the user to System Settings → Privacy & Security → Screen Recording → find CatPaw Desk → enable it.
+**If screenshots fail:** Guide the user to System Settings → Privacy & Security → Screen Recording → enable the relevant app.
 
 ---
 
@@ -300,7 +300,7 @@ After presenting the topic analysis, **immediately continue to Step 2.7 without 
 
 This is the single STOP point for both Step 2.6 and Step 2.7. Use the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion` with two questions:
+**Interactive mode** — call `AskQuestion` with two questions:
 ```json
 {
   "questions": [
@@ -356,7 +356,7 @@ D. I have my own idea (just tell me)
 
 **Ask this before format, structure, or speaker questions. The answer shapes everything that follows.**
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -384,7 +384,7 @@ B. 🎲 A one-off episode — just trying it out, style can be flexible
 
 ### 3.2 Show DNA (ongoing series only)
 
-**If ongoing**: Follow up with a second ask (CatDesk: new `AskQuestion` call; fallback: plain text questions):
+**If ongoing**: Follow up with a second ask (interactive mode: new `AskQuestion` call; fallback: plain text questions):
 ```
 A few more things I need to know:
 - What's the show name? (Or I can suggest a few options)
@@ -426,7 +426,7 @@ If the user chooses one-off, skip the fixed elements and memory write.
 
 ### 3.3 Podcast style and length
 
-**CatDesk mode** — call `AskQuestion` with three questions:
+**Interactive mode** — call `AskQuestion` with three questions:
 ```json
 {
   "questions": [
@@ -510,7 +510,7 @@ Cold Open hook: planning to open with "[specific opening line]"
 
 Then ask:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -541,7 +541,7 @@ Speaker names directly affect how real and listenable the podcast feels. **Alway
 
 Note: if the show is ongoing (confirmed in 3.2), the fixed host(s) should already be known — just verify the names here.
 
-For each speaker identified in the chat, ask their preferred name. This is a free-text question — use `input_type: "text"` in CatDesk, or plain text in fallback:
+For each speaker identified in the chat, ask their preferred name. This is a free-text question — use `input_type: "text"` in interactive mode, or plain text in fallback:
 
 ```
 I identified the following speakers in the chat: [nickname1], [nickname2], [nickname3]…
@@ -562,9 +562,9 @@ If you're not sure, I'll randomly assign names from the pool, e.g. Alex, Jamie, 
 
 **Host role**: If the format is roundtable or deep interview, confirm who plays the host (can be someone from the chat, or a fictional host persona). For ongoing shows, this should already be set from 3.2.
 
-Also ask (CatDesk: include as a choice question; fallback: append to the same message):
+Also ask (interactive mode: include as a choice question; fallback: append to the same message):
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -613,7 +613,7 @@ Present the summary in text:
 
 Then ask:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -686,7 +686,7 @@ Apply this test to every segment in your content map: **"If a listener skipped t
 
 Present the full content map — tension curve first, then the full map — then ask for feedback using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -775,7 +775,7 @@ For each cue, search → retrieve top results → check song detail → verify U
 
 Present the full cue sheet to the user, then ask for confirmation using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -808,7 +808,7 @@ C. ⏭️ Skip BGM for this episode
 
 Once the content map and BGM are confirmed, ask the user which format they want using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -849,7 +849,7 @@ If the user chose HTML, enter the theme selection flow.
 
 Ask the user how they want to choose the visual style using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -895,7 +895,7 @@ Each preview must demonstrate: a distinctive typeface, a color palette, one entr
 
 After showing the previews, ask the user to pick using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -951,7 +951,7 @@ open -a "Google Chrome" /path/to/output.html
 
 Then present a brief summary to the user and ask for sign-off using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
@@ -992,7 +992,7 @@ Document structure:
 
 After generating, tell the user the file path and ask for sign-off using the dual-mode pattern:
 
-**CatDesk mode** — call `AskQuestion`:
+**Interactive mode** — call `AskQuestion`:
 ```json
 {
   "questions": [{
