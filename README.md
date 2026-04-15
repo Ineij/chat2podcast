@@ -14,7 +14,7 @@ Every day, the most interesting conversations happen in group chats — raw take
 
 `chat2podcast` is an **AI agent skill** that transforms group chat logs (WeChat or any messaging app) into professional podcast content maps, then generates a stunning single-file interactive HTML website to present the episode.
 
-**You can use this skill in any AI agent that supports custom skills** — including CatDesk, Claude, or any agent framework that reads `SKILL.md` instruction files.
+**You can use this skill in any AI agent that supports custom skills** — including Claude or any agent framework that reads `SKILL.md` instruction files.
 
 ---
 
@@ -22,7 +22,7 @@ Every day, the most interesting conversations happen in group chats — raw take
 
 ### Drop into your skills folder
 
-If your agent supports a skills directory (e.g. `~/.catpaw/skills/` or similar), place the entire folder there:
+If your agent supports a skills directory, place the entire folder there:
 
 ```
 your-agent-skills/
@@ -75,7 +75,7 @@ It then recommends a specific one-line pitch for your show and asks you to confi
 
 Every decision point offers clickable choices — not just open-ended questions:
 
-- **CatDesk mode**: Uses the `AskQuestion` tool to render interactive choice cards. You click directly without typing.
+- **Interactive mode**: Uses the `AskQuestion` tool to render interactive choice cards. You click directly without typing.
 - **Fallback mode**: If running in another agent environment, automatically falls back to formatted A/B/C text options. You reply with a letter.
 
 The skill auto-detects which mode to use and stays consistent throughout the session.
@@ -181,21 +181,21 @@ Step 10   Deliver files to desktop
 
 ```
 chat2podcast/
-├── SKILL.md                        # Main skill — the full workflow
+├── SKILL.md                              # Main skill — the full workflow
 ├── references/
-│   ├── enrichment-protocol.md      # Three-source enrichment: social media, research, theory
-│   ├── positioning-guide.md        # Red Ocean / White Space positioning method
-│   ├── content-map-guide.md        # Tension curve, Gold Quote System, content map template
-│   ├── bgm-guide.md                # BGM cue types, volume rules, cue sheet template
-│   ├── podcast-formats.md          # Ira Glass framework + format templates + benchmark shows
-│   ├── html-build-guide.md         # Page structure, Edit Mode implementation, design principles
-│   ├── html-themes.md              # 9 visual theme definitions
-│   └── animation-patterns.md      # Interactive animation code snippets
+│   ├── enrichment-protocol.md            # Three-source enrichment: social media, research, theory
+│   ├── positioning-guide.md              # Red Ocean / White Space positioning method
+│   ├── content-map-guide.md              # Tension curve, Gold Quote System, content map template
+│   ├── bgm-guide.md                      # BGM cue types, volume rules, cue sheet template
+│   ├── podcast-formats.md                # Ira Glass framework + format templates + benchmark shows
+│   ├── html-build-guide.md               # Page structure, Edit Mode implementation, design principles
+│   ├── html-themes.md                    # 9 visual theme definitions
+│   └── animation-patterns.md             # Interactive animation code snippets
 ├── scripts/
-│   ├── auto_screenshot.py          # Auto-scroll screenshot capture
-│   └── build_podcast_html.py       # Renders script JSON → HTML website
+│   ├── auto_screenshot.py                # Auto-scroll screenshot capture
+│   └── build_podcast_html.py             # Renders script JSON → HTML website
 └── evals/
-    └── evals.json                  # Skill evaluation test cases
+    └── evals.json                        # Skill evaluation test cases
 ```
 
 ---
